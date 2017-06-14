@@ -52,6 +52,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+*/migrations/0*
 local_settings.py
 
 # Flask stuff:
@@ -99,3 +100,5 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+.idea/*
