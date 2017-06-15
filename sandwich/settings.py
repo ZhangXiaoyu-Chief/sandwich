@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -70,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sandwich.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -80,7 +78,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -100,7 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -114,8 +110,41 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    "%s/%s" % (BASE_DIR, "static"),
+)
+
+ASSET_TYPE_CHOICES = (('server', u'服务器'),
+                      ('network', u'网络设备'),
+                      ('storage', u'存储设备'),
+                      ('security', u'安全设备'),
+                      ('software', u'软件资产'),
+                      )
+
+ASSET_STATUS_CHOICES = ((0, '在线'),
+                        (1, '已下线'),
+                        (2, '未知'),
+                        (3, '故障'),
+                        (4, '备用'),
+                        (5, '报废'),
+                        )
+
+CREATED_BY_CHOICES = (('auto', '自动'),
+                      ('manual', '手动'),
+                      )
+
+# event_type_choices
+EVENT_TYPE_CHOICES = ((0, u'初始化'),
+                      (1, u'配置变更'),
+                      (2, u'新增配置'),
+                      (3, u'设备下线'),
+                      (4, u'设备上线'),
+                      (5, u'定期维护'),
+                      (6, u'业务上线\更新\变更'),
+                      (7, u'其它'),
+                      )
