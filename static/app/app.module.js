@@ -3,6 +3,7 @@
  */
 
 angular.module('sandwichApp',[
+    'toastr',
     'index',
     'serverList',
     'ngRoute',
