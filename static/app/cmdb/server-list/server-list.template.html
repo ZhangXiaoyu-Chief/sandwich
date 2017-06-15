@@ -1,0 +1,84 @@
+
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="index.html">Home</a>
+                    /
+                </li>
+                <li>
+                    <span>服务器列表</span>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- END PAGE BAR -->
+        <!-- BEGIN PAGE TITLE-->
+        <!-- END PAGE TITLE-->
+        <!-- END PAGE HEADER-->
+        <div class="row" style="padding-top: 20px;height: 2000px">
+            <div class="col-md-12">
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                                        <i class="icon-wrench"></i>
+                                    </a>
+                                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                                        <i class="icon-trash"></i>
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input-circle-left" placeholder="search">
+                                        <span class="input-group-addon input-circle-right">
+                                            <i class="icon-magnifier"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th> # </th>
+                                        <th> 主机名 </th>
+                                        <th> 管理IP </th>
+                                        <th> 运维负责人 </th>
+                                        <th> 内存大小(MB) </th>
+                                        <th> CPU型号 </th>
+                                        <th> 操作系统发行版本 </th>
+                                        <th> 状态 </th>
+                                        <th> 操作 </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="server in $ctrl.servers">
+                                        <td> {{ server.id }} </td>
+                                        <td> {{ server.hostname }} </td>
+                                        <td> {{ server.management_ip }} </td>
+                                        <td> {{ server.operation }} </td>
+                                        <td> {{ server.ram }} </td>
+                                        <td> {{ server.cpu_model }} </td>
+                                        <td> {{ server.os_distribution }} </td>
+                                        <td> <span class="label {{ $ctrl.labels[ server.status ] }}"> {{ server.status }} </span>  </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+
