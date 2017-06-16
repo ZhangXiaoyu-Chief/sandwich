@@ -95,7 +95,7 @@ class CoreView(View):
         return JsonResponse(self.response_data)
 
     def page_split(self, objs):
-        page = self.parameters('page') if self.parameters('page') and isinstance(self.parameters('page'), int) else 1
+        page = self.parameters('page') if self.parameters('page') else 1
         per_page = None
         try:
             if per_page:
