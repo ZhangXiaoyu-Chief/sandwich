@@ -47,7 +47,6 @@ class CoreView(View):
             return response_obj
 
         action = 'get_%s' % kwargs['action'].lower()
-        print(action)
         return self.run(action, request)
 
     def post(self, request, *args, **kwargs):
@@ -66,7 +65,6 @@ class CoreView(View):
             return response_obj
 
         action = 'post_%s' % kwargs['action'].lower()
-        print(action)
         return self.run(action, request)
 
     def run(self, action, request):
@@ -80,7 +78,6 @@ class CoreView(View):
 
         if hasattr(self, action):
             func = getattr(self, action)
-            print(action)
             try:
                 func()
             except Exception as e:
@@ -115,7 +112,6 @@ class CoreView(View):
             objs = paginator.page(1)
         except EmptyPage:
             objs = paginator.page(paginator.num_pages)
-        print(dir(objs))
         self.response_data['has_previous'] = objs.has_previous()
         self.response_data['has_next'] = objs.has_next()
         self.response_data['total_page'] = paginator.num_pages
