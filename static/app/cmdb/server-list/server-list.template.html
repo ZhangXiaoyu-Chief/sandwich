@@ -36,10 +36,10 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group">
-                                        <input type="text" class="form-control input-circle-left" placeholder="search">
-                                        <span class="input-group-addon input-circle-right">
+                                        <input type="text" class="form-control input-circle-left" placeholder="search" ng-model="$ctrl.search_input">
+                                        <a class="input-group-addon input-circle-right" ng-click="$ctrl.search($event)">
                                             <i class="icon-magnifier"></i>
-                                        </span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -75,6 +75,23 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div style="text-align: right">
+                            <ul class="pagination">
+                                <li>
+                                    <a href="" style="cursor:pointer" ng-click="$ctrl.previous_page()">
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                </li>
+                                <li ng-repeat="p in $ctrl.get_pages()" class="{{ $ctrl.is_active(p) }}">
+                                    <a href="" ng-click="$ctrl.change_page(p)"  style="cursor:pointer"> {{ p }} </a>
+                                </li>
+                                <li>
+                                    <a href=""  style="cursor:pointer" ng-click="$ctrl.next_page()">
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
