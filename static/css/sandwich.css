@@ -1,0 +1,19 @@
+@media (min-width: 768px) {
+    .modal-dialog {
+        width: 600px;
+        margin: 70px auto;
+    }
+}
+#page-title {
+    padding: 24px 0;
+}
+
+.page-tool-bar {
+    padding: 0px 0px 15px 0px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+}
+ul.sub-menu li a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

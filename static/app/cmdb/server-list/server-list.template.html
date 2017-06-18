@@ -1,101 +1,115 @@
 
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <a href="index.html">Home</a>
-                    /
-                </li>
-                <li>
-                    <span>服务器列表</span>
-                </li>
-            </ul>
-        </div>
-
-
-        <!-- END PAGE BAR -->
-        <!-- BEGIN PAGE TITLE-->
-        <!-- END PAGE TITLE-->
-        <!-- END PAGE HEADER-->
-        <div class="row" style="padding-top: 20px;">
-            <div class="col-md-12">
-                <!-- BEGIN SAMPLE TABLE PORTLET-->
-                <div class="portlet light bordered">
-                    <div class="portlet-title">
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                                        <i class="fa fa-plus"></i>
-                                    </a>
-                                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                                        <i class="icon-wrench"></i>
-                                    </a>
-                                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                                        <i class="icon-trash"></i>
-                                    </a>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control input-circle-left" placeholder="search" ng-model="$ctrl.search_input">
-                                        <a class="input-group-addon input-circle-right" ng-click="$ctrl.search($event)">
-                                            <i class="icon-magnifier"></i>
-                                        </a>
-                                    </div>
-                                </div>
+        <section id="page-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h1 class="mainTitle">服务器列表</h1>
+                </div>
+                <ol class="breadcrumb">
+                    <li>
+                        <span>HOME</span>
+                    </li>
+                    <li>
+                        <span>CMDB</span>
+                    </li>
+                    <li class="active">
+                        <span>服务器列表</span>
+                    </li>
+                </ol>
+            </div>
+        </section>
+        <div class="container-fluid container-fullw bg-white">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-7 page-tool-bar">
+                            <a class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg">
+                                <i class="ti-plus"></i>
+                                新增</a>
+                        </div>
+                        <div class="col-md-5 page-tool-bar">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="$ctrl.search_input">
+                                <span class="input-group-addon" ng-click="$ctrl.search($event)"><i class="ti-search"></i></span>
                             </div>
-
+                        </div>
                     </div>
-                    <div class="portlet-body">
-                        <div class="table-scrollable">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th> # </th>
-                                        <th> 主机名 </th>
-                                        <th> 管理IP </th>
-                                        <th> 运维负责人 </th>
-                                        <th> 内存大小(MB) </th>
-                                        <th> CPU型号 </th>
-                                        <th> 操作系统发行版本 </th>
-                                        <th> 状态 </th>
-                                        <th> 操作 </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="server in $ctrl.servers">
-                                        <td> {{ server.id }} </td>
-                                        <td> {{ server.hostname }} </td>
-                                        <td> {{ server.management_ip }} </td>
-                                        <td> {{ server.operation }} </td>
-                                        <td> {{ server.ram }} </td>
-                                        <td> {{ server.cpu_model }} </td>
-                                        <td> {{ server.os_distribution }} </td>
-                                        <td> <span class="label {{ $ctrl.labels[ server.status ] }}"> {{ server.status }} </span>  </td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div style="text-align: right">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="" style="cursor:pointer" ng-click="$ctrl.previous_page()">
-                                        <i class="fa fa-angle-left"></i>
-                                    </a>
-                                </li>
-                                <li ng-repeat="p in $ctrl.get_pages()" class="{{ $ctrl.is_active(p) }}">
-                                    <a href="" ng-click="$ctrl.change_page(p)"  style="cursor:pointer"> {{ p }} </a>
-                                </li>
-                                <li>
-                                    <a href=""  style="cursor:pointer" ng-click="$ctrl.next_page()">
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+
+                </div>
+
+                <div class="">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> 主机名 </th>
+                                <th> 管理IP </th>
+                                <th> 运维负责人 </th>
+                                <th> 内存大小(MB) </th>
+                                <th> CPU型号 </th>
+                                <th> 操作系统发行版本 </th>
+                                <th> 状态 </th>
+                                <th> 操作 </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="server in $ctrl.servers">
+                                <td> {{ server.id }} </td>
+                                <td> {{ server.hostname }} </td>
+                                <td> {{ server.management_ip }} </td>
+                                <td> {{ server.operation }} </td>
+                                <td> {{ server.ram }} </td>
+                                <td> {{ server.cpu_model }} </td>
+                                <td> {{ server.os_distribution }} </td>
+                                <td> <span class="label {{ $ctrl.labels[ server.status ] }}"> {{ server.status }} </span>  </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div style="text-align: right">
+                        <ul class="pagination">
+                            <li>
+                                <a href="" style="cursor:pointer" ng-click="$ctrl.previous_page()">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                            </li>
+                            <li ng-repeat="p in $ctrl.get_pages()" class="{{ $ctrl.is_active(p) }}">
+                                <a href="" ng-click="$ctrl.change_page(p)"  style="cursor:pointer"> {{ p }} </a>
+                            </li>
+                            <li>
+                                <a href=""  style="cursor:pointer" ng-click="$ctrl.next_page()">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <!-- END SAMPLE TABLE PORTLET-->
+            </div>
+
+        </div>
+        <div class="modal fade bs-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        Modal Content
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                            Save changes
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
+
 
