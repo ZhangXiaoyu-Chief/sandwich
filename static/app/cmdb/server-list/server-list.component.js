@@ -23,6 +23,7 @@ angular.
       this.search_input = "";
       this.search = "";
 
+
       this.get_pages = function () {
           var pages = [];
           for(var i=1;i<=this.num_page;i++){
@@ -67,5 +68,18 @@ angular.
               self.page += 1;
           }
       };
+      this.init_create_form_data = function (form) {
+          self.create_form_data = {
+              ipaddresses : "",
+              port : 22,
+              username: "root",
+              password: ""
+          };
+          form.ipaddresses.$dirty = false;
+          form.ipaddresses.$pristine = true;
+          form.password.$dirty = false;
+          form.password.$pristine = true;
+      };
+      // this.init_create_form_data();
     }]
   });

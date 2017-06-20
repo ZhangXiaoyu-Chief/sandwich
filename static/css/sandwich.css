@@ -17,3 +17,9 @@ ul.sub-menu li a {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.modal-body {
+    background-color: #fff;
+}
+.help-block {
+    margin-bottom: 0px;
+}

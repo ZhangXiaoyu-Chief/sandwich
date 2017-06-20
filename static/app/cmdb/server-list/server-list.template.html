@@ -2,7 +2,7 @@
         <section id="page-title">
             <div class="row">
                 <div class="col-sm-8">
-                    <h1 class="mainTitle">服务器列表</h1>
+                    <h1 class="mainTitle">服务器管理</h1>
                 </div>
                 <ol class="breadcrumb">
                     <li>
@@ -22,9 +22,9 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-7 page-tool-bar">
-                            <a class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg">
+                            <a class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg" ng-click="$ctrl.init_create_form_data(createForm)">
                                 <i class="ti-plus"></i>
-                                新增</a>
+                                自动录入</a>
                         </div>
                         <div class="col-md-5 page-tool-bar">
                             <div class="input-group">
@@ -88,24 +88,74 @@
             </div>
 
         </div>
-        <div class="modal fade bs-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal fade bs-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true"><i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i></span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        <h4 class="modal-title">添加主机</h4>
                     </div>
                     <div class="modal-body">
-                        Modal Content
+                        <form role="form" class="form-horizontal" name="createForm" novalidate ng-submit="submitForm(createForm.$valid)">
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.ipaddresses.$dirty &&  createForm.ipaddresses.$invalid]">
+                                <label class="col-sm-2 control-label" for="ipaddresses">
+                                    IP地址
+                                </label>
+                                <div class="col-sm-10" >
+                                    <textarea name="ipaddresses" placeholder="IP地址，可填写多个IP地址，用逗号分开。" id="ipaddresses" class="form-control" required ng-model="$ctrl.create_form_data.ipaddresses" ng-pattern="/^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))(;((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))))*$/"></textarea>
+                                    <span ng-show="createForm.ipaddresses.$dirty &&  createForm.ipaddresses.$invalid">
+                                        <span ng-show="createForm.ipaddresses.$error.required" class="help-block">IP地址不能为空</span>
+                                        <span ng-show="createForm.ipaddresses.$error.pattern" class="help-block">填写不正确</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.port.$dirty &&  createForm.port.$invalid]">
+                                <label class="col-sm-2 control-label" for="port">
+                                    SSH端口
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="number" name="port" placeholder="SSH端口" id="port" class="form-control" required ng-model="$ctrl.create_form_data.port" min="1" max="65535">
+                                    <span ng-show="createForm.port.$dirty &&  createForm.port.$invalid">
+                                        <span ng-show="createForm.port.$error.required" class="help-block">端口号必须填写</span>
+                                        <span ng-show="createForm.port.$error.min||createForm.port.$error.max" class="help-block">端口号必须是1-65535之间</span>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.username.$dirty &&  createForm.username.$invalid]">
+                                <label class="col-sm-2 control-label" for="username">
+                                    用户名
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="username" type="username" placeholder="用户名" id="username" class="form-control" ng-model="$ctrl.create_form_data.username" required>
+                                    <span ng-show="createForm.username.$dirty &&  createForm.username.$invalid">
+                                        <span ng-show="createForm.username.$error.required" class="help-block">用户名必须输入</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.password.$dirty &&  createForm.password.$invalid]">
+                                <label class="col-sm-2 control-label" for="password">
+                                    密码
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="password" id="password" class="form-control" name="password" required  ng-model="$ctrl.create_form_data.password">
+                                    <span ng-show="createForm.password.$dirty &&  createForm.password.$invalid">
+                                        <span ng-show="createForm.password.$error.required" class="help-block">密码必须输入</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
-                            Close
-                        </button>
                         <button type="button" class="btn btn-primary">
-                            Save changes
+                            确定
+                        </button>
+                        <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
+                            取消
                         </button>
                     </div>
                 </div>
