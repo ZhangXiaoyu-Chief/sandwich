@@ -22,6 +22,7 @@ angular.
       this.per_page = 20;
       this.search_input = "";
       this.search = "";
+      this.search_data = ""
 
 
       this.get_pages = function () {
