@@ -14,7 +14,7 @@ class Server(CoreView):
         if not search:
             server_objs = self.page_split(Asset.objects.filter(asset_type='server').all())
         else:
-            server_objs = self.page_split(Asset.objects.filter(asset_type='server').filter(Q(name__contains=search) | Q(nics__ip_address__contains=search) | Q(asset_num__contains=search)))
+            server_objs = self.page_split(Asset.objects.filter(asset_type='server').filter(Q(name__contains=search) | Q(nics__ip_address__contains=search) | Q(asset_num__contains=search)).all().distinct())
         server_list = []
         for server_obj in server_objs:
             server_list.append(server_obj.get_base_info())
