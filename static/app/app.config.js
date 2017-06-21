@@ -17,8 +17,8 @@ angular.
         when('/servers', {
           template: '<server-list></server-list>'
         }).
-        when('/phones/:phoneId', {
-          template: '<phone-detail></phone-detail>'
+        when('/servers/:assetId', {
+          template: '<server-detail></server-detail>'
         }).
         otherwise('/index');
     }

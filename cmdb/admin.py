@@ -51,3 +51,6 @@ class AssetAdmin(admin.ModelAdmin):
     m2m_fields = ('tags',)
 
 admin.site.register(models.Asset, AssetAdmin)
+admin.site.register(models.Server)
+admin.site.register(models.EventLog)
+admin.site.register(models.Tags)

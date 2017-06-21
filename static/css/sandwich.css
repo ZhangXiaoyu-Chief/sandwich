@@ -23,3 +23,9 @@ ul.sub-menu li a {
 .help-block {
     margin-bottom: 0px;
 }
+.detail-row {
+    padding-bottom: 20px;
+}
+.detail-label {
+    text-align: right;
+}

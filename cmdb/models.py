@@ -49,6 +49,36 @@ class Asset(models.Model):
             "status": self.get_status_display()
         }
 
+    def get_info(self):
+        print(self.logs.all())
+        return {
+            "base": {
+                "asset_type": self.get_asset_type_display(),
+                "name": self.name if self.name else "",
+                "asset_num": self.asset_num if self.asset_num else "",
+                "sn": self.sn if self.sn else "",
+                "manufactory": self.manufactory.name if self.manufactory else "",
+                "management_ip": self.management_ip if self.management_ip else "",
+                "contract": self.contract if self.contract else "",
+                "trade_date": self.trade_date.strftime("%Y-%m-%d") if self.trade_date else "",
+                "expire_date": self.expire_date.strftime("%Y-%m-%d") if self.expire_date else "",
+                "price": self.price if self.price else 0,
+                "business_unit": self.business_unit if self.business_unit else "",
+                "tags": [tag.name for tag in self.tags.all()] if self.tags.all() else [],
+                "admin": self.admin.username if self.admin else "",
+                "operation": self.operation.username if self.operation else "",
+                "cabinet": self.cabinet if self.cabinet else "",
+                "create_date": self.create_date.strftime("%Y-%m-%d %H:%M:%S") if self.create_date else "",
+                "update_date": self.update_date.strftime("%Y-%m-%d %H:%M:%S") if self.update_date else "",
+                "status": self.get_status_display(),
+                "memo": self.memo if self.memo else "",
+
+            },
+            self.asset_type: getattr(self, self.asset_type).get_info() if hasattr(self, "server") and self.server else {},
+            "logs": [log.get_info() for log in self.logs.all().order_by('-date')] if hasattr(self, "logs")
+                                                                                     and self.logs.all() else []
+        }
+
 
     class Meta:
         verbose_name = u'资产总表'
@@ -75,6 +105,22 @@ class Server(models.Model):
 
     def __unicode__(self):
         return '%s sn:%s' % (self.asset.name, self.asset.sn)
+
+    def get_info(self):
+        return {
+            "cpu": self.asset.cpu.get_info() if hasattr(self.asset, "cpu") and self.asset.cpu else {},
+            "created_by": self.get_created_by_display() if self.created_by else "",
+            "hosted_on": self.hosted_on.asset.name if self.hosted_on else "",
+            "model": self.model if self.model else "",
+            "kernel_release": self.kernel_release if self.kernel_release else "",
+            "raid_type": self.raid_type if self.raid_type else "",
+            "os_type": self.os_type if self.os_type else "",
+            "os_distribution": self.os_distribution if self.os_distribution else "",
+            "os_release": self.os_release if self.os_release else "",
+            "ram": self.asset.ram.get_info() if hasattr(self.asset, "ram") and self.asset.ram else {},
+            "disks": [disk.get_info() for disk in self.asset.disks.all()] if hasattr(self.asset, "disks") and self.asset.disks else [],
+            "nics": [nic.get_info() for nic in self.asset.nics.all()] if hasattr(self.asset, "nics") and self.asset.nics else [],
+        }
 
     class Meta:
         verbose_name = '服务器'
@@ -103,6 +149,16 @@ class CPU(models.Model):
         verbose_name = 'CPU部件'
         verbose_name_plural = "CPU部件"
 
+    def get_info(self):
+        return {
+                "count": self.count if self.count else 0,
+                "core_count": self.core_count if self.core_count else 0,
+                "model": self.model if  self.model else "",
+                "memo": self.memo if self.memo else "",
+                "create_date": self.create_date.strftime("%Y-%m-%d %H:%M:%S") if self.create_date else "",
+                "update_date": self.update_date.strftime("%Y-%m-%d %H:%M:%S") if self.update_date else "",
+            }
+
 
 class RAM(models.Model):
     """
@@ -119,6 +175,14 @@ class RAM(models.Model):
 
     def __unicode__(self):
         return '%s:%s' % (self.asset_id, self.capacity)
+
+    def get_info(self):
+        return {
+            "capacity": self.capacity if self.capacity else 0,
+            "create_date": self.create_date.strftime("%Y-%m-%d %H:%M:%S") if self.create_date else "",
+            "update_date": self.update_date.strftime("%Y-%m-%d %H:%M:%S") if self.update_date else "",
+            "memo": self.memo if self.memo else "",
+        }
 
     class Meta:
         verbose_name = u'内存'
@@ -143,6 +207,15 @@ class Disk(models.Model):
     def __unicode__(self):
         return '%s:name:%s capacity:%s' % (self.asset_id, self.name, self.capacity)
 
+    def get_info(self):
+        return {
+            "name": self.name if self.name else "",
+            "capacity": self.capacity if self.capacity else "",
+            "create_date": self.create_date.strftime("%Y-%m-%d %H:%M:%S") if self.create_date else "",
+            "update_date": self.update_date.strftime("%Y-%m-%d %H:%M:%S") if self.update_date else "",
+            "memo": self.memo if self.memo else "",
+        }
+
     class Meta:
         unique_together = ("asset", "name")
         verbose_name = u'磁盘'
@@ -156,7 +229,7 @@ class NIC(models.Model):
     asset = models.ForeignKey('Asset', related_name='nics')
     name = models.CharField(verbose_name=u'网卡名', max_length=64, blank=True, null=True)
     sn = models.CharField(verbose_name=u'SN号', max_length=128, blank=True, null=True)
-    mac_address = models.CharField(verbose_name=u'MAC', max_length=64, unique=True)
+    mac_address = models.CharField(verbose_name=u'MAC', max_length=64,blank=True, null=True)
     ip_address = models.GenericIPAddressField(verbose_name=u'IP', blank=True, null=True)
     netmask = models.CharField(verbose_name=u'子网掩码', max_length=64, blank=True, null=True)
     memo = models.CharField(verbose_name=u'备注', max_length=128, blank=True, null=True)
@@ -169,7 +242,20 @@ class NIC(models.Model):
     def __unicode__(self):
         return '%s:%s' % (self.asset_id, self.mac_address)
 
+    def get_info(self):
+        return {
+            "name": self.name if self.name else "",
+            "sn": self.sn if self.sn else "",
+            "mac_address": self.mac_address if self.mac_address else "",
+            "ip_address": self.ip_address if self.ip_address else "",
+            "netmask": self.netmask if self.netmask else "",
+            "create_date": self.create_date.strftime("%Y-%m-%d %H:%M:%S") if self.create_date else "",
+            "update_date": self.update_date.strftime("%Y-%m-%d %H:%M:%S") if self.update_date else "",
+            "memo": self.memo if self.memo else "",
+        }
+
     class Meta:
+        unique_together = ("asset", "name", "mac_address")
         verbose_name = u'网卡'
         verbose_name_plural = u"网卡"
 
@@ -317,7 +403,7 @@ class Tags(models.Model):
 
 
 class EventLog(models.Model):
-    asset = models.ForeignKey('Asset')
+    asset = models.ForeignKey('Asset', related_name="logs")
     event_type = models.SmallIntegerField(u'事件类型', choices=settings.EVENT_TYPE_CHOICES)
     operater = models.CharField(u"操作人", max_length=100, null=True, blank=True)
     component = models.CharField('事件子项', max_length=255, blank=True, null=True)
@@ -328,6 +414,14 @@ class EventLog(models.Model):
     def __str__(self):
         return self.detail
 
+    def get_info(self):
+        return {
+            "event_type": self.get_event_type_display(),
+            "operater": self.operater if self.operater else "",
+            "component": self.component if self.component else "",
+            "detail": self.detail if self.detail else "",
+            "date": self.date.strftime("%Y-%m-%d %H:%M:%S") if self.date else ""
+        }
     class Meta:
         verbose_name = '事件纪录'
         verbose_name_plural = "事件纪录"

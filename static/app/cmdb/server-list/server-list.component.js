@@ -81,6 +81,39 @@ angular.
           form.password.$dirty = false;
           form.password.$pristine = true;
       };
+      this.create_host = function (form) {
+          if(!form.$invalid){
+              var postCfg = {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+              var ipaddresses = $('#ipaddresses').val();
+              var port = $('#port').val();
+              var username = $('#username').val();
+              var password = $('#password').val();
+              var request_data = {
+                  "ipaddresses": ipaddresses,
+                  "port": port,
+                  "username": username,
+                  "password": password
+              };
+              $http.post("/api/server/create/", request_data,postCfg)
+                .then(function (response) {
+                    $.each(response.data.data, function (index,data) {
+                        var level = "success"
+                        if(data.status){
+                            level = "success";
+                        }else {
+                            level = "error"
+                        }
+                        Toastr[level](data.msg, data.ipaddress);
+                    });
+                });
+          }
+
+      };
       // this.init_create_form_data();
     }]
   });

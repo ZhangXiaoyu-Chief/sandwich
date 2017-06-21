@@ -1,0 +1,412 @@
+<section id="page-title">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1 class="mainTitle">服务器详细信息</h1>
+        </div>
+        <ol class="breadcrumb">
+            <li>
+                <span>HOME</span>
+            </li>
+            <li>
+                <span>CMDB</span>
+            </li>
+            <li class="active">
+                <span>服务器管理</span>
+            </li>
+            <li class="active">
+                <span>服务器详情</span>
+            </li>
+        </ol>
+    </div>
+</section>
+<div class="container-fluid container-fullw bg-white">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable">
+                <ul id="myTab1" class="nav nav-tabs">
+                    <li class="active">
+                        <a href=".baseinfo" data-toggle="tab" aria-expanded="false">
+                            基本信息
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href=".hardinfo" data-toggle="tab" aria-expanded="false">
+                            硬件信息
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href=".eventlogs" data-toggle="tab" aria-expanded="true">
+                            事件
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade baseinfo active in">
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label" ><strong>主机名：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.name }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>运营状态：</strong></div>
+                                    <div class="col-md-9"><span class="label {{ $ctrl.labels[ $ctrl.server.base.status ] }}"> {{ $ctrl.server.base.status }} </span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>资产编号：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.asset_num }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>SN：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.sn }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>厂商：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.manufactory }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>管理IP：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.management_ip }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>型号：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.model }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>操作系统类型：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.os_type }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>发行版本：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.os_distribution }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>操作系统版本：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.os_release }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>Raid类型：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.raid_type }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>内核版本：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.kernel_release }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>宿主机：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.host_on }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>创建类型：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.created_by }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>合同号：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.contract }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>价格：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.price | currency:"":2 }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>购买时间：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.trade_date }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>过保时间：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.expire_date }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>创建时间：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.create_date }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>更新时间：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.update_date }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>所属机柜：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.cabinet }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>所属业务线：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.business_unit }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>负责人：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.admin }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>运维人员：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.base.operation }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>标签：</strong></div>
+                                    <div class="col-md-9">
+                                        <span class="label label-info" ng-repeat="tag in $ctrl.server.base.tags" style="margin-right: 5px"> {{ tag }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade hardinfo">
+                        <div class="row detail-row">
+                            <div class="col-md-12"><h4><strong>CPU信息：</strong></h4></div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label" ><strong>CPU型号：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.cpu.model }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label"><strong>CPU物理个数：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.cpu.count }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label" ><strong>CPU总核心数：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.cpu.core_count }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label" ><strong>创建时间：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.cpu.create_date }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label" ><strong>更新时间：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.cpu.update_date }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-12"><h4><strong>内存信息：</strong></h4></div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label" ><strong>容量(MB)：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.ram.capacity }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label" ><strong>创建时间：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.ram.create_date }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3 detail-label" ><strong>跟新时间：</strong></div>
+                                    <div class="col-md-9">{{ $ctrl.server.server.ram.update_date }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-12"><h4><strong>磁盘信息：</strong></h4></div>
+                        </div>
+                        <div class="row dtail-row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                磁盘名
+                                            </th>
+                                            <th>
+                                                容量(MB)
+                                            </th>
+                                            <th>
+                                                创建时间
+                                            </th>
+                                            <th>
+                                                更新时间
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="disk in $ctrl.server.server.disks">
+                                            <td>{{ disk.name }}</td>
+                                            <td>{{ disk.capacity }}</td>
+                                            <td>{{ disk.create_date }}</td>
+                                            <td>{{ disk.update_date }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row detail-row">
+                            <div class="col-md-12"><h4><strong>网卡信息：</strong></h4></div>
+                        </div>
+                        <div class="row dtail-row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                网卡名
+                                            </th>
+                                            <th>
+                                                MAC地址
+                                            </th>
+                                            <th>
+                                                IP地址
+                                            </th>
+                                            <th>
+                                                子网掩码
+                                            </th>
+                                            <th>
+                                                创建时间
+                                            </th>
+                                            <th>
+                                                更新时间
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="nic in $ctrl.server.server.nics">
+                                            <td>{{ nic.name }}</td>
+                                            <td>{{ nic.mac_address }}</td>
+                                            <td>{{ nic.ip_address }}</td>
+                                            <td>{{ nic.netmask }}</td>
+                                            <td>{{ nic.create_date }}</td>
+                                            <td>{{ nic.update_date }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade eventlogs">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        时间
+                                    </th>
+                                    <th>
+                                        事件类型
+                                    </th>
+                                    <th>
+                                        事件子项
+                                    </th>
+                                    <th>
+                                        事件详情
+                                    </th>
+                                    <th>
+                                        操作人
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="log in $ctrl.server.logs">
+                                    <td>{{ log.date }}</td>
+                                    <td>{{ log.event_type }}</td>
+                                    <td>{{ log.component }}</td>
+                                    <td>{{ log.detail }}</td>
+                                    <td>{{ log.operater }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

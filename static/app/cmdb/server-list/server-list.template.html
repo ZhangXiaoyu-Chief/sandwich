@@ -12,7 +12,7 @@
                         <span>CMDB</span>
                     </li>
                     <li class="active">
-                        <span>服务器列表</span>
+                        <span>服务器管理</span>
                     </li>
                 </ol>
             </div>
@@ -54,7 +54,7 @@
                         <tbody>
                             <tr ng-repeat="server in $ctrl.servers">
                                 <td> {{ server.id }} </td>
-                                <td> {{ server.hostname }} </td>
+                                <td> <a href="#!/servers/{{server.id}}">{{ server.hostname }}</a> </td>
                                 <td> {{ server.management_ip }} </td>
                                 <td> {{ server.operation }} </td>
                                 <td> {{ server.ram }} </td>
@@ -151,7 +151,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary" ng-disabled="createForm.$invalid" ng-click="$ctrl.create_host(createForm)">
                             确定
                         </button>
                         <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
