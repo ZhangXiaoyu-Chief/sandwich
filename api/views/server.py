@@ -21,14 +21,11 @@ class Server(CoreView):
         self.response_data['data'] = server_list
 
     def post_create(self):
-        # print(self.para meters('username'))
-        print(self.request.POST)
         response_data = []
         username = self.parameters('username')
         password = self.parameters('password')
         ipaddresses = self.parameters('ipaddresses').split(';')
         port = self.parameters('port')
-        import json
         for ipaddress in ipaddresses:
             cmdb_collector = CmdbCollector(host=ipaddress, username=username, password=password, ssh_port=port)
             cmdb_collector.collector_all()
@@ -44,18 +41,13 @@ class Server(CoreView):
                     response_data.append({"ipaddress": ipaddress, "status": True, "msg": "添加成功"})
                 else:
                     response_data.append({"ipaddress": ipaddress, "status": False, "msg": "此服务器已经存在"})
-        print(response_data)
         self.response_data['data'] = response_data
 
     def get_detail(self):
-        print(127788)
         asset_id = self.parameters("id")
-        print(asset_id)
         if asset_id:
             asset_obj = Asset.objects.filter(id=asset_id).first()
-            print(asset_obj)
             if asset_obj:
-                print(asset_obj.get_info())
                 self.response_data["data"] = asset_obj.get_info()
             else:
                 self.response_data['status'] = False
