@@ -31,6 +31,10 @@ class Asset(models.Model):
     update_date = models.DateTimeField(blank=True, auto_now=True)
     memo = models.TextField(u'备注', null=True, blank=True)
 
+
+
+
+
     def __str__(self):
         return self.name
 
@@ -83,6 +87,11 @@ class Asset(models.Model):
     class Meta:
         verbose_name = u'资产总表'
         verbose_name_plural = u"资产总表"
+        permissions = (
+            ("can_view_asset", "Can View Asset"),
+            ("can_edit_asset", "Can Edit Asset"),
+            ("can_delete_asset", "Can Delete Asset"),
+        )
 
 
 class Server(models.Model):

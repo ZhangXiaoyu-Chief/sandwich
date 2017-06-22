@@ -8,7 +8,12 @@ class CoreView(View):
     """
     所有API基类
     """
+    permission_view_map = {
+
+    }
+    app_name = ""
     login_required_action = []
+
     def __init__(self, **kwargs):
         super(CoreView, self).__init__(**kwargs)
         self.status_code = 200
@@ -80,7 +85,10 @@ class CoreView(View):
         if hasattr(self, action):
             if action in self.login_required_action:
                 if self.request.user and self.request.user.is_authenticated():
-                    func = getattr(self, action)
+                    if self.check_permission(action):
+                        func = getattr(self, action)
+                    else:
+                        func = getattr(self, "get_not_permission")
                 else:
                     func = getattr(self, 'get_invalid_login')
             else:
@@ -130,9 +138,23 @@ class CoreView(View):
     def get_invalid_login(self):
         self.response_data['info'] = "It's not login"
         self.response_data['status'] = False
-        print(settings.LOGIN_URL)
         self.response_data['data'] = {"login_url": settings.LOGIN_URL if hasattr(settings, "LOGIN_URL") else "/login"}
         self.status_code = 401
+
+    def check_permission(self, view):
+        permission = self.permission_view_map.get(view, "")
+        if permission:
+            if self.request.user.has_perm("%s.%s" %(self.app_name, permission)):
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def get_not_permission(self):
+        self.response_data['info'] = "Permission denied"
+        self.response_data['status'] = False
+        self.status_code = 403
 
 
 

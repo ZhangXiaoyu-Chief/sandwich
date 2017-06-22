@@ -5,6 +5,7 @@ angular.module('serverDetail').component('serverDetail', {
     templateUrl: '/static/app/cmdb/server-detail/server-detail.template.html',
     controller: ['$http','$routeParams', 'Toastr', function ($http,$routeParams, Toastr) {
         var self = this;
+        this.loading = false;
         this.labels = {
             '在线':"label-success",
             '已下线':"label-default",
@@ -14,13 +15,14 @@ angular.module('serverDetail').component('serverDetail', {
             '报废':"label-default"
         };
         this.get_data = function () {
+            self.loading = true;
             $http.get('/api/server/detail/?id=' + $routeParams.assetId).then(function (response) {
                 self.server = response.data.data;
-                console.log(self.server)
+                self.loading = false;
             }, function (response) {
-                console.log(response);
+                self.loading = false;
             });
         };
-        this.get_data()
+        this.get_data();
     }]
 });

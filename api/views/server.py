@@ -10,6 +10,10 @@ from api.libs.asset_handler import AssetHandler
 
 class Server(CoreView):
     login_required_action = ["get_list"]
+    permission_view_map = {
+        "get_list": "can_view_asset"
+    }
+    app_name = "cmdb"
 
     def get_list(self):
         search = self.parameters('search')
