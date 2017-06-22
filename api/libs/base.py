@@ -8,8 +8,10 @@ class CoreView(View):
     """
     所有API基类
     """
+    login_required_action = []
     def __init__(self, **kwargs):
         super(CoreView, self).__init__(**kwargs)
+        self.status_code = 200
         self.response_data = {
             'status': True,
             'data': [],
@@ -75,9 +77,14 @@ class CoreView(View):
         :return: 
         """
         self.request = request
-
         if hasattr(self, action):
-            func = getattr(self, action)
+            if action in self.login_required_action:
+                if self.request.user and self.request.user.is_authenticated():
+                    func = getattr(self, action)
+                else:
+                    func = getattr(self, 'get_invalid_login')
+            else:
+                func = getattr(self, action)
             try:
                 func()
             except Exception as e:
@@ -92,7 +99,9 @@ class CoreView(View):
             response_obj = JsonResponse(self.response_data)
             response_obj.status_code = 501
             return response_obj
-        return JsonResponse(self.response_data)
+        response_obj = JsonResponse(self.response_data)
+        response_obj.status_code = self.status_code
+        return response_obj
 
     def page_split(self, objs):
         page = self.parameters('page') if self.parameters('page') else 1
@@ -117,6 +126,13 @@ class CoreView(View):
         self.response_data['total_page'] = paginator.num_pages
         self.response_data['pre_page'] = per_page
         return objs
+
+    def get_invalid_login(self):
+        self.response_data['info'] = "It's not login"
+        self.response_data['status'] = False
+        print(settings.LOGIN_URL)
+        self.response_data['data'] = {"login_url": settings.LOGIN_URL if hasattr(settings, "LOGIN_URL") else "/login"}
+        self.status_code = 401
 
 
 

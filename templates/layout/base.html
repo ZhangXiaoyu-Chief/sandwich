@@ -223,7 +223,7 @@
 							<!-- start: USER OPTIONS DROPDOWN -->
 							<li class="dropdown current-user">
 								<a href class="dropdown-toggle" data-toggle="dropdown">
-									<img src="/static/images/avatar-1.jpg" alt="Peter"> <span class="username">Peter <i class="ti-angle-down"></i></i></span>
+									<img src="/static/images/avatar-1.jpg" alt="{{ request.user.username }}"> <span class="username"> {{ request.user.username }}<i class="ti-angle-down"></i></i></span>
 								</a>
 								<ul class="dropdown-menu dropdown-dark">
 									<li>
@@ -247,7 +247,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="login_signin.html">
+										<a href="/logout/">
 											Log Out
 										</a>
 									</li>

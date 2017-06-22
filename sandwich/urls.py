@@ -16,10 +16,14 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from cmdb import views
+from account.views import account_login
+from account.views import account_logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index),
+    url(r'^login/$', account_login),
+    url(r'^logout/$', account_logout),
     url(r'cmdb/', include('cmdb.urls')),
     url(r'api/', include('api.urls')),
 ]

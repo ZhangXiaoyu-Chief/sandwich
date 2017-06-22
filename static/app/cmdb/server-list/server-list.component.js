@@ -43,8 +43,12 @@ angular.
           $http.get('/api/server/list/?page=' + self.page + '&per_page=' + self.per_page + '&search=' + self.search_data).then(function(response) {
             self.servers = response.data.data;
             self.num_page = response.data.total_page;
-          }, function () {
+          }, function (response) {
               // 获取数据失败执行
+              console.log(response)
+              if(response.status==401){
+                  window.location.href=response.data.data.login_url
+              }
           });
       };
       this.get_data();

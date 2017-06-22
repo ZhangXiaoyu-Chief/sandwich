@@ -148,3 +148,4 @@ EVENT_TYPE_CHOICES = ((0, u'初始化'),
                       (6, u'业务上线\更新\变更'),
                       (7, u'其它'),
                       )
+LOGIN_URL = "/login/"

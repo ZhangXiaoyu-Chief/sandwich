@@ -9,6 +9,8 @@ from api.libs.asset_handler import AssetHandler
 
 
 class Server(CoreView):
+    login_required_action = ["get_list"]
+
     def get_list(self):
         search = self.parameters('search')
         if not search:
