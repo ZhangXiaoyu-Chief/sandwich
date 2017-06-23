@@ -88,9 +88,7 @@ class Asset(models.Model):
         verbose_name = u'资产总表'
         verbose_name_plural = u"资产总表"
         permissions = (
-            ("can_view_asset", "Can View Asset"),
-            ("can_edit_asset", "Can Edit Asset"),
-            ("can_delete_asset", "Can Delete Asset"),
+            ("view_asset", "Can View Asset"),
         )
 
 

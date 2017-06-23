@@ -6,21 +6,22 @@ from cmdb.models import Asset
 from django.db.models import Q
 from api.libs.cmdb_agent import CmdbCollector
 from api.libs.asset_handler import AssetHandler
+from guardian.shortcuts import get_objects_for_user
 
 
 class Server(CoreView):
     login_required_action = ["get_list"]
-    permission_view_map = {
-        "get_list": "can_view_asset"
-    }
-    app_name = "cmdb"
+    # permission_view_map = {
+    #     "get_list": "can_view_asset"
+    # }
+    # app_name = "cmdb"
 
     def get_list(self):
         search = self.parameters('search')
         if not search:
-            server_objs = self.page_split(Asset.objects.filter(asset_type='server').all())
+            server_objs = self.page_split(get_objects_for_user(self.request.user, 'cmdb.view_asset').filter(asset_type='server').all())
         else:
-            server_objs = self.page_split(Asset.objects.filter(asset_type='server').filter(Q(name__contains=search) | Q(nics__ip_address__contains=search) | Q(asset_num__contains=search)).all().distinct())
+            server_objs = self.page_split(get_objects_for_user(self.request.user, 'cmdb.view_asset').filter(Q(name__contains=search) | Q(nics__ip_address__contains=search) | Q(asset_num__contains=search)).all().distinct())
         server_list = []
         for server_obj in server_objs:
             server_list.append(server_obj.get_base_info())
@@ -37,9 +38,9 @@ class Server(CoreView):
             cmdb_collector.collector_all()
             if cmdb_collector.msg:
                 if "Failed to connect to the host via ssh" in cmdb_collector.msg:
-                    response_data.append({"ipaddress":ipaddress, "status": False, "msg": "连接主机失败，请检查网络"})
+                    response_data.append({"ipaddress": ipaddress, "status": False, "msg": "连接主机失败，请检查网络"})
                 elif "Authentication failure" in cmdb_collector.msg:
-                    response_data.append({"ipaddress":ipaddress, "status": False, "msg": "认证失败，请检查用户名密码是否正确"})
+                    response_data.append({"ipaddress": ipaddress, "status": False, "msg": "认证失败，请检查用户名密码是否正确"})
             else:
                 if not Asset.objects.filter(sn = cmdb_collector.asset_info.get('essential_information').get("SN")).first():
                     handler = AssetHandler(self.request, cmdb_collector.asset_info)
@@ -54,7 +55,10 @@ class Server(CoreView):
         if asset_id:
             asset_obj = Asset.objects.filter(id=asset_id).first()
             if asset_obj:
-                self.response_data["data"] = asset_obj.get_info()
+                if self.request.user.has_perm('view_asset', asset_obj):
+                    self.response_data["data"] = asset_obj.get_info()
+                else:
+                    self.get_not_permission()
             else:
                 self.response_data['status'] = False
                 self.response_data['msg'] = "asset id is not exit or invalid!"

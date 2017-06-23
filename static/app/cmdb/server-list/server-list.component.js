@@ -109,11 +109,11 @@ angular.
               $http.post("/api/server/create/", request_data,postCfg)
                 .then(function (response) {
                     $.each(response.data.data, function (index,data) {
-                        var level = "success"
+                        var level = "success";
                         if(data.status){
                             level = "success";
                         }else {
-                            level = "error"
+                            level = "error";
                         }
                         Toastr[level](data.msg, data.ipaddress);
                     });

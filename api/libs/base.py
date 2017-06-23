@@ -89,6 +89,7 @@ class CoreView(View):
                         func = getattr(self, action)
                     else:
                         func = getattr(self, "get_not_permission")
+                    # func = getattr(self, action)
                 else:
                     func = getattr(self, 'get_invalid_login')
             else:
@@ -143,27 +144,16 @@ class CoreView(View):
 
     def check_permission(self, view):
         permission = self.permission_view_map.get(view, "")
+        print(1, permission)
         if permission:
-            if self.request.user.has_perm("%s.%s" %(self.app_name, permission)):
+            if self.request.user.has_perm("%s.%s" % (self.app_name, permission)):
                 return True
             else:
                 return False
         else:
-            return False
+            return True
 
     def get_not_permission(self):
         self.response_data['info'] = "Permission denied"
         self.response_data['status'] = False
         self.status_code = 403
-
-
-
-
-
-
-
-
-
-
-
-

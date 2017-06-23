@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cmdb.apps.CmdbConfig',
+    'guardian'
 ]
 
 MIDDLEWARE = [
@@ -117,6 +118,11 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     "%s/%s" % (BASE_DIR, "static"),
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # 这是Django默认的
+    'guardian.backends.ObjectPermissionBackend',  # 这是guardian的
 )
 
 ASSET_TYPE_CHOICES = (('server', u'服务器'),
