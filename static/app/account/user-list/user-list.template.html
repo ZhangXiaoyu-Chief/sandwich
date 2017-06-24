@@ -2,7 +2,7 @@
         <section id="page-title">
             <div class="row">
                 <div class="col-sm-8">
-                    <h1 class="mainTitle">服务器管理</h1>
+                    <h1 class="mainTitle">用户管理</h1>
                 </div>
                 <ol class="breadcrumb">
                     <li>
@@ -43,6 +43,7 @@
                                 <th> 所属组 </th>
                                 <th> 状态 </th>
                                 <th> 注册日期 </th>
+                                <th> 操作 </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,12 +51,13 @@
                                 <td> {{ user.id }} </td>
                                 <td> <a href="#!/users/{{user.id}}">{{ user.username }}</a> </td>
                                 <td> {{ user.nickname }} </td>
-                                <td> {{ user.avatar }} </td>
+                                <td> <img class="avatar-image" src="/{{ user.avatar }}"> </td>
                                 <td> {{ user.email }} </td>
                                 <td> {{ $ctrl.get_usertype(user.is_superuser) }} </td>
                                 <td> {{ user.groups }} </td>
                                 <td> <span class="label {{ $ctrl.get_status_label(user.status) }}"> {{ $ctrl.get_status_str(user.status) }} </span>  </td>
                                 <td> {{ user.create_date }} </td>
+                                <td><span class="todo-bar"><i class="fa fa-edit"></i></span><span class="todo-bar"><i class="fa fa-times-circle-o"></i></span></td>
                             </tr>
                         </tbody>
                     </table>

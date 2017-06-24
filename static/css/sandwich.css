@@ -54,3 +54,8 @@ ul.sub-menu li a {
     margin-top: -2px;
     border-radius: 20%;
 }
+.todo-bar{
+    padding-right: 7px;
+    color: #007AFF;
+    font-size: 18px
+}
