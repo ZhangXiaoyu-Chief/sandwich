@@ -20,6 +20,9 @@ angular.
         when('/servers/:assetId', {
           template: '<server-detail></server-detail>'
         }).
+        when('/users', {
+          template: '<user-list></user-list>'
+        }).
         otherwise('/index');
     }
   ]);

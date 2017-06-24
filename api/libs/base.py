@@ -11,6 +11,7 @@ class CoreView(View):
     permission_view_map = {
 
     }
+    superuser_required_action = []
     app_name = ""
     login_required_action = []
 
@@ -85,7 +86,7 @@ class CoreView(View):
         if hasattr(self, action):
             if action in self.login_required_action:
                 if self.request.user and self.request.user.is_authenticated():
-                    if self.check_permission(action):
+                    if self.check_permission(action) and self.check_superuser(action):
                         func = getattr(self, action)
                     else:
                         func = getattr(self, "get_not_permission")
@@ -157,3 +158,12 @@ class CoreView(View):
         self.response_data['info'] = "Permission denied"
         self.response_data['status'] = False
         self.status_code = 403
+
+    def check_superuser(self, view):
+        if view in self.superuser_required_action:
+            if self.request.user.is_superuser:
+                return True
+            else:
+                return False
+        else:
+            return True

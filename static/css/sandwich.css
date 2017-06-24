@@ -47,3 +47,10 @@ ul.sub-menu li a {
     position: fixed;
     z-index: 1050;
 }
+.avatar-image{
+    float: left;
+    margin-right: 5px;
+    width: 39px;
+    margin-top: -2px;
+    border-radius: 20%;
+}

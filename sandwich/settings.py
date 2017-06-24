@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cmdb.apps.CmdbConfig',
+    'account.apps.AccountConfig',
     'guardian'
 ]
 
@@ -155,3 +156,7 @@ EVENT_TYPE_CHOICES = ((0, u'初始化'),
                       (7, u'其它'),
                       )
 LOGIN_URL = "/login/"
+
+UPLOADS_PATH = {
+    'avatar': 'static/uploads/avatar/',
+}

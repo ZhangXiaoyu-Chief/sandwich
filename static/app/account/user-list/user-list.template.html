@@ -1,0 +1,195 @@
+
+        <section id="page-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h1 class="mainTitle">服务器管理</h1>
+                </div>
+                <ol class="breadcrumb">
+                    <li>
+                        <span>HOME</span>
+                    </li>
+                    <li>
+                        <span>系统设置</span>
+                    </li>
+                    <li class="active">
+                        <span>用户管理</span>
+                    </li>
+                </ol>
+            </div>
+        </section>
+        <div class="container-fluid container-fullw bg-white">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-7 page-tool-bar">
+                            <a class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg" ng-click="$ctrl.init_create_form_data(createForm)">
+                                <i class="ti-plus"></i>
+                                新增用户</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> 用户名 </th>
+                                <th> 昵称 </th>
+                                <th> 头像 </th>
+                                <th> 邮箱 </th>
+                                <th> 用户类型 </th>
+                                <th> 所属组 </th>
+                                <th> 状态 </th>
+                                <th> 注册日期 </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in $ctrl.users">
+                                <td> {{ user.id }} </td>
+                                <td> <a href="#!/users/{{user.id}}">{{ user.username }}</a> </td>
+                                <td> {{ user.nickname }} </td>
+                                <td> {{ user.avatar }} </td>
+                                <td> {{ user.email }} </td>
+                                <td> {{ $ctrl.get_usertype(user.is_superuser) }} </td>
+                                <td> {{ user.groups }} </td>
+                                <td> <span class="label {{ $ctrl.get_status_label(user.status) }}"> {{ $ctrl.get_status_str(user.status) }} </span>  </td>
+                                <td> {{ user.create_date }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flyover" ng-show="$ctrl.loading">
+                    <div class="mask"></div>
+                    <div class="alert">
+                        <strong><img src="/static/images/loading.gif" width="64"></strong>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal fade bs-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i></span>
+                        </button>
+                        <h4 class="modal-title">添加用户</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" class="form-horizontal" name="createForm" novalidate>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.username.$dirty &&  createForm.username.$invalid]">
+                                <label class="col-sm-2 control-label" for="username">
+                                    用户名
+                                </label>
+                                <div class="col-sm-10" >
+                                    <input type="text" name="username" placeholder="用户名（5-16个字符）" id="username" class="form-control" required ng-model="$ctrl.create_form_data.username" minlength=5 maxlength="16">
+                                    <span ng-show="createForm.username.$dirty &&  createForm.username.$invalid">
+                                        <span ng-show="createForm.username.$error.required" class="help-block">用户名不能为空</span>
+                                        <span ng-show="createForm.username.$error.minlength||createForm.username.$error.minlength" class="help-block">用户名长度必须在5-16之间</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="avator">
+                                    头像
+                                </label>
+                                <div class="col-sm-10" >
+                                    <img class="avatar-image" src="/{{ $ctrl.create_form_data.avatar }}">
+                                    <span class="btn btn-success btn-xs fileinput-button"  style="margin-top: 8px"> <i class="ti-upload"></i> <span>上传图片</span>
+                                        <input type="file" name="avator" accept="image/jpg,image/jpeg,image/png,image/gif" id="avatar" onchange="angular.element(this).scope().$ctrl.upload_avatar(createForm)" ng-model="$ctrl.create_form_data.avatar">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.nickname.$dirty &&  createForm.nickname.$invalid]">
+                                <label class="col-sm-2 control-label" for="nickname">
+                                    昵称
+                                </label>
+                                <div class="col-sm-10" >
+                                    <input type="text" name="nickname" placeholder="昵称" id="nickname" class="form-control" ng-model="$ctrl.create_form_data.nickname" maxlength="16">
+                                    <span ng-show="createForm.nickname.$dirty &&  createForm.nickname.$invalid">
+                                        <span ng-show="createForm.nickname.$error.maxlength" class="help-block">昵称不得超过16个字符</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.email.$dirty &&  createForm.email.$invalid]">
+                                <label class="col-sm-2 control-label" for="email">
+                                    邮箱
+                                </label>
+                                <div class="col-sm-10" >
+                                    <input type="email" name="email" placeholder="邮箱" id="email" class="form-control" ng-model="$ctrl.create_form_data.email" maxlength="32">
+                                    <span ng-show="createForm.email.$dirty &&  createForm.email.$invalid">
+                                        <span ng-show="createForm.email.$error.email" class="help-block">错误的格式</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.password.$dirty &&  createForm.password.$invalid]">
+                                <label class="col-sm-2 control-label" for="password">
+                                    密码
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="password" name="password" placeholder="密码" id="password" class="form-control" required ng-model="$ctrl.create_form_data.password" minlength=5 maxlength=32>
+                                    <span ng-show="createForm.password.$dirty &&  createForm.password.$invalid">
+                                        <span ng-show="createForm.password.$error.required" class="help-block">密码必须填写</span>
+                                        <span ng-show="createForm.password.$error.minlength||createForm.password.$error.maxlength" class="help-block">密码必须是5-32个字符之间</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.password.$dirty &&  createForm.password.$valid && createForm.password2.$dirty && $ctrl.create_form_data.password !== $ctrl.create_form_data.password2]">
+                                <label class="col-sm-2 control-label" for="password2">
+                                    确认密码
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="password" name="password2" placeholder="确认密码" id="password2" class="form-control" required ng-model="$ctrl.create_form_data.password2">
+                                    <span ng-show="createForm.password.$dirty &&  createForm.password.$valid && createForm.password2.$dirty">
+                                        <span ng-show="$ctrl.create_form_data.password !== $ctrl.create_form_data.password2" class="help-block">密码与确认密码必须一致</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="superuser">
+                                    超级用户
+                                </label>
+                                <div class="col-sm-10">
+                                    <div class="checkbox clip-check check-primary">
+                                        <input type="checkbox" id="superuser" ng-model="$ctrl.create_form_data.is_superuser">
+                                        <label for="superuser">
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="actvie">
+                                    活动
+                                </label>
+                                <div class="col-sm-10">
+                                    <div class="checkbox clip-check check-primary">
+                                        <input type="checkbox" id="actvie" value="1" name="active" ng-model="$ctrl.create_form_data.active">
+                                        <label for="actvie">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-disabled="createForm.$invalid" ng-click="$ctrl.create_user(createForm)" data-dismiss="modal">
+                            确定
+                        </button>
+                        <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
