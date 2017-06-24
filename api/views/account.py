@@ -29,7 +29,7 @@ class Account(CoreView):
         password = self.parameters('password')
         email = self.parameters('email')
         is_active = True if self.parameters('active') == 'true' else False
-        is_superuser = True if self.parameters('is_superuser') else False
+        is_superuser = True if self.parameters('is_superuser') == 'true' else False
         nickname = self.parameters('nickname')
         avatar = self.parameters('avatar')
         user_obj = User.objects.create(username=username, password=password, email=email,
