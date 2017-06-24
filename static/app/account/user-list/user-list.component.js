@@ -63,6 +63,8 @@ angular.module('userList').component('userList', {
                 $http.post("/api/account/create/", request_data, postCfg)
                     .then(function (response) {
                         self.loading = false
+                        Toastr["success"]("创建用户成功", "成功");
+                        self.get_data();
                     }, function (response) {
                         self.loading= false
                         if (response.status === 401) {
@@ -70,6 +72,9 @@ angular.module('userList').component('userList', {
                         }
                         if(response.status===403){
                             Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
+                        }
+                        if(response.status===500){
+                            Toastr["error"]("创建用户失败", "未知错误");
                         }
                     });
             }

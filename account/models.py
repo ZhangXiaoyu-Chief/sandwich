@@ -23,7 +23,7 @@ class UserProfile(models.Model):
             "email": self.user.email,
             "is_superuser": self.user.is_superuser,
             "status": self.user.is_active,
-            "create_date": self.user.date_joined,
+            "create_date": self.user.date_joined.strftime("%Y-%m-%d %H:%M"),
             # "last_date": self.user.get_latest_by()
             "group": [group.name for group in self.user.groups.all()]
         }
