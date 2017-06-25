@@ -7,6 +7,7 @@ angular.module('userList').component('userList', {
     controller: ['$http', 'Toastr', function ($http, Toastr) {
         var self = this;
         self.reader = new FileReader();
+        // self.avatar = "static/images/default-user.png";
         self.avatar = "static/images/default-user.png";
         this.get_status_label = function (status) {
             if (status) {
@@ -52,12 +53,6 @@ angular.module('userList').component('userList', {
                         return $.param(data);
                     }
                 };
-                // var username = $('#username').val();
-                // var password = $('#password').val();
-                // var nickname = $('#nickname').val();
-                // var email = $('#email').val();
-                // var is_superuser = $('#superuser').prop("checked")
-                // var active = $('#actvie').prop("checked")
                 var request_data = self.create_form_data;
                 self.loading = true
                 $http.post("/api/account/create/", request_data, postCfg)
@@ -97,8 +92,9 @@ angular.module('userList').component('userList', {
                 }
             }).then(function (response) {
                 self.create_form_data.avatar = response.data.data;   //返回上传后所在的路径
+                self.avatar = response.data.data;   //返回上传后所在的路径
             }, function (response) {
-                Toastr["error"]("上传文件失败", "错误");
+                Toastr["error"]("上传头像失败", "错误");
             });
         };
         this.init_create_form_data = function (form) {
@@ -119,6 +115,56 @@ angular.module('userList').component('userList', {
             form.password.$pristine = true;
             // form.nickname.$dirty = false;
             // form.nickname.$pristine = true;
+        };
+        this.forbidden = function (user_id) {
+            var postCfg = {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (data) {
+                    return $.param(data);
+                }
+            };
+            var request_data = {"user_id": user_id}
+            self.loading = true;
+            $http.post("/api/account/forbidden/", request_data, postCfg).then(function (response) {
+                self.loading = false
+                Toastr["success"]("禁用用户成功", "成功");
+                self.get_data();
+            }, function (response) {
+                self.loading= false
+                if (response.status === 401) {
+                    window.location.href = response.data.data.login_url
+                }
+                if(response.status===403){
+                    Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
+                }
+                if(response.status===500){
+                    Toastr["error"]("禁用用户失败", "未知错误");
+                }
+            });
+        };
+        this.init_edit_form_data = function (form, user_id) {
+            self.loading = true;
+            $http.get("/api/account/user/?user_id=" + user_id).then(function (response) {
+                self.edit_form_data = response.data.data;
+                self.avatar = response.data.data.avatar;
+                self.loading = false;
+            }, function (response) {
+                self.loading = false;
+                self.loading= false;
+                console.log(response.status)
+                if (response.status === 401) {
+                    window.location.href = response.data.data.login_url
+                }
+                if(response.status===403){
+                    Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
+                }
+                if(response.status===500){
+                    Toastr["error"]("获取用户信息失败", "未知错误");
+                }
+                if(response.status===404){
+                    Toastr["error"](response.data.info, "错误");
+                }
+            });
         };
         // this.init_create_form_data();
     }]
