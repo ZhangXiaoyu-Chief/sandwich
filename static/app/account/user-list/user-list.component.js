@@ -116,7 +116,7 @@ angular.module('userList').component('userList', {
             // form.nickname.$dirty = false;
             // form.nickname.$pristine = true;
         };
-        this.forbidden = function (user_id) {
+        this.disable = function (user_id) {
             var postCfg = {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: function (data) {
@@ -125,7 +125,7 @@ angular.module('userList').component('userList', {
             };
             var request_data = {"user_id": user_id}
             self.loading = true;
-            $http.post("/api/account/forbidden/", request_data, postCfg).then(function (response) {
+            $http.post("/api/account/disable/", request_data, postCfg).then(function (response) {
                 self.loading = false
                 Toastr["success"]("禁用用户成功", "成功");
                 self.get_data();
@@ -139,6 +139,32 @@ angular.module('userList').component('userList', {
                 }
                 if(response.status===500){
                     Toastr["error"]("禁用用户失败", "未知错误");
+                }
+            });
+        };
+        this.enable = function (user_id) {
+            var postCfg = {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (data) {
+                    return $.param(data);
+                }
+            };
+            var request_data = {"user_id": user_id}
+            self.loading = true;
+            $http.post("/api/account/enable/", request_data, postCfg).then(function (response) {
+                self.loading = false;
+                Toastr["success"]("启用用户成功", "成功");
+                self.get_data();
+            }, function (response) {
+                self.loading= false;
+                if (response.status === 401) {
+                    window.location.href = response.data.data.login_url
+                }
+                if(response.status===403){
+                    Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
+                }
+                if(response.status===500){
+                    Toastr["error"]("启用用户失败", "未知错误");
                 }
             });
         };

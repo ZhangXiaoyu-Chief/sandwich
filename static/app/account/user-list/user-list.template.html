@@ -57,7 +57,15 @@
                                 <td> {{ user.groups }} </td>
                                 <td> <span class="label {{ $ctrl.get_status_label(user.status) }}"> {{ $ctrl.get_status_str(user.status) }} </span>  </td>
                                 <td> {{ user.create_date }} </td>
-                                <td><span class="todo-bar"><i class="fa fa-edit" data-toggle="modal" data-target=".edit-model" ng-click="$ctrl.init_edit_form_data(editForm, user.id)"></i></span><span class="todo-bar" ng-show="user.status"><i class="fa fa-times-circle-o" ng-click="$ctrl.forbidden(user.id)"></i></span></td>
+                                <td>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-edit" data-toggle="modal" data-target=".edit-model" ng-click="$ctrl.init_edit_form_data(editForm, user.id)"  title="编辑此用户"></i>
+                                    </span>
+                                    <span class="todo-bar" ng-show="user.status"><i class="fa fa-lock" ng-click="$ctrl.disable(user.id)" title="禁用此用户"></i>
+                                    </span>
+                                    <span class="todo-bar" ng-show="! user.status"><i class="fa fa-key" ng-click="$ctrl.enable(user.id)" title="启用此用户"></i>
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -266,7 +274,7 @@
                                 </label>
                                 <div class="col-sm-10">
                                     <div class="checkbox clip-check check-primary">
-                                        <input type="checkbox" id="edit_active" value="1" name="active" ng-model="$ctrl.edit_form_data.active">
+                                        <input type="checkbox" id="edit_active" value="1" name="active" ng-model="$ctrl.edit_form_data.status">
                                         <label for="edit_active">
                                         </label>
                                     </div>
