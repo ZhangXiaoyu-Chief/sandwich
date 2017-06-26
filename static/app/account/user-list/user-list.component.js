@@ -234,6 +234,48 @@ angular.module('userList').component('userList', {
                 }
             });
         };
+        this.init_pass_form_data = function (form, user_id) {
+            self.pass_form_data = {
+                "user_id": user_id,
+                "newpassword": "",
+                "newpassword2": ""
+            };
+            form.newpassword.$dirty = false;
+            form.newpassword.$pristine = true;
+            form.newpassword2.$dirty = false;
+            form.newpassword2.$pristine = true;
+        };
+        this.change_password = function (form) {
+            if (!form.$invalid) {
+                var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = self.pass_form_data;
+                self.loading = true;
+                $http.post("/api/account/changepwd/", request_data, postCfg)
+                    .then(function (response) {
+                        self.loading = false;
+                        Toastr["success"]("密码修改成功", "成功");
+                    }, function (response) {
+                        self.loading= false;
+                        if (response.status === 401) {
+                            window.location.href = response.data.data.login_url
+                        }
+                        if(response.status===403){
+                            Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
+                        }
+                        if(response.status===500){
+                            Toastr["error"]("修改密码失败", "未知错误");
+                        }
+                        if(response.status===404){
+                            Toastr["error"]("要编辑的用户不存在或已被删除", "错误");
+                        }
+                    });
+            }
+        };
         // this.init_create_form_data();
     }]
 });

@@ -65,6 +65,9 @@
                                     </span>
                                     <span class="todo-bar" ng-show="! user.status"><i class="fa fa-key" ng-click="$ctrl.enable(user.id)" title="启用此用户"></i>
                                     </span>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-refresh" data-toggle="modal" data-target=".change-password-model" ng-click="$ctrl.init_pass_form_data(passForm, user.id)"  title="重置密码"></i>
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
@@ -294,6 +297,56 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade change-password-model"  tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i></span>
+                        </button>
+                        <h4 class="modal-title">修改密码</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" class="form-horizontal" name="passForm" novalidate>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[passForm.newpassword.$dirty &&  passForm.newpassword.$invalid]">
+                                <label class="col-sm-2 control-label" for="newpassword">
+                                    新密码
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="password" name="newpassword" placeholder="密码" id="newpassword" class="form-control" required ng-model="$ctrl.pass_form_data.newpassword" minlength=5 maxlength=32>
+                                    <span ng-show="passForm.newpassword.$dirty &&  passForm.newpassword.$invalid">
+                                        <span ng-show="passForm.newpassword.$error.required" class="help-block">密码必须填写</span>
+                                        <span ng-show="passForm.newpassword.$error.minlength||passForm.newpassword.$error.maxlength" class="help-block">密码必须是5-32个字符之间</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[passForm.newpassword.$dirty &&  passForm.newpassword.$valid && passForm.newpassword2.$dirty && $ctrl.pass_form_data.newpassword !== $ctrl.pass_form_data.newpassword2]">
+                                <label class="col-sm-2 control-label" for="newpassword2">
+                                    确认新密码
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="password" name="newpassword2" placeholder="确认密码" id="newpassword2" class="form-control" required ng-model="$ctrl.pass_form_data.newpassword2">
+                                    <span ng-show="passForm.newpassword.$dirty &&  passForm.newpassword.$valid && passForm.newpassword2.$dirty">
+                                        <span ng-show="$ctrl.pass_form_data.newpassword !== $ctrl.pass_form_data.newpassword2" class="help-block">密码与确认密码必须一致</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-disabled="passForm.$invalid" ng-click="$ctrl.change_password(passForm)" data-dismiss="modal">
+                            确定
+                        </button>
+                        <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
 
 
 

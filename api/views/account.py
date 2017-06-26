@@ -95,5 +95,24 @@ class Account(CoreView):
                 user_profile_obj.save()
             except IntegrityError:
                 self.status_code = 416
+            except Exception:
+                self.status_code = 500
+        else:
+            self.status_code = 404
+
+    def post_changepwd(self):
+        '''
+        修改密码视图，由于使用了LDAP，已废弃
+        '''
+
+        newpassword = self.parameters("newpassword")
+        user_id = self.parameters("user_id")
+        user_profile_obj = UserProfile.objects.filter(id=user_id).first()
+        if user_profile_obj:
+            try:
+                user_profile_obj.user.set_password(newpassword)
+                user_profile_obj.user.save()
+            except:
+                self.status_code = 500
         else:
             self.status_code = 404
