@@ -55,15 +55,13 @@
                                 <td> {{ user.email }} </td>
                                 <td> {{ $ctrl.get_usertype(user.is_superuser) }} </td>
                                 <td> {{ user.groups }} </td>
-                                <td> <span class="label {{ $ctrl.get_status_label(user.status) }}"> {{ $ctrl.get_status_str(user.status) }} </span>  </td>
+                                <td>
+                                    <span class="switchery switchery-default " ng-class="{true: 'switchery-open', false: 'switchery-close'}[user.status]" ng-click="$ctrl.change_status(user)"><small style=""></small></span>
+                                </td>
                                 <td> {{ user.create_date }} </td>
                                 <td>
                                     <span class="todo-bar">
                                         <i class="fa fa-edit" data-toggle="modal" data-target=".edit-model" ng-click="$ctrl.init_edit_form_data(editForm, user.id)"  title="编辑此用户"></i>
-                                    </span>
-                                    <span class="todo-bar" ng-show="user.status"><i class="fa fa-lock" ng-click="$ctrl.disable(user.id)" title="禁用此用户"></i>
-                                    </span>
-                                    <span class="todo-bar" ng-show="! user.status"><i class="fa fa-key" ng-click="$ctrl.enable(user.id)" title="启用此用户"></i>
                                     </span>
                                     <span class="todo-bar">
                                         <i class="fa fa-refresh" data-toggle="modal" data-target=".change-password-model" ng-click="$ctrl.init_pass_form_data(passForm, user.id)"  title="重置密码"></i>

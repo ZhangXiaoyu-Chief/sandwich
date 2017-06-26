@@ -151,22 +151,83 @@ angular.module('userList').component('userList', {
             form.username.$pristine = true;
             form.password.$dirty = false;
             form.password.$pristine = true;
-            // form.nickname.$dirty = false;
-            // form.nickname.$pristine = true;
         };
-        this.disable = function (user_id) {
+        // this.disable = function (user_id) {
+        //     var postCfg = {
+        //         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        //         transformRequest: function (data) {
+        //             return $.param(data);
+        //         }
+        //     };
+        //     var request_data = {"user_id": user_id}
+        //     self.loading = true;
+        //     $http.post("/api/account/disable/", request_data, postCfg).then(function (response) {
+        //         self.loading = false;
+        //         Toastr["success"]("禁用用户成功", "成功");
+        //         self.get_data();
+        //     }, function (response) {
+        //         self.loading= false;
+        //         if (response.status === 401) {
+        //             window.location.href = response.data.data.login_url
+        //         }
+        //         if(response.status===403){
+        //             Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
+        //         }
+        //         if(response.status===500){
+        //             Toastr["error"]("禁用用户失败", "未知错误");
+        //         }
+        //         if(response.status===404){
+        //             Toastr["error"]("要禁用的用户不存在或已被删除", "错误");
+        //         }
+        //     });
+        // };
+        // this.enable = function (user_id) {
+        //     var postCfg = {
+        //         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        //         transformRequest: function (data) {
+        //             return $.param(data);
+        //         }
+        //     };
+        //     var request_data = {"user_id": user_id}
+        //     self.loading = true;
+        //     $http.post("/api/account/enable/", request_data, postCfg).then(function (response) {
+        //         self.loading = false;
+        //         Toastr["success"]("启用用户成功", "成功");
+        //         self.get_data();
+        //     }, function (response) {
+        //         self.loading= false;
+        //         if (response.status === 401) {
+        //             window.location.href = response.data.data.login_url
+        //         }
+        //         if(response.status===403){
+        //             Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
+        //         }
+        //         if(response.status===500){
+        //             Toastr["error"]("启用用户失败", "未知错误");
+        //         }
+        //         if(response.status===404){
+        //             Toastr["error"]("要启用的用户不存在或已被删除", "错误");
+        //         }
+        //     });
+        // };
+        this.change_status = function(user){
             var postCfg = {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: function (data) {
                     return $.param(data);
                 }
             };
-            var request_data = {"user_id": user_id}
+            var request_data = {"user_id": user.id,"status": ! user.status};
+            var action="禁用";
+            if(!user.status){
+                action="启用";
+            }
             self.loading = true;
-            $http.post("/api/account/disable/", request_data, postCfg).then(function (response) {
+            $http.post("/api/account/change_status/", request_data, postCfg).then(function (response) {
                 self.loading = false;
-                Toastr["success"]("禁用用户成功", "成功");
+                Toastr["success"](action + "用户成功", "成功");
                 self.get_data();
+
             }, function (response) {
                 self.loading= false;
                 if (response.status === 401) {
@@ -176,41 +237,13 @@ angular.module('userList').component('userList', {
                     Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
                 }
                 if(response.status===500){
-                    Toastr["error"]("禁用用户失败", "未知错误");
+                    Toastr["error"](action + "用户失败", "未知错误");
                 }
                 if(response.status===404){
-                    Toastr["error"]("要禁用的用户不存在或已被删除", "错误");
+                    Toastr["error"]("要"+action +"的用户不存在或已被删除", "错误");
                 }
             });
-        };
-        this.enable = function (user_id) {
-            var postCfg = {
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function (data) {
-                    return $.param(data);
-                }
-            };
-            var request_data = {"user_id": user_id}
-            self.loading = true;
-            $http.post("/api/account/enable/", request_data, postCfg).then(function (response) {
-                self.loading = false;
-                Toastr["success"]("启用用户成功", "成功");
-                self.get_data();
-            }, function (response) {
-                self.loading= false;
-                if (response.status === 401) {
-                    window.location.href = response.data.data.login_url
-                }
-                if(response.status===403){
-                    Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                }
-                if(response.status===500){
-                    Toastr["error"]("启用用户失败", "未知错误");
-                }
-                if(response.status===404){
-                    Toastr["error"]("要启用的用户不存在或已被删除", "错误");
-                }
-            });
+
         };
         this.init_edit_form_data = function (form, user_id) {
             self.loading = true;

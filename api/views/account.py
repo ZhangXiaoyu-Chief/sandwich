@@ -40,11 +40,36 @@ class Account(CoreView):
 
         self.response_data['data'] = user_profile_obj.get_info()
 
-    def post_disable(self):
+    # def post_disable(self):
+    #     user_id = self.parameters("user_id")
+    #     user_profile_obj = UserProfile.objects.filter(id=user_id).first()
+    #     if user_profile_obj and user_profile_obj.user:
+    #         user_profile_obj.user.is_active = False
+    #         user_profile_obj.user.save()
+    #     else:
+    #         self.response_data['status'] = False
+    #         self.response_data['data'] = "要编辑的用户不存在"
+    #         self.status_code = 404
+    #     self.response_data['data'] = user_profile_obj.get_info()
+    #
+    # def post_enable(self):
+    #     user_id = self.parameters("user_id")
+    #     user_profile_obj = UserProfile.objects.filter(id=user_id).first()
+    #     if user_profile_obj and user_profile_obj.user:
+    #         user_profile_obj.user.is_active = True
+    #         user_profile_obj.user.save()
+    #     else:
+    #         self.response_data['status'] = False
+    #         self.response_data['data'] = "要编辑的用户不存在"
+    #         self.status_code = 404
+    #     self.response_data['data'] = user_profile_obj.get_info()
+
+    def post_change_status(self):
         user_id = self.parameters("user_id")
+        is_active = True if self.parameters('status') == 'true' else False
         user_profile_obj = UserProfile.objects.filter(id=user_id).first()
         if user_profile_obj and user_profile_obj.user:
-            user_profile_obj.user.is_active = False
+            user_profile_obj.user.is_active = is_active
             user_profile_obj.user.save()
         else:
             self.response_data['status'] = False
@@ -52,17 +77,6 @@ class Account(CoreView):
             self.status_code = 404
         self.response_data['data'] = user_profile_obj.get_info()
 
-    def post_enable(self):
-        user_id = self.parameters("user_id")
-        user_profile_obj = UserProfile.objects.filter(id=user_id).first()
-        if user_profile_obj and user_profile_obj.user:
-            user_profile_obj.user.is_active = True
-            user_profile_obj.user.save()
-        else:
-            self.response_data['status'] = False
-            self.response_data['data'] = "要编辑的用户不存在"
-            self.status_code = 404
-        self.response_data['data'] = user_profile_obj.get_info()
 
     def get_user(self):
         user_id = self.parameters("user_id")
