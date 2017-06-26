@@ -61,7 +61,16 @@ class Server(CoreView):
                     self.get_not_permission()
             else:
                 self.response_data['status'] = False
-                self.response_data['msg'] = "asset id is not exit or invalid!"
+                self.response_data['info'] = "asset id is not exit or invalid!"
         else:
             self.response_data['status'] = False
-            self.response_data['msg'] = "asset id is not exit or invalid!"
+            self.response_data['info'] = "asset id is not exit or invalid!"
+
+    def post_delete(self):
+        asset_id = self.parameters("server_id")
+        try:
+            asset_obj = Asset.objects.filter(id=asset_id).first()
+            asset_obj.delete()
+        except Exception as e:
+            self.response_data['status'] = False
+            self.status_code = 500

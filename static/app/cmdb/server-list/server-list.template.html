@@ -60,7 +60,11 @@
                                 <td> {{ server.cpu_model }} </td>
                                 <td> {{ server.os_distribution }} </td>
                                 <td> <span class="label {{ $ctrl.labels[ server.status ] }}"> {{ server.status }} </span>  </td>
-                                <td></td>
+                                <td>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-close" ng-click="$ctrl.delete_host(server.id)"  title="删除服务器"></i>
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

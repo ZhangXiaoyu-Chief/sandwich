@@ -47,6 +47,7 @@ class Account(CoreView):
             user_profile_obj.user.is_active = False
             user_profile_obj.user.save()
         else:
+            self.response_data['status'] = False
             self.response_data['data'] = "要编辑的用户不存在"
             self.status_code = 404
         self.response_data['data'] = user_profile_obj.get_info()
@@ -58,6 +59,7 @@ class Account(CoreView):
             user_profile_obj.user.is_active = True
             user_profile_obj.user.save()
         else:
+            self.response_data['status'] = False
             self.response_data['data'] = "要编辑的用户不存在"
             self.status_code = 404
         self.response_data['data'] = user_profile_obj.get_info()
@@ -94,17 +96,19 @@ class Account(CoreView):
                 user_profile_obj.nickname = nickname
                 user_profile_obj.save()
             except IntegrityError:
+                self.response_data['status'] = False
                 self.status_code = 416
             except Exception:
+                self.response_data['status'] = False
                 self.status_code = 500
         else:
+            self.response_data['status'] = False
             self.status_code = 404
 
     def post_changepwd(self):
-        '''
-        修改密码视图，由于使用了LDAP，已废弃
-        '''
-
+        """
+        修改密码视图
+        """
         newpassword = self.parameters("newpassword")
         user_id = self.parameters("user_id")
         user_profile_obj = UserProfile.objects.filter(id=user_id).first()
@@ -113,6 +117,8 @@ class Account(CoreView):
                 user_profile_obj.user.set_password(newpassword)
                 user_profile_obj.user.save()
             except:
+                self.response_data['status'] = False
                 self.status_code = 500
         else:
+            self.response_data['status'] = False
             self.status_code = 404
