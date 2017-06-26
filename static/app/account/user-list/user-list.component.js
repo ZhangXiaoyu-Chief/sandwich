@@ -54,7 +54,8 @@ angular.module('userList').component('userList', {
                     }
                 };
                 var request_data = self.create_form_data;
-                self.loading = true
+                self.loading = true;
+                request_data.avatar = self.avatar;
                 $http.post("/api/account/create/", request_data, postCfg)
                     .then(function (response) {
                         self.loading = false
@@ -143,9 +144,9 @@ angular.module('userList').component('userList', {
                 "avatar": "static/images/default-user.png",
                 "email": "",
                 "is_superuser": false,
-                "active": true,
+                "status": true,
             };
-            // self.avatar = "static/images/default-user.png";
+            self.avatar = "static/images/default-user.png";
             form.username.$dirty = false;
             form.username.$pristine = true;
             form.password.$dirty = false;
@@ -219,7 +220,6 @@ angular.module('userList').component('userList', {
                 self.loading = false;
             }, function (response) {
                 self.loading = false;
-                self.loading= false;
                 if (response.status === 401) {
                     window.location.href = response.data.data.login_url
                 }

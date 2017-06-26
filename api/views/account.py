@@ -30,7 +30,7 @@ class Account(CoreView):
         username = self.parameters('username')
         password = self.parameters('password')
         email = self.parameters('email')
-        is_active = True if self.parameters('active') == 'true' else False
+        is_active = True if self.parameters('status') == 'true' else False
         is_superuser = True if self.parameters('is_superuser') == 'true' else False
         nickname = self.parameters('nickname')
         avatar = self.parameters('avatar')
@@ -78,7 +78,7 @@ class Account(CoreView):
         user_id = self.parameters('id')
         username = self.parameters('username')
         email = self.parameters('email')
-        is_active = True if self.parameters('active') == 'true' else False
+        is_active = True if self.parameters('status') == 'true' else False
         is_superuser = True if self.parameters('is_superuser') == 'true' else False
         nickname = self.parameters('nickname')
         avatar = self.parameters('avatar')
