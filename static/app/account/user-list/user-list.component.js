@@ -75,10 +75,46 @@ angular.module('userList').component('userList', {
             }
 
         };
+        this.edit_user = function (form) {
+            if (!form.$invalid) {
+                var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = self.edit_form_data;
+                self.loading = true;
+                $http.post("/api/account/change/", request_data, postCfg)
+                    .then(function (response) {
+                        self.loading = false
+                        Toastr["success"]("编辑用户成功", "成功");
+                        self.get_data();
+                    }, function (response) {
+                        self.loading= false
+                        if (response.status === 401) {
+                            window.location.href = response.data.data.login_url
+                        }
+                        if(response.status===403){
+                            Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
+                        }
+                        if(response.status===500){
+                            Toastr["error"]("编辑用户失败", "未知错误");
+                        }
+                        if(response.status===416){
+                            Toastr["error"]("用户名已经存在", "错误");
+                        }
+                        if(response.status===404){
+                            Toastr["error"]("要编辑的用户不存在或已被删除", "错误");
+                        }
+                    });
+            }
+
+        };
         // this.check_superuser = function () {
         //     console.log($("#checkbox1").prop("checked"))
         // }
-        this.upload_avatar = function (form) {
+        this.upload_avatar = function (form,selecter) {
             $http({
                 url: '/api/upload/upload_avatar/',
                 method: 'POST',
@@ -87,11 +123,11 @@ angular.module('userList').component('userList', {
                 },
                 transformRequest: function() {
                     var formData = new FormData();
-                    formData.append('file', $('#avatar')[0].files[0]  );
+                    formData.append('file', $(selecter)[0].files[0]  );
                     return formData;
                 }
             }).then(function (response) {
-                self.create_form_data.avatar = response.data.data;   //返回上传后所在的路径
+                // self.create_form_data.avatar = response.data.data;   //返回上传后所在的路径
                 self.avatar = response.data.data;   //返回上传后所在的路径
             }, function (response) {
                 Toastr["error"]("上传头像失败", "错误");
@@ -126,11 +162,11 @@ angular.module('userList').component('userList', {
             var request_data = {"user_id": user_id}
             self.loading = true;
             $http.post("/api/account/disable/", request_data, postCfg).then(function (response) {
-                self.loading = false
+                self.loading = false;
                 Toastr["success"]("禁用用户成功", "成功");
                 self.get_data();
             }, function (response) {
-                self.loading= false
+                self.loading= false;
                 if (response.status === 401) {
                     window.location.href = response.data.data.login_url
                 }
@@ -139,6 +175,9 @@ angular.module('userList').component('userList', {
                 }
                 if(response.status===500){
                     Toastr["error"]("禁用用户失败", "未知错误");
+                }
+                if(response.status===404){
+                    Toastr["error"]("要禁用的用户不存在或已被删除", "错误");
                 }
             });
         };
@@ -166,6 +205,9 @@ angular.module('userList').component('userList', {
                 if(response.status===500){
                     Toastr["error"]("启用用户失败", "未知错误");
                 }
+                if(response.status===404){
+                    Toastr["error"]("要启用的用户不存在或已被删除", "错误");
+                }
             });
         };
         this.init_edit_form_data = function (form, user_id) {
@@ -177,7 +219,6 @@ angular.module('userList').component('userList', {
             }, function (response) {
                 self.loading = false;
                 self.loading= false;
-                console.log(response.status)
                 if (response.status === 401) {
                     window.location.href = response.data.data.login_url
                 }
@@ -188,7 +229,7 @@ angular.module('userList').component('userList', {
                     Toastr["error"]("获取用户信息失败", "未知错误");
                 }
                 if(response.status===404){
-                    Toastr["error"](response.data.info, "错误");
+                    Toastr["error"]("要编辑的用户不存在或已被删除", "错误");
                 }
             });
         };

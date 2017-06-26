@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from api.libs.base import CoreView
 from account.models import UserProfile
 from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
 # Create your views here.
 
 
@@ -67,5 +68,32 @@ class Account(CoreView):
         if user_profile_obj:
             self.response_data['data'] = user_profile_obj.get_info()
         else:
-            self.response_data['info'] = "要编辑的用户不存在"
+            self.status_code = 404
+
+    def post_change(self):
+        """
+        编辑用户接口
+        :return: 
+        """
+        user_id = self.parameters('id')
+        username = self.parameters('username')
+        email = self.parameters('email')
+        is_active = True if self.parameters('active') == 'true' else False
+        is_superuser = True if self.parameters('is_superuser') == 'true' else False
+        nickname = self.parameters('nickname')
+        avatar = self.parameters('avatar')
+        user_profile_obj = UserProfile.objects.filter(id=user_id).first()
+        if user_profile_obj:
+            try:
+                user_profile_obj.user.username = username
+                user_profile_obj.user.email = email
+                user_profile_obj.user.is_active = is_active
+                user_profile_obj.user.is_superuser = is_superuser
+                user_profile_obj.user.save()
+                user_profile_obj.avatar = avatar
+                user_profile_obj.nickname = nickname
+                user_profile_obj.save()
+            except IntegrityError:
+                self.status_code = 416
+        else:
             self.status_code = 404
