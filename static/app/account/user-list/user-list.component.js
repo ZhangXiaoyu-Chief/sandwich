@@ -61,7 +61,7 @@ angular.module('userList').component('userList', {
                         Toastr["success"]("创建用户成功", "成功");
                         self.get_data();
                     }, function (response) {
-                        self.loading= false
+                        self.loading= false;
                         if (response.status === 401) {
                             window.location.href = response.data.data.login_url
                         }
@@ -84,14 +84,15 @@ angular.module('userList').component('userList', {
                     }
                 };
                 var request_data = self.edit_form_data;
+                request_data.avatar = self.avatar;
                 self.loading = true;
                 $http.post("/api/account/change/", request_data, postCfg)
                     .then(function (response) {
-                        self.loading = false
+                        self.loading = false;
                         Toastr["success"]("编辑用户成功", "成功");
                         self.get_data();
                     }, function (response) {
-                        self.loading= false
+                        self.loading= false;
                         if (response.status === 401) {
                             window.location.href = response.data.data.login_url
                         }
