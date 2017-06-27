@@ -100,7 +100,7 @@
                                     <input type="text" name="username" placeholder="用户名（5-16个字符）" id="username" class="form-control" required ng-model="$ctrl.create_form_data.username" minlength=5 maxlength="16">
                                     <span ng-show="createForm.username.$dirty &&  createForm.username.$invalid">
                                         <span ng-show="createForm.username.$error.required" class="help-block">用户名不能为空</span>
-                                        <span ng-show="createForm.username.$error.minlength||createForm.username.$error.minlength" class="help-block">用户名长度必须在5-16之间</span>
+                                        <span ng-show="createForm.username.$error.minlength||createForm.username.$error.maxlength" class="help-block">用户名长度必须在5-16之间</span>
                                     </span>
                                 </div>
                             </div>
