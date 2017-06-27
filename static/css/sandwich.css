@@ -91,3 +91,19 @@ ul.sub-menu li a {
     background-color: rgb(255, 255, 255);
     transition: left 0.2s;
 }
+.select2-container--open{
+        z-index:9999999
+}
+.select2{
+    width: 100%;!important;
+}
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #aeacb4;
+    border-radius: 0px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.2;
+    /*padding: 5px 4px;*/
+    height: 34px;
+}

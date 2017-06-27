@@ -8,5 +8,6 @@ angular.module('sandwichApp',[
     'serverList',
     'ngRoute',
     'serverDetail',
-    'userList'
+    'userList',
+    'projectList'
 ]);

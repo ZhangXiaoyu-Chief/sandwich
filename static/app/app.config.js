@@ -23,6 +23,9 @@ angular.
         when('/users', {
           template: '<user-list></user-list>'
         }).
+        when('/projects', {
+          template: '<project-list></project-list>'
+        }).
         otherwise('/index');
     }
   ]);

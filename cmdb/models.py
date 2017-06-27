@@ -366,6 +366,14 @@ class BusinessUnit(models.Model):
         verbose_name = '业务线'
         verbose_name_plural = "业务线"
 
+    def get_info(self):
+        return {
+            "id": self.id,
+            "parent": self.parent_unit.name if self.parent_unit else "",
+            "name": self.name,
+            "memo": self.memo
+        }
+
 
 class Contract(models.Model):
     """
