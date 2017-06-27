@@ -103,4 +103,4 @@ ENV/
 
 .idea/*
 
-.static/uploads/*
+static/uploads/*
