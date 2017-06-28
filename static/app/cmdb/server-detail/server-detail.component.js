@@ -21,12 +21,7 @@ angular.module('serverDetail').component('serverDetail', {
                 self.loading = false;
             }, function (response) {
                 // console.log(response.status)
-                if(response.status===401){
-                    window.location.href=response.data.data.login_url
-                }
-                if(response.status===403){
-                    Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                }
+                Toastr.handle(response,"查看服务器")
                 self.loading = false;
             });
         };

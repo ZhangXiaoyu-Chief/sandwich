@@ -64,18 +64,7 @@ angular.module('userList').component('userList', {
                         $('.bs-example-modal-lg').modal('hide');
                     }, function (response) {
                         self.loading= false;
-                        if (response.status === 401) {
-                            window.location.href = response.data.data.login_url
-                        }
-                        if(response.status===403){
-                            Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                        }
-                        if(response.status===416){
-                            Toastr["error"]("创建用户失败，用户名已经存在", "错误");
-                        }
-                        if(response.status===500){
-                            Toastr["error"]("创建用户失败", "未知错误");
-                        }
+                        Toastr.handle(response, "创建");
                     });
             }
 
@@ -94,26 +83,12 @@ angular.module('userList').component('userList', {
                 $http.post("/api/account/change/", request_data, postCfg)
                     .then(function (response) {
                         self.loading = false;
-                        Toastr["success"]("编辑用户成功", "成功");
+                        Toastr.messager["success"]("编辑用户成功", "成功");
                         $('.edit-model').modal('hide');
                         self.get_data();
                     }, function (response) {
                         self.loading= false;
-                        if (response.status === 401) {
-                            window.location.href = response.data.data.login_url
-                        }
-                        if(response.status===403){
-                            Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                        }
-                        if(response.status===500){
-                            Toastr["error"]("编辑用户失败", "未知错误");
-                        }
-                        if(response.status===416){
-                            Toastr["error"]("用户名已经存在", "错误");
-                        }
-                        if(response.status===404){
-                            Toastr["error"]("要编辑的用户不存在或已被删除", "错误");
-                        }
+                        Toastr.handle(response, "编辑用户");
                     });
             }
 
@@ -137,7 +112,7 @@ angular.module('userList').component('userList', {
                 // self.create_form_data.avatar = response.data.data;   //返回上传后所在的路径
                 self.avatar = response.data.data;   //返回上传后所在的路径
             }, function (response) {
-                Toastr["error"]("上传头像失败", "错误");
+                Toastr.messager["error"]("上传头像失败", "错误");
             });
         };
         this.init_create_form_data = function (form) {
@@ -230,23 +205,12 @@ angular.module('userList').component('userList', {
             self.loading = true;
             $http.post("/api/account/change_status/", request_data, postCfg).then(function (response) {
                 self.loading = false;
-                Toastr["success"](action + "用户成功", "成功");
+                Toastr.messager["success"](action + "用户成功", "成功");
                 self.get_data();
 
             }, function (response) {
                 self.loading= false;
-                if (response.status === 401) {
-                    window.location.href = response.data.data.login_url
-                }
-                if(response.status===403){
-                    Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                }
-                if(response.status===500){
-                    Toastr["error"](action + "用户失败", "未知错误");
-                }
-                if(response.status===404){
-                    Toastr["error"]("要"+action +"的用户不存在或已被删除", "错误");
-                }
+                Toastr.handle(response, action + "用户");
             });
 
         };
@@ -258,18 +222,7 @@ angular.module('userList').component('userList', {
                 self.loading = false;
             }, function (response) {
                 self.loading = false;
-                if (response.status === 401) {
-                    window.location.href = response.data.data.login_url
-                }
-                if(response.status===403){
-                    Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                }
-                if(response.status===500){
-                    Toastr["error"]("获取用户信息失败", "未知错误");
-                }
-                if(response.status===404){
-                    Toastr["error"]("要编辑的用户不存在或已被删除", "错误");
-                }
+                Toastr.handle(response, "编辑用户");
             });
         };
         this.init_pass_form_data = function (form, user_id) {
@@ -296,21 +249,9 @@ angular.module('userList').component('userList', {
                 $http.post("/api/account/changepwd/", request_data, postCfg)
                     .then(function (response) {
                         self.loading = false;
-                        Toastr["success"]("密码修改成功", "成功");
+                        Toastr.messager["success"]("密码修改成功", "成功");
                     }, function (response) {
-                        self.loading= false;
-                        if (response.status === 401) {
-                            window.location.href = response.data.data.login_url
-                        }
-                        if(response.status===403){
-                            Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                        }
-                        if(response.status===500){
-                            Toastr["error"]("修改密码失败", "未知错误");
-                        }
-                        if(response.status===404){
-                            Toastr["error"]("要编辑的用户不存在或已被删除", "错误");
-                        }
+                        Toastr.handle(response, "修改");
                     });
             }
         };

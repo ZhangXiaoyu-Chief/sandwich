@@ -46,9 +46,7 @@ angular.module('serverList').component('serverList', {
                 self.loading = false;
             }, function (response) {
                 // 获取数据失败执行
-                if (response.status === 401) {
-                    window.location.href = response.data.data.login_url
-                }
+                Toastr.handle(response,"查看服务器列表");
                 self.loading = false;
             });
         };
@@ -113,7 +111,7 @@ angular.module('serverList').component('serverList', {
                             } else {
                                 level = "error";
                             }
-                            Toastr[level](data.msg, data.ipaddress);
+                            Toastr.messager[level](data.msg, data.ipaddress);
                         });
                     });
             }
@@ -147,18 +145,7 @@ angular.module('serverList').component('serverList', {
                         Toastr["success"]("删除服务器成功", "成功");
                     }, function (response) {
                         self.loading= false;
-                        if (response.status === 401) {
-                            window.location.href = response.data.data.login_url
-                        }
-                        if(response.status===403){
-                            Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                        }
-                        if(response.status===500){
-                            Toastr["error"]("删除服务器失败", "未知错误");
-                        }
-                        if(response.status===404){
-                            Toastr["error"]("要删除的服务器不存在或已被删除", "错误");
-                        }
+                        Toastr.handle(response,"删除服务器");
                     });
 				}
 			});
