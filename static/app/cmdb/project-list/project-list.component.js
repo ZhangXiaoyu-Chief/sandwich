@@ -28,9 +28,17 @@ angular.module('projectList').component('projectList', {
                 self.loading = false;
             }, function (response) {
                 // 获取数据失败执行
-                if (response.status === 401) {
-                    window.location.href = response.data.data.login_url
-                }
+                Toastr.handle(response,"获取项目列表");
+                self.loading = false;
+            });
+            $http.get('/api/project/list/?page=' + self.page + '&per_page=0').then(function (response) {
+
+                self.loading = false;
+                self.projects_select = response.data.data;
+
+            }, function (response) {
+                // 获取数据失败执行
+                Toastr.handle(response, "获取项目列表")
                 self.loading = false;
             });
         };
@@ -59,19 +67,8 @@ angular.module('projectList').component('projectList', {
             }
         };
         this.init_create_form_data = function (form) {
-            self.loading = true;
-            $http.get('/api/project/list/?page=' + self.page + '&per_page=0').then(function (response) {
+            // self.loading = true;
 
-                self.loading = false;
-                self.projects_select = response.data.data;
-
-            }, function (response) {
-                // 获取数据失败执行
-                if (response.status === 401) {
-                    window.location.href = response.data.data.login_url
-                }
-                self.loading = false;
-            });
 
             $.fn.modal.Constructor.prototype.enforceFocus = function() {};
             self.create_form_data = {
@@ -87,6 +84,37 @@ angular.module('projectList').component('projectList', {
             form.name.$dirty = false;
             form.name.$pristine = true;
         };
+        this.parent_id = 0
+        this.is_selected = function (parent_id) {
+            return self.parent_id === parent_id;
+        };
+        this.init_change_form_data = function (form ,project) {
+            self.change_form_data = project;
+            self.parent_id = project.parent_id;
+            // self.loading = true;
+            self.change_form_data = project;
+            $("#edit_parent").val(project.parent_id);
+            $("#edit_parent").select2({
+                    language: "zh-CN", //设置 提示语言
+                    width: "100%", //设置下拉框的宽度
+                });
+
+            // $http.get('/api/project/list/?page=' + self.page + '&per_page=0').then(function (response) {
+            //
+            //     self.loading = false;
+            //     self.change_form_data = project;
+            //     self.projects_select = response.data.data;
+            //     // $("#edit_parent").val(0);
+            // }, function (response) {
+            //     // 获取数据失败执行
+            //     if (response.status === 401) {
+            //         window.location.href = response.data.data.login_url
+            //     }
+            //     self.loading = false;
+            // });
+            form.edit_name.$dirty = false;
+            form.edit_name.$pristine = true;
+        };
         this.create_project = function (form) {
             if (!form.$invalid) {
                 self.loading = true
@@ -100,32 +128,52 @@ angular.module('projectList').component('projectList', {
                 $http.post("/api/project/create/", request_data, postCfg)
                     .then(function (response) {
                         self.loading = false;
-                        Toastr["success"]("创建成功", "成功");
+                        Toastr.messager["success"]("创建成功", "成功");
                         self.get_data();
                         $('.bs-example-modal-lg').modal('hide');
                     }, function (response) {
                         // 获取数据失败执行
-                        if (response.status === 401) {
-                            window.location.href = response.data.data.login_url
-                        }
-                        if(response.status===403){
-                            Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                        }
-                        if(response.status===416){
-                            Toastr["error"]("创建项目失败，项目名称已经存在", "错误");
-                        }
-                        if(response.status===500){
-                            Toastr["error"]("创建项目失败", "未知错误");
-                        }
+                        Toastr.handle(response, "创建项目");
                         self.loading = false;
                     });
             }
 
         };
-        this.delete_host = function (server_id) {
+        this.change_project = function (form) {
+            if (!form.$invalid) {
+
+                var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = self.change_form_data;
+                if(request_data.id !== request_data.parent_id){
+                    self.loading = true
+                    $http.post("/api/project/change/", request_data, postCfg)
+                    .then(function (response) {
+                        self.loading = false;
+                        Toastr.messager["success"]("修改成功", "成功");
+                        self.get_data();
+                        $('.edit-model').modal('hide');
+                    }, function (response) {
+                        // 获取数据失败执行
+                        Toastr.handle(response, "编辑项目");
+                        self.loading = false;
+                    });
+                }else {
+                    Toastr.messager["error"]("项目的父项目不能是自己", "错误");
+                }
+
+
+            }
+
+        };
+        this.delete_project = function (project_id) {
             swal({
 				title: "确认删除",
-				text: "确认要删除该服务器吗？删除会连同删除所有信息包括操作日志!",
+				text: "确认要删除该项目吗？删除会连同删除所有关联子项目!",
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
@@ -141,27 +189,16 @@ angular.module('projectList').component('projectList', {
                         return $.param(data);
                     }
                 };
-                var request_data = {'server_id':server_id};
+                var request_data = {'project_id':project_id};
                 self.loading = true;
-                $http.post("/api/server/delete/", request_data, postCfg)
+                $http.post("/api/project/delete/", request_data, postCfg)
                     .then(function (response) {
                         self.get_data();
                         self.loading = false;
-                        Toastr["success"]("删除服务器成功", "成功");
+                        Toastr.messager["success"]("删除项目成功", "成功");
                     }, function (response) {
                         self.loading= false;
-                        if (response.status === 401) {
-                            window.location.href = response.data.data.login_url
-                        }
-                        if(response.status===403){
-                            Toastr["error"]("对不起，您没有执行此操作的权限", "权限错误");
-                        }
-                        if(response.status===500){
-                            Toastr["error"]("删除服务器失败", "未知错误");
-                        }
-                        if(response.status===404){
-                            Toastr["error"]("要删除的服务器不存在或已被删除", "错误");
-                        }
+                        Toastr.handle(response,"删除项目");
                     });
 				}
 			});

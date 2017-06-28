@@ -370,6 +370,7 @@ class BusinessUnit(models.Model):
         return {
             "id": self.id,
             "parent": self.parent_unit.name if self.parent_unit else "",
+            "parent_id": self.parent_unit.id if self.parent_unit else 0,
             "name": self.name,
             "memo": self.memo
         }

@@ -42,3 +42,42 @@ class Project(CoreView):
         except Exception:
             self.response_data['status'] = False
             self.status_code = 500
+
+    def post_delete(self):
+        project_id = self.parameters("project_id")
+        try:
+            project_obj = BusinessUnit.objects.filter(id=project_id).first()
+            project_obj.delete()
+        except Exception as e:
+            self.response_data['status'] = False
+            self.status_code = 500
+
+    def post_change(self):
+        try:
+            project_id = self.parameters("id")
+            name = self.parameters("name")
+            parent = int(self.parameters("parent_id"))
+            memo = self.parameters("memo")
+            project_obj = BusinessUnit.objects.filter(id=project_id).first()
+            if project_obj:
+                if parent:
+
+                    parent_project = BusinessUnit.objects.filter(id=parent).first()
+                    print(parent_project)
+                else:
+                    parent_project = None
+
+                project_obj.name = name
+                project_obj.memo = memo
+                project_obj.parent_unit = parent_project
+                project_obj.save()
+                self.response_data['data'] = project_obj.get_info()
+            else:
+                self.response_data['status'] = False
+                self.status_code = 404
+        except IntegrityError:
+            self.response_data['status'] = False
+            self.status_code = 416
+        except Exception:
+            self.response_data['status'] = False
+            self.status_code = 500
