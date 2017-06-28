@@ -2,7 +2,9 @@ from api.views import server
 from api.views import account
 from api.views import upload
 from api.views import project
+from api.views import datacenter
 Server = server.Server
 Account = account.Account
 Upload = upload.Upload
 Project = project.Project
+DataCenter = datacenter.DataCenterView

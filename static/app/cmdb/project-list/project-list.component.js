@@ -84,7 +84,7 @@ angular.module('projectList').component('projectList', {
             form.name.$dirty = false;
             form.name.$pristine = true;
         };
-        this.parent_id = 0
+        this.parent_id = 0;
         this.is_selected = function (parent_id) {
             return self.parent_id === parent_id;
         };

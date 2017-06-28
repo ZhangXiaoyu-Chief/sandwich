@@ -1,0 +1,93 @@
+        <section id="page-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h1 class="mainTitle">项目管理</h1>
+                </div>
+                <ol class="breadcrumb">
+                    <li>
+                        <span>HOME</span>
+                    </li>
+                    <li>
+                        <span>CMDB</span>
+                    </li>
+                    <li class="active">
+                        <span>数据中心</span>
+                    </li>
+                </ol>
+            </div>
+        </section>
+        <div class="container-fluid container-fullw bg-white">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-7 page-tool-bar">
+                            <a class="btn btn-default" data-toggle="modal" data-target="#crete-model">
+                                <i class="ti-plus"></i>
+                                新增数据中心</a>
+                        </div>
+                        <div class="col-md-5 page-tool-bar">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> 名称 </th>
+                                <th> 负责人 </th>
+                                <th> 联系电话 </th>
+                                <th> 备注 </th>
+                                <th> 操作 </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="datacenter in $ctrl.datacenters">
+                                <td> {{ datacenter.id }} </td>
+                                <td> {{ datacenter.name }} </td>
+                                <td> {{ datacenter.admin }} </td>
+                                <td> {{ datacenter.contact }} </td>
+                                <td> {{ datacenter.memo }} </td>
+                                <td>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-edit" data-toggle="modal" data-target="#edit-model"  title="编辑此数据中心"></i>
+                                    </span>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-close" title="删除数据中心"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div style="text-align: right">
+                        <ul class="pagination">
+                            <li>
+                                <a href="" style="cursor:pointer" ng-click="$ctrl.previous_page()">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                            </li>
+                            <li ng-repeat="p in $ctrl.get_pages()" class="{{ $ctrl.is_active(p) }}">
+                                <a href="" ng-click="$ctrl.change_page(p)"  style="cursor:pointer"> {{ p }} </a>
+                            </li>
+                            <li>
+                                <a href=""  style="cursor:pointer" ng-click="$ctrl.next_page()">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flyover" ng-show="$ctrl.loading">
+                    <div class="mask"></div>
+                    <div class="alert">
+                        <strong><img src="/static/images/loading.gif" width="64"></strong>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>

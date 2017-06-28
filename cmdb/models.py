@@ -292,7 +292,6 @@ class Cabinet(models.Model):
     """
     机柜表
     """
-    id = models.BigIntegerField(primary_key=True)
     room = models.ForeignKey('MachineRoom', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=u"所属机房")
     number = models.CharField(max_length=200, null=True, blank=True, verbose_name=u"机柜编号")
     slotcount = models.IntegerField(null=True, blank=True, verbose_name=u"槽位数(U)")
@@ -313,7 +312,6 @@ class MachineRoom(models.Model):
     """
     机房表
     """
-    id = models.BigIntegerField(primary_key=True)
     center = models.ForeignKey('DataCenter', related_name="related_rooms",
                                on_delete=models.SET_NULL, null=True, blank=True, verbose_name=u"所属中心")
     name = models.CharField(max_length=100, verbose_name=u"机房名称")
@@ -334,11 +332,20 @@ class DataCenter(models.Model):
     """
     数据中心
     """
-    id = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=100, verbose_name=u"数据中心")
     admin = models.ForeignKey(User, verbose_name=u'负责人', null=True, blank=True, on_delete=models.SET_NULL)
     contact = models.CharField(verbose_name=u'联系电话', max_length=30, null=True, blank=True)
     memo = models.CharField(verbose_name=u'备注', max_length=128, blank=True, null=True)
+
+    def get_info(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "admin": self.admin.username if self.admin else "",
+            "admin_id": self.admin.username if self.admin_id else 0,
+            "contact": self.contact,
+            "memo":self.memo
+        }
 
     def __str__(self):
         return self.name
