@@ -19,7 +19,6 @@ class Project(CoreView):
         project_list = []
         for project_obj in project_objs:
             project_list.append(project_obj.get_info())
-        print(project_list)
         self.response_data['data'] = project_list
 
     def post_create(self):
@@ -67,7 +66,6 @@ class Project(CoreView):
                 if parent:
 
                     parent_project = BusinessUnit.objects.filter(id=parent).first()
-                    print(parent_project)
                 else:
                     parent_project = None
 

@@ -39,3 +39,16 @@ class DataCenterView(CoreView):
         except Exception:
             self.response_data['status'] = False
             self.status_code = 500
+
+    def post_delete(self):
+        datacenter_id = self.parameters("id")
+        try:
+            datacenter_obj = DataCenter.objects.filter(id=datacenter_id).first()
+            if datacenter_obj:
+                datacenter_obj.delete()
+            else:
+                self.response_data['status'] = False
+                self.status_code = 404
+        except Exception as e:
+            self.response_data['status'] = False
+            self.status_code = 500
