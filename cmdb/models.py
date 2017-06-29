@@ -240,6 +240,7 @@ class NIC(models.Model):
     sn = models.CharField(verbose_name=u'SN号', max_length=128, blank=True, null=True)
     mac_address = models.CharField(verbose_name=u'MAC', max_length=64, blank=True, null=True)
     ip_address = models.GenericIPAddressField(verbose_name=u'IP', blank=True, null=True)
+    ip_address_v6 = models.GenericIPAddressField(verbose_name=u'IPV6', blank=True, null=True)
     netmask = models.CharField(verbose_name=u'子网掩码', max_length=64, blank=True, null=True)
     memo = models.CharField(verbose_name=u'备注', max_length=128, blank=True, null=True)
     create_date = models.DateTimeField(verbose_name=u'创建时间', blank=True, auto_now_add=True)
@@ -257,6 +258,7 @@ class NIC(models.Model):
             "sn": self.sn if self.sn else "",
             "mac_address": self.mac_address if self.mac_address else "",
             "ip_address": self.ip_address if self.ip_address else "",
+            "ip_address_v6": self.ip_address_v6 if self.ip_address_v6 else "",
             "netmask": self.netmask if self.netmask else "",
             "create_date": self.create_date.strftime("%Y-%m-%d %H:%M:%S") if self.create_date else "",
             "update_date": self.update_date.strftime("%Y-%m-%d %H:%M:%S") if self.update_date else "",

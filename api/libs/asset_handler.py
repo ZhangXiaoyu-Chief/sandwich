@@ -72,6 +72,7 @@ class AssetHandler(object):
                                      name=nic_info.get("name"),
                                      netmask=nic_info.get("netmask"),
                                      ip_address=nic_info.get("ip_address"),
+                                     ip_address_v6=nic_info.get("ip_address_v6"),
                                      mac_address=nic_info.get("macaddress")
                                      )
                 nic_obj.save()

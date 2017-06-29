@@ -58,12 +58,12 @@ class CmdbCollector(object):
             essential_info = self.asset_info.get("essential_information")
             essential_info["SN"] = self.res.get("ansible_product_serial") \
                 if not self.res.get("ansible_product_serial") == "NA" else self.res.get("ansible_hostname")
-            essential_info["os_release"] = self.res.get("ansible_lsb", {}).get("release")
+            essential_info["os_release"] = self.res.get("ansible_distribution_version")
             essential_info["kernel_release"] = self.res.get("ansible_kernel", "")
             essential_info["model"] = self.res.get("ansible_product_name", "")
             essential_info["manufactory"] = self.res.get("ansible_system_vendor", "")
-            essential_info["os_type"] = self.res.get("ansible_lsb", {}).get("id")
-            essential_info["os_distribution"] = self.res.get("ansible_lsb", {}).get("description")
+            essential_info["os_type"] = self.res.get("ansible_distribution","")
+            essential_info["os_distribution"] = self.res.get("ansible_distribution_release","")
             essential_info["hostname"] = self.res.get("ansible_hostname")
 
     def __collector_mem_info(self):
@@ -72,21 +72,47 @@ class CmdbCollector(object):
             # print(self.res)
             memory_info["capacity"] = self.res.get("ansible_memtotal_mb", 0)
 
+    # def __collector_nic_info(self):
+    #     if self.res:
+    #         print(self.res)
+    #         nic_info = self.asset_info.get("interfaces_information")
+    #         for interface in self.res.get("ansible_interfaces"):
+    #             temp_nic_info = self.res.get("ansible_%s" % interface).get("ipv4") \
+    #                 if "ipv4" in self.res.get("ansible_%s" % interface) else \
+    #                 self.res.get("ansible_%s" % interface).get("ipv4_secondaries", [{}])[0]
+    #             if not (interface.replace("_", ":") == "lo" or temp_nic_info.get("address", "") == "127.0.0.1"):
+    #                 nic_info.append({
+    #                     "name": interface.replace("_", ":"),
+    #                     "ip_address": temp_nic_info.get("address", ""),
+    #                     "netmask": temp_nic_info.get("netmask", ""),
+    #                     "macaddress": self.res.get("ansible_%s" % interface).get("macaddress", ""),
+    #                 })
     def __collector_nic_info(self):
         if self.res:
-            print(self.res)
             nic_info = self.asset_info.get("interfaces_information")
             for interface in self.res.get("ansible_interfaces"):
-                temp_nic_info = self.res.get("ansible_%s" % interface).get("ipv4") \
-                    if "ipv4" in self.res.get("ansible_%s" % interface) else \
-                    self.res.get("ansible_%s" % interface).get("ipv4_secondaries", [{}])[0]
-                if not (interface.replace("_", ":") == "lo" or temp_nic_info.get("address", "") == "127.0.0.1"):
-                    nic_info.append({
-                        "name": interface.replace("_", ":"),
-                        "ip_address": temp_nic_info.get("address", ""),
-                        "netmask": temp_nic_info.get("netmask", ""),
-                        "macaddress": self.res.get("ansible_%s" % interface).get("macaddress", ""),
-                    })
+                interface_info = self.res.get("ansible_%s" % interface)
+                if interface_info:
+                    if "ipv4" in interface_info or "ipv6" in interface_info:
+                        temp_nic_info = {
+                            "name": interface.replace("_", ":"),
+                            "netmask": interface_info.get("ipv4").get("netmask", "") if interface_info.get("ipv4") else "",
+                            "ip_address": interface_info.get("ipv4").get("address", "") if interface_info.get("ipv4") else "",
+                            "macaddress": interface_info.get("macaddress", ""),
+                            "ip_address_v6": interface_info.get("ipv6")[0].get("address") if interface_info.get("ipv6") else ""
+                         }
+                    else:
+                        temp_nic_info = {
+                            "name": interface.replace("_", ":"),
+                            "netmask": interface_info.get("ipv4_secondaries")[0].get("netmask", "") \
+                                if interface_info.get("ipv4_secondaries") else "",
+                            "ip_address": interface_info.get("ipv4_secondaries")[0].get("address", "") \
+                                if interface_info.get("ipv4_secondaries")[0] else "",
+                            "macaddress": interface_info.get("macaddress", ""),
+                            "ip_address_v6": interface_info.get("ipv6_secondaries")[0].get("address") if interface_info.get(
+                                "ipv6_secondaries") else ""
+                        }
+                    nic_info.append(temp_nic_info)
 
     def __collector_disk_info(self):
         unit_map = {
@@ -123,4 +149,5 @@ class CmdbCollector(object):
 
 if __name__ == '__main__':
     cmdb_collector = CmdbCollector(host="192.168.95.131", username="zhangxiaoyu", password="123.com")
+    print(json.dumps(cmdb_collector.res, indent=2))
     cmdb_collector.collector_all()

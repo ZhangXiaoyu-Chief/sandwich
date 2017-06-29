@@ -102,8 +102,11 @@ angular.module('serverList').component('serverList', {
                     "username": username,
                     "password": password
                 };
+                $('#create-model').modal('hide');
+
                 $http.post("/api/server/create/", request_data, postCfg)
                     .then(function (response) {
+                        self.get_data();
                         $.each(response.data.data, function (index, data) {
                             var level = "success";
                             if (data.status) {
@@ -142,7 +145,7 @@ angular.module('serverList').component('serverList', {
                     .then(function (response) {
                         self.get_data();
                         self.loading = false;
-                        Toastr["success"]("删除服务器成功", "成功");
+                        Toastr.messager["success"]("删除服务器成功", "成功");
                     }, function (response) {
                         self.loading= false;
                         Toastr.handle(response,"删除服务器");
