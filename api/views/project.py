@@ -47,7 +47,11 @@ class Project(CoreView):
         project_id = self.parameters("project_id")
         try:
             project_obj = BusinessUnit.objects.filter(id=project_id).first()
-            project_obj.delete()
+            if project_obj:
+                project_obj.delete()
+            else:
+                self.response_data['status'] = False
+                self.status_code = 404
         except Exception as e:
             self.response_data['status'] = False
             self.status_code = 500
