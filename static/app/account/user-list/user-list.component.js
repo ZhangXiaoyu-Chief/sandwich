@@ -38,9 +38,7 @@ angular.module('userList').component('userList', {
                 self.loading = false;
             }, function (response) {
                 // 获取数据失败执行
-                if (response.status === 401) {
-                    window.location.href = response.data.data.login_url
-                }
+                Toastr.handle(response,"获取用户列表");
                 self.loading = false;
             });
         };
@@ -64,7 +62,7 @@ angular.module('userList').component('userList', {
                         $('.bs-example-modal-lg').modal('hide');
                     }, function (response) {
                         self.loading= false;
-                        Toastr.handle(response, "创建");
+                        Toastr.handle(response, "创建用户");
                     });
             }
 
