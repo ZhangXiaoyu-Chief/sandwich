@@ -1,0 +1,91 @@
+        <section id="page-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h1 class="mainTitle">机房管理</h1>
+                </div>
+                <ol class="breadcrumb">
+                    <li>
+                        <span>HOME</span>
+                    </li>
+                    <li>
+                        <span>CMDB</span>
+                    </li>
+                    <li class="active">
+                        <span>机房管理</span>
+                    </li>
+                </ol>
+            </div>
+        </section>
+        <div class="container-fluid container-fullw bg-white">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12 page-tool-bar">
+                            <a class="btn btn-default" data-toggle="modal" data-target="#create-model" ng-click="$ctrl.init_create_form_data(createForm)">
+                                <i class="ti-plus"></i>
+                                新增机房</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> 名称 </th>
+                                <th> 数据中心 </th>
+                                <th> 负责人 </th>
+                                <th> 联系电话 </th>
+                                <th> 备注 </th>
+                                <th> 操作 </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="machineroom in $ctrl.machinerooms">
+                                <td> {{ machineroom.id }} </td>
+                                <td> {{ machineroom.name }} </td>
+                                <td> {{ machineroom.datacenter }} </td>
+                                <td> {{ machineroom.admin }} </td>
+                                <td> {{ machineroom.contact }} </td>
+                                <td> {{ machineroom.memo }} </td>
+                                <td>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-edit" data-toggle="modal" data-target="#edit-model"  title="编辑此机房" ng-click="$ctrl.init_change_form_data(editForm, machineroom)"></i>
+                                    </span>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-close" title="删除机房" ng-click="$ctrl.delete_machineroom(machineroom.id)"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div style="text-align: right">
+                        <ul class="pagination">
+                            <li>
+                                <a href="" style="cursor:pointer" ng-click="$ctrl.previous_page()">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                            </li>
+                            <li ng-repeat="p in $ctrl.get_pages()" class="{{ $ctrl.is_active(p) }}">
+                                <a href="" ng-click="$ctrl.change_page(p)"  style="cursor:pointer"> {{ p }} </a>
+                            </li>
+                            <li>
+                                <a href=""  style="cursor:pointer" ng-click="$ctrl.next_page()">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flyover" ng-show="$ctrl.loading">
+                    <div class="mask"></div>
+                    <div class="alert">
+                        <strong><img src="/static/images/loading.gif" width="64"></strong>
+                    </div>
+                </div>
+            </div>
+        </div>

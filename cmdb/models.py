@@ -329,6 +329,19 @@ class MachineRoom(models.Model):
         verbose_name_plural = u"机房"
         verbose_name = u"机房"
 
+    def get_info(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "admin": self.admin.username if self.admin else "",
+            "admin_id": self.admin.userprofile.id if self.admin and hasattr(self.admin, "userprofile") else 0,
+            "contact": self.contact,
+            "address": self.address,
+            "memo": self.memo,
+            "datacenter": self.center.name if self.center else "",
+            "datacenter_id": self.center.address if self.center else 0
+        }
+
 
 class DataCenter(models.Model):
     """

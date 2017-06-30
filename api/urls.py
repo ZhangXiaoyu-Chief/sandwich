@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^upload/(?P<action>\w+)/$', csrf_exempt(views.Upload.as_view())),
     url(r'^project/(?P<action>\w+)/$', csrf_exempt(views.Project.as_view())),
     url(r'^datacenter/(?P<action>\w+)/$', csrf_exempt(views.DataCenter.as_view())),
+    url(r'^machineroom/(?P<action>\w+)/$', csrf_exempt(views.MachineRoom.as_view())),
 ]
