@@ -25,12 +25,13 @@ class DataCenterView(CoreView):
             name = self.parameters("name")
             contact = self.parameters("contact")
             memo = self.parameters("memo")
+            address = self.parameters("address")
             admin_id = int(self.parameters("admin"))
             admin_obj = UserProfile.objects.filter(id=admin_id).first()
             if admin_obj and admin_obj.user:
-                new_datacenter_obj = DataCenter(name=name, contact=contact, memo=memo, admin=admin_obj.user)
+                new_datacenter_obj = DataCenter(name=name, contact=contact, memo=memo, admin=admin_obj.user, address=address)
             else:
-                new_datacenter_obj = DataCenter(name=name, contact=contact, memo=memo)
+                new_datacenter_obj = DataCenter(name=name, contact=contact, memo=memo, address=address)
             new_datacenter_obj.save()
             self.response_data['data'] = new_datacenter_obj.save()
         except IntegrityError:
@@ -59,6 +60,7 @@ class DataCenterView(CoreView):
         admin_id = self.parameters("admin_id")
         contact = self.parameters("contact")
         memo = self.parameters("memo")
+        address = self.parameters("address")
 
         try:
             datacenter_obj = DataCenter.objects.filter(id=datacenter_id).first()
@@ -68,6 +70,7 @@ class DataCenterView(CoreView):
                 datacenter_obj.admin = admin_obj.user if admin_obj and hasattr(admin_obj, "user") else None
                 datacenter_obj.contact = contact
                 datacenter_obj.memo = memo
+                datacenter_obj.address = address
                 datacenter_obj.save()
             else:
                 self.response_data['status'] = False

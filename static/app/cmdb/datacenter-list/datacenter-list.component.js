@@ -72,6 +72,7 @@ angular.module('datacenterList').component('datacenterList',{
                 contact: "",
                 admin: 0,
                 memo: "",
+                address:""
             };
             $("#admin").val(0)
             $("#admin").select2({
@@ -147,7 +148,8 @@ angular.module('datacenterList').component('datacenterList',{
                 admin: datacenter.admin,
                 admin_id: datacenter.admin_id,
                 contact:datacenter.contact,
-                memo: datacenter.memo
+                memo: datacenter.memo,
+                address: datacenter.address
             }
             // self.parent_id = datacenter.parent_id;
             // self.loading = true;

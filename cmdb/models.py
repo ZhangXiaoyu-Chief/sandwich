@@ -337,6 +337,7 @@ class DataCenter(models.Model):
     name = models.CharField(max_length=100, verbose_name=u"数据中心")
     admin = models.ForeignKey(User, verbose_name=u'负责人', null=True, blank=True, on_delete=models.SET_NULL)
     contact = models.CharField(verbose_name=u'联系电话', max_length=30, null=True, blank=True)
+    address = models.CharField(max_length=200, null=True, blank=True, verbose_name=u"机房地址")
     memo = models.CharField(verbose_name=u'备注', max_length=128, blank=True, null=True)
 
     def get_info(self):
@@ -346,6 +347,7 @@ class DataCenter(models.Model):
             "admin": self.admin.username if self.admin else "",
             "admin_id": self.admin.userprofile.id if self.admin and hasattr(self.admin, "userprofile") else 0,
             "contact": self.contact,
+            "address": self.address,
             "memo": self.memo
         }
 
