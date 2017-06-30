@@ -77,7 +77,7 @@ angular.module('projectList').component('projectList', {
                 memo: "",
             };
             $("#parent").val(0)
-            $(".js-example-basic-single").select2({
+            $("#parent").select2({
                 language: "zh-CN", //设置 提示语言
                 width: "100%", //设置下拉框的宽度
             });
@@ -92,7 +92,14 @@ angular.module('projectList').component('projectList', {
             self.change_form_data = project;
             self.parent_id = project.parent_id;
             // self.loading = true;
-            self.change_form_data = project;
+            // self.change_form_data = project;
+            self.change_form_data = {
+                id: project.id,
+                parent: project.parent,
+                parent_id: project.parent_id,
+                name: project.name,
+                memo: project.memo
+            }
             $("#edit_parent").val(project.parent_id);
             $("#edit_parent").select2({
                     language: "zh-CN", //设置 提示语言
