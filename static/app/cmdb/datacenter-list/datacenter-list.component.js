@@ -22,6 +22,7 @@ angular.module('datacenterList').component('datacenterList',{
             });
             $http.get('/api/account/list/').then(function (response) {
                 self.admins_select = response.data.data;
+                console.log(self.admins_select)
                 self.loading = false;
             }, function (response) {
                 // 获取数据失败执行
@@ -136,6 +137,53 @@ angular.module('datacenterList').component('datacenterList',{
                     });
 				}
 			});
+        };
+
+        this.init_change_form_data = function (form ,datacenter) {
+            self.change_form_data = datacenter;
+            self.change_form_data = {
+                id:datacenter.id,
+                name: datacenter.name,
+                admin: datacenter.admin,
+                admin_id: datacenter.admin_id,
+                contact:datacenter.contact,
+                memo: datacenter.memo
+            }
+            // self.parent_id = datacenter.parent_id;
+            // self.loading = true;
+            // self.change_form_data = project;
+            $("#new_admin").val(datacenter.admin_id);
+            $("#new_admin").select2({
+                    language: "zh-CN", //设置 提示语言
+                    width: "100%", //设置下拉框的宽度
+                });
+            form.new_name.$dirty = false;
+            form.new_name.$pristine = true;
+        };
+        this.change_datacenter = function (form) {
+            if (!form.$invalid) {
+
+                var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = self.change_form_data;
+                self.loading = true
+                $http.post("/api/datacenter/change/", request_data, postCfg)
+                .then(function (response) {
+                    self.loading = false;
+                    Toastr.messager["success"]("修改成功", "成功");
+                    self.get_data();
+                    $('#edit-model').modal('hide');
+                }, function (response) {
+                    // 获取数据失败执行
+                    Toastr.handle(response, "编辑数据中心");
+                    self.loading = false;
+                });
+            }
+
         };
     }]
 });

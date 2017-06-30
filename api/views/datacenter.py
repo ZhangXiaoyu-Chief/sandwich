@@ -52,3 +52,31 @@ class DataCenterView(CoreView):
         except Exception as e:
             self.response_data['status'] = False
             self.status_code = 500
+
+    def post_change(self):
+        datacenter_id = self.parameters("id")
+        name = self.parameters("name")
+        admin_id = self.parameters("admin_id")
+        contact = self.parameters("contact")
+        memo = self.parameters("memo")
+        print(self.request.POST)
+
+        try:
+            datacenter_obj = DataCenter.objects.filter(id=datacenter_id).first()
+            if datacenter_obj:
+                datacenter_obj.name = name
+                admin_obj = UserProfile.objects.filter(id=admin_id).first()
+                datacenter_obj.admin = admin_obj.user if admin_obj and hasattr(admin_obj, "user") else None
+                datacenter_obj.contact = contact
+                datacenter_obj.memo = memo
+                datacenter_obj.save()
+            else:
+                self.response_data['status'] = False
+                self.status_code = 404
+        except IntegrityError:
+            self.response_data['status'] = False
+            self.status_code = 416
+        except Exception as e:
+            print(e)
+            self.response_data['status'] = False
+            self.status_code = 500

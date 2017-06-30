@@ -344,9 +344,9 @@ class DataCenter(models.Model):
             "id": self.id,
             "name": self.name,
             "admin": self.admin.username if self.admin else "",
-            "admin_id": self.admin.username if self.admin_id else 0,
+            "admin_id": self.admin.userprofile.id if self.admin and hasattr(self.admin, "userprofile") else 0,
             "contact": self.contact,
-            "memo":self.memo
+            "memo": self.memo
         }
 
     def __str__(self):
