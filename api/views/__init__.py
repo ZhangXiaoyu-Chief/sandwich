@@ -1,12 +1,8 @@
-from api.views import server
-from api.views import account
-from api.views import upload
-from api.views import project
-from api.views import datacenter
-from api.views import machineroom
-Server = server.Server
-Account = account.Account
-Upload = upload.Upload
-Project = project.Project
-DataCenter = datacenter.DataCenterView
-MachineRoom = machineroom.MachineRoomView
+from api.views.server import Server
+from api.views.account import Account
+from api.views.upload import Upload
+from api.views.project import Project
+from api.views.datacenter import DataCenterView as DataCenter
+from api.views.machineroom import MachineRoomView as MachineRoom
+
+__all__ = ["Server", "Account", "Upload", "Project", "DataCenter", "MachineRoom"]
