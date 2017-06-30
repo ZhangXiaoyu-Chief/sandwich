@@ -59,7 +59,6 @@ class DataCenterView(CoreView):
         admin_id = self.parameters("admin_id")
         contact = self.parameters("contact")
         memo = self.parameters("memo")
-        print(self.request.POST)
 
         try:
             datacenter_obj = DataCenter.objects.filter(id=datacenter_id).first()
@@ -77,6 +76,5 @@ class DataCenterView(CoreView):
             self.response_data['status'] = False
             self.status_code = 416
         except Exception as e:
-            print(e)
             self.response_data['status'] = False
             self.status_code = 500
