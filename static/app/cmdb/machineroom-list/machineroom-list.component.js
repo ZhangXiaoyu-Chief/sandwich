@@ -92,7 +92,32 @@ angular.module('machineroomList').component('machineroomList', {
             form.name.$dirty = false;
             form.name.$pristine = true;
         };
-        this.create_datacenter = function (form) {
+        this.init_change_form_data = function (form, machineroom) {
+            // self.loading = true;
+            $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+            self.change_form_data = {
+                id: machineroom.id,
+                name: machineroom.name,
+                datacenter_id: machineroom.datacenter_id,
+                contact: machineroom.contact,
+                admin: machineroom.admin_id,
+                memo: machineroom.memo,
+                address: machineroom.address
+            };
+            $("#new_datacenter").val(machineroom.datacenter_id)
+            $("#new_datacenter").select2({
+                language: "zh-CN", //设置 提示语言
+                width: "100%", //设置下拉框的宽度
+            });
+            $("#new_admin").val(machineroom.admin_id)
+            $("#new_admin").select2({
+                language: "zh-CN", //设置 提示语言
+                width: "100%", //设置下拉框的宽度
+            });
+            form.new_name.$dirty = false;
+            form.new_name.$pristine = true;
+        };
+        this.create_machineroom = function (form) {
             if (!form.$invalid) {
                 self.loading = true
                 var postCfg = {
@@ -148,6 +173,31 @@ angular.module('machineroomList').component('machineroomList', {
                     });
 				}
 			});
+        };
+        this.change_machineroom = function (form) {
+            if (!form.$invalid) {
+
+                var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = self.change_form_data;
+                self.loading = true;
+                $http.post("/api/machineroom/change/", request_data, postCfg)
+                .then(function (response) {
+                    self.loading = false;
+                    Toastr.messager["success"]("修改成功", "成功");
+                    self.get_data();
+                    $('#change-model').modal('hide');
+                }, function (response) {
+                    // 获取数据失败执行
+                    Toastr.handle(response, "编辑机房");
+                    self.loading = false;
+                });
+            }
+
         };
 
     }]

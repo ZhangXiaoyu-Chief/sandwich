@@ -339,7 +339,7 @@ class MachineRoom(models.Model):
             "address": self.address,
             "memo": self.memo,
             "datacenter": self.center.name if self.center else "",
-            "datacenter_id": self.center.address if self.center else 0
+            "datacenter_id": self.center.id if self.center else 0
         }
 
 

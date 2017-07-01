@@ -48,3 +48,34 @@ class MachineRoomView(CoreView):
         else:
             self.response_data['status'] = False
             self.status_code = 404
+
+    def post_change(self):
+        machineroom_id = self.parameters("id")
+        print(machineroom_id)
+        datacenter_id = self.parameters("datacenter_id")
+        name = self.parameters("name")
+        admin_id = self.parameters("admin_id")
+        contact = self.parameters("contact")
+        memo = self.parameters("memo")
+        address = self.parameters("address")
+
+        try:
+            machineroom_obj = MachineRoom.objects.filter(id=machineroom_id).first()
+            print(machineroom_obj)
+            if machineroom_obj:
+                machineroom_obj.name = name
+                admin_obj = UserProfile.objects.filter(id=admin_id).first()
+                datacenter_obj = DataCenter.objects.filter(id=datacenter_id).first()
+                machineroom_obj.admin = admin_obj.user if admin_obj and hasattr(admin_obj, "user") else None
+                machineroom_obj.contact = contact
+                machineroom_obj.memo = memo
+                machineroom_obj.address = address
+                machineroom_obj.center = datacenter_obj
+                machineroom_obj.save()
+                self.response_data['data'] = machineroom_obj.get_info()
+            else:
+                self.response_data['status'] = False
+                self.status_code = 404
+        except IntegrityError:
+            self.response_data['status'] = False
+            self.status_code = 416
