@@ -20,7 +20,7 @@ angular.module('machineroomList').component('machineroomList', {
                 Toastr.handle(response,"获取机房列表");
                 self.loading = false;
             });
-            $http.get('/api/datacenter/list/?page=' + self.page + '&per_page=' + 0).then(function (response) {
+            $http.get('/api/datacenter/list/').then(function (response) {
                 self.datacenters_select = response.data.data;
                 self.loading = false;
             }, function (response) {

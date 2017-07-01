@@ -61,7 +61,6 @@ class MachineRoomView(CoreView):
 
         try:
             machineroom_obj = MachineRoom.objects.filter(id=machineroom_id).first()
-            print(machineroom_obj)
             if machineroom_obj:
                 machineroom_obj.name = name
                 admin_obj = UserProfile.objects.filter(id=admin_id).first()
