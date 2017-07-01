@@ -89,3 +89,89 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade bs-example-modal-lg"  role="dialog" aria-labelledby="" aria-hidden="true" id="create-model">
+            <div class="modal-dialog modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i></span>
+                        </button>
+                        <h4 class="modal-title">添加机房</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" class="form-horizontal" name="createForm" novalidate ng-submit="submitForm(createForm.$valid)">
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[createForm.name.$dirty &&  createForm.name.$invalid]">
+                                <label class="col-sm-2 control-label" for="name">
+                                    机房名称
+                                </label>
+                                <div class="col-sm-10" >
+                                    <input type="text" name="name" placeholder="项目名称" id="name" class="form-control" required ng-model="$ctrl.create_form_data.name" minlength=2 maxlength=100>
+                                    <span ng-show="createForm.name.$dirty &&  createForm.name.$invalid">
+                                        <span ng-show="createForm.name.$error.required" class="help-block">项目名称不能为空</span>
+                                        <span ng-show="createForm.name.$error.maxlength||createForm.name.$error.minlength" class="help-block">项目名称必须为2-100个字符</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="datacenter">
+                                    数据中心
+                                </label>
+                                <div class="col-sm-10">
+                                    <select class="js-example-basic-single js-states form-control" name="datacenter" id="datacenter" ng-model="$ctrl.create_form_data.datacenter">
+                                        <option value="0" selected>-------------</option>
+                                        <option ng-repeat="datacenter in $ctrl.datacenters_select" value="{{ datacenter.id }}">{{ datacenter.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="admin">
+                                    负责人
+                                </label>
+                                <div class="col-sm-10">
+                                    <select class="js-example-basic-single js-states form-control" name="admin" id="admin" ng-model="$ctrl.create_form_data.admin">
+                                        <option value="0" selected>-------------</option>
+                                        <option ng-repeat="admin in $ctrl.admins_select" value="{{ admin.id }}">{{ admin.username }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="contact">
+                                    联系电话
+                                </label>
+                                <div class="col-sm-10" >
+                                    <input type="text" name="contact" placeholder="联系电话" id="contact" class="form-control" ng-model="$ctrl.create_form_data.contact" maxlength=30>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="address">
+                                    地址
+                                </label>
+                                <div class="col-sm-10" >
+                                    <input type="text" name="address" placeholder="地址" id="address" class="form-control" ng-model="$ctrl.create_form_data.address" maxlength=200>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="memo">
+                                    备注
+                                </label>
+                                <div class="col-sm-10" >
+                                    <textarea type="text" name="memo" placeholder="备注" id="memo" class="form-control" ng-model="$ctrl.create_form_data.memo"></textarea>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-disabled="createForm.$invalid" ng-click="$ctrl.create_datacenter(createForm)">
+                            确定
+                        </button>
+                        <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
