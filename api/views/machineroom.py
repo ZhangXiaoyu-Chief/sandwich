@@ -39,3 +39,12 @@ class MachineRoomView(CoreView):
         except IntegrityError:
             self.response_data['status'] = False
             self.status_code = 416
+
+    def post_delete(self):
+        machineroom_id = self.parameters("id")
+        machineroom_obj = MachineRoom.objects.filter(id=machineroom_id).first()
+        if machineroom_obj:
+            machineroom_obj.delete()
+        else:
+            self.response_data['status'] = False
+            self.status_code = 404
