@@ -72,6 +72,7 @@ class DataCenterView(CoreView):
                 datacenter_obj.memo = memo
                 datacenter_obj.address = address
                 datacenter_obj.save()
+                self.response_data['data'] = datacenter_obj.get_info()
             else:
                 self.response_data['status'] = False
                 self.status_code = 404
