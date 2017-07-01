@@ -22,11 +22,9 @@ angular.module('datacenterList').component('datacenterList',{
             });
             $http.get('/api/account/list/').then(function (response) {
                 self.admins_select = response.data.data;
-                console.log(self.admins_select)
                 self.loading = false;
             }, function (response) {
                 // 获取数据失败执行
-                Toastr.handle(response,"获取用户列表")
                 self.loading = false;
             });
 
@@ -100,7 +98,7 @@ angular.module('datacenterList').component('datacenterList',{
                         $('#create-model').modal('hide');
                     }, function (response) {
                         // 获取数据失败执行
-                        Toastr.handle(response, "创建项目");
+                        Toastr.handle(response, "创建数据中心");
                         self.loading = false;
                     });
             }

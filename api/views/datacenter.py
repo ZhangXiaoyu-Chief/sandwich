@@ -33,7 +33,7 @@ class DataCenterView(CoreView):
             else:
                 new_datacenter_obj = DataCenter(name=name, contact=contact, memo=memo, address=address)
             new_datacenter_obj.save()
-            self.response_data['data'] = new_datacenter_obj.save()
+            self.response_data['data'] = new_datacenter_obj.get_info()
         except IntegrityError:
             self.response_data['status'] = False
             self.status_code = 416
