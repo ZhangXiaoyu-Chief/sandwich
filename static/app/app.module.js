@@ -11,5 +11,6 @@ angular.module('sandwichApp',[
     'userList',
     'projectList',
     'datacenterList',
-    'machineroomList'
+    'machineroomList',
+    'cabinetList',
 ]);

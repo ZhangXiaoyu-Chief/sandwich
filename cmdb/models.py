@@ -295,8 +295,8 @@ class Cabinet(models.Model):
     机柜表
     """
     room = models.ForeignKey('MachineRoom', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=u"所属机房")
-    number = models.CharField(max_length=200, null=True, blank=True, verbose_name=u"机柜编号")
-    slotcount = models.IntegerField(null=True, blank=True, verbose_name=u"槽位数(U)")
+    number = models.CharField(max_length=200, verbose_name=u"机柜编号", unique=True)
+    slotcount = models.IntegerField(null=True, blank=True, verbose_name=u"槽位数(U)", default=0)
     memo = models.CharField(verbose_name=u'备注', max_length=128, blank=True, null=True)
 
     def __str__(self):
@@ -308,6 +308,15 @@ class Cabinet(models.Model):
     class Meta:
         verbose_name = u'机柜'
         verbose_name_plural = u'机柜'
+
+    def get_info(self):
+        return {
+            "id": self.id,
+            "room": self.room.name if self.room else "",
+            "number": self.number,
+            "slotcount": self.slotcount,
+            "memo": self.memo
+        }
 
 
 class MachineRoom(models.Model):
