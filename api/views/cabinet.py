@@ -1,5 +1,5 @@
 from api.libs.base import CoreView
-from cmdb.models import Cabinet,MachineRoom
+from cmdb.models import Cabinet, MachineRoom
 from django.db.utils import IntegrityError
 
 
@@ -17,3 +17,24 @@ class CabinetView(CoreView):
         for cabinet_obj in cabinet_objs:
             cabinet_list.append(cabinet_obj.get_info())
         self.response_data["data"] = cabinet_list
+
+    def post_create(self):
+        print(self.request.POST)
+        try:
+            number = self.parameters("number")
+            machineroom = self.parameters("machineroom")
+            memo = self.parameters("memo")
+            slotcount = self.parameters("slotcount")
+            machineroom_obj = MachineRoom.objects.filter(id=machineroom).first()
+            if machineroom_obj:
+                new_cabinet_obj = Cabinet(number=number, slotcount=slotcount, memo=memo, room=machineroom_obj)
+            else:
+                new_cabinet_obj = Cabinet(number=number, slotcount=slotcount, memo=memo)
+            new_cabinet_obj.save()
+            self.response_data['data'] = new_cabinet_obj.get_info()
+        except IntegrityError:
+            self.response_data['status'] = False
+            self.status_code = 416
+        except Exception:
+            self.response_data['status'] = False
+            self.status_code = 500

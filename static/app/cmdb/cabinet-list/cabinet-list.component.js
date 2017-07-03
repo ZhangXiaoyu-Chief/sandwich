@@ -20,6 +20,14 @@ angular.module('cabinetList').component('cabinetList', {
                 Toastr.handle(response,"获取机柜列表");
                 self.loading = false;
             });
+            $http.get('/api/machineroom/list/').then(function (response) {
+                self.machinerooms_select = response.data.data;
+                self.loading = false;
+            }, function (response) {
+                // 获取数据失败执行
+                Toastr.handle(response,"获取机房列表");
+                self.loading = false;
+            });
 
         };
         this.get_data();
@@ -52,6 +60,48 @@ angular.module('cabinetList').component('cabinetList', {
             } else {
                 return "";
             }
+        };
+        this.init_create_form_data = function (form) {
+            // self.loading = true;
+            $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+            self.create_form_data = {
+                number: "",
+                machineroom:self.machinerooms_select[0].id,
+                slotcount: 0,
+                memo: "",
+            };
+            $("#machineroom").val(self.machinerooms_select[0].id)
+            $("#machineroom").select2({
+                language: "zh-CN", //设置 提示语言
+                width: "100%", //设置下拉框的宽度
+            });
+
+            form.number.$dirty = false;
+            form.number.$pristine = true;
+        };
+        this.create_cabinet = function (form) {
+            if (!form.$invalid) {
+                self.loading = true
+                var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = self.create_form_data;
+                $http.post("/api/cabinet/create/", request_data, postCfg)
+                    .then(function (response) {
+                        self.loading = false;
+                        Toastr.messager["success"]("创建成功", "成功");
+                        self.get_data();
+                        $('#create-model').modal('hide');
+                    }, function (response) {
+                        // 获取数据失败执行
+                        Toastr.handle(response, "创建机柜");
+                        self.loading = false;
+                    });
+            }
+
         };
     }]
 });
