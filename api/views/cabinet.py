@@ -19,7 +19,6 @@ class CabinetView(CoreView):
         self.response_data["data"] = cabinet_list
 
     def post_create(self):
-        print(self.request.POST)
         try:
             number = self.parameters("number")
             machineroom = self.parameters("machineroom")
@@ -35,6 +34,12 @@ class CabinetView(CoreView):
         except IntegrityError:
             self.response_data['status'] = False
             self.status_code = 416
-        except Exception:
+
+    def post_delete(self):
+        cabinet_id = self.parameters("id")
+        cabinet_obj = Cabinet.objects.filter(id=cabinet_id).first()
+        if cabinet_obj:
+            cabinet_obj.delete()
+        else:
             self.response_data['status'] = False
-            self.status_code = 500
+            self.status_code = 404

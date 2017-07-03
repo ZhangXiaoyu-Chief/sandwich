@@ -101,7 +101,39 @@ angular.module('cabinetList').component('cabinetList', {
                         self.loading = false;
                     });
             }
-
+        };
+        this.delete_cabinet = function (cabinet_id) {
+            swal({
+				title: "确认删除",
+				text: "确认要删除该机柜吗？",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确认删除",
+				cancelButtonText: "取消",
+				closeOnConfirm: true,
+				closeOnCancel: true
+			}, function(isConfirm) {
+				if(isConfirm) {
+				    var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = {'id':cabinet_id};
+                self.loading = true;
+                $http.post("/api/cabinet/delete/", request_data, postCfg)
+                    .then(function (response) {
+                        self.get_data();
+                        self.loading = false;
+                        Toastr.messager["success"]("删除机柜成功", "成功");
+                    }, function (response) {
+                        self.loading= false;
+                        Toastr.handle(response,"删除机柜");
+                    });
+				}
+			});
         };
     }]
 });

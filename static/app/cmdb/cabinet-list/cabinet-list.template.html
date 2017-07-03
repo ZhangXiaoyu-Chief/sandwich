@@ -49,6 +49,9 @@
                                 <td> {{ cabinet.slotcount }} </td>
                                 <td> {{ cabinet.memo }} </td>
                                 <td>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-close" title="删除机柜" ng-click="$ctrl.delete_cabinet(cabinet.id)"></i>
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
