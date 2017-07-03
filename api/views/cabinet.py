@@ -43,3 +43,26 @@ class CabinetView(CoreView):
         else:
             self.response_data['status'] = False
             self.status_code = 404
+
+    def post_change(self):
+        try:
+            number = self.parameters("number")
+            cabinet_id = self.parameters("id")
+            machineroom_id = self.parameters("machineroom_id")
+            memo = self.parameters("memo")
+            slotcount = self.parameters("slotcount")
+            cabinet_obj = Cabinet.objects.filter(id=cabinet_id).first()
+            if cabinet_obj:
+                cabinet_obj.number = number
+                machineroom_obj = MachineRoom.objects.filter(id=machineroom_id).first()
+                cabinet_obj.room = machineroom_obj
+                cabinet_obj.slotcount = slotcount
+                cabinet_obj.memo = memo
+                cabinet_obj.save()
+                self.response_data['data'] = cabinet_obj.get_info()
+            else:
+                self.response_data['status'] = False
+                self.status_code = 404
+        except IntegrityError:
+            self.response_data['status'] = False
+            self.status_code = 416

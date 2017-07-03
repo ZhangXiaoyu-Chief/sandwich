@@ -45,10 +45,13 @@
                             <tr ng-repeat="cabinet in $ctrl.cabinets">
                                 <td> {{ cabinet.id }} </td>
                                 <td> {{ cabinet.number }} </td>
-                                <td> {{ cabinet.room }} </td>
+                                <td> {{ cabinet.machineroom }} </td>
                                 <td> {{ cabinet.slotcount }} </td>
                                 <td> {{ cabinet.memo }} </td>
                                 <td>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-edit" data-toggle="modal" data-target="#change-model"  title="编辑此机柜" ng-click="$ctrl.init_change_form_data(editForm, cabinet)"></i>
+                                    </span>
                                     <span class="todo-bar">
                                         <i class="fa fa-close" title="删除机柜" ng-click="$ctrl.delete_cabinet(cabinet.id)"></i>
                                     </span>
@@ -100,7 +103,7 @@
                                     机柜编号
                                 </label>
                                 <div class="col-sm-10" >
-                                    <input type="text" name="number" placeholder="机柜编号" id="name" class="form-control" required ng-model="$ctrl.create_form_data.number" minlength=2 maxlength=100>
+                                    <input type="text" name="number" placeholder="机柜编号" id="number" class="form-control" required ng-model="$ctrl.create_form_data.number" minlength=2 maxlength=100>
                                     <span ng-show="createForm.number.$dirty &&  createForm.number.$invalid">
                                         <span ng-show="createForm.number.$error.required" class="help-block">机柜编号不能为空</span>
                                         <span ng-show="createForm.number.$error.maxlength||createForm.number.$error.minlength" class="help-block">名称必须为2-100个字符</span>
@@ -140,6 +143,72 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" ng-disabled="createForm.$invalid" ng-click="$ctrl.create_cabinet(createForm)">
+                            确定
+                        </button>
+                        <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal fade bs-example-modal-lg"  role="dialog" aria-labelledby="" aria-hidden="true" id="change-model">
+            <div class="modal-dialog modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i></span>
+                        </button>
+                        <h4 class="modal-title">添加机柜</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" class="form-horizontal" name="editForm" novalidate ng-submit="submitForm(editForm.$valid)">
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[editForm.new_number.$dirty &&  editForm.new_number.$invalid]">
+                                <label class="col-sm-2 control-label" for="new_number">
+                                    机柜编号
+                                </label>
+                                <div class="col-sm-10" >
+                                    <input type="text" name="new_number" placeholder="机柜编号" id="new_number" class="form-control" required ng-model="$ctrl.change_form_data.number" minlength=2 maxlength=100>
+                                    <span ng-show="editForm.new_number.$dirty &&  createForm.new_number.$invalid">
+                                        <span ng-show="editForm.new_number.$error.required" class="help-block">机柜编号不能为空</span>
+                                        <span ng-show="editForm.new_number.$error.maxlength||editForm.new_number.$error.minlength" class="help-block">名称必须为2-100个字符</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="new_machineroom">
+                                    机房
+                                </label>
+                                <div class="col-sm-10">
+                                    <select class="js-example-basic-single js-states form-control" name="new_machineroom" id="new_machineroom" ng-model="$ctrl.change_form_data.machineroom_id">
+                                        <option ng-repeat="machineroom in $ctrl.machinerooms_select" value="{{ machineroom.id }}">{{ machineroom.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="new_slotcount">
+                                    槽位数
+                                </label>
+                                <div class="col-sm-10" >
+                                    <input type="number" name="new_slotcount" placeholder="槽位数" id="new_slotcount" class="form-control" ng-model="$ctrl.change_form_data.slotcount" maxlength=30>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="new_memo">
+                                    备注
+                                </label>
+                                <div class="col-sm-10" >
+                                    <textarea type="text" name="new_memo" placeholder="备注" id="new_memo" class="form-control" ng-model="$ctrl.change_form_data.memo"></textarea>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-disabled="editForm.$invalid" ng-click="$ctrl.change_cabinet(editForm)">
                             确定
                         </button>
                         <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">

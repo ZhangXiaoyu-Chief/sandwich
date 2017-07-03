@@ -312,7 +312,8 @@ class Cabinet(models.Model):
     def get_info(self):
         return {
             "id": self.id,
-            "room": self.room.name if self.room else "",
+            "machineroom": self.room.name if self.room else "",
+            "machineroom_id": self.room.id if self.room else 0,
             "number": self.number,
             "slotcount": self.slotcount,
             "memo": self.memo

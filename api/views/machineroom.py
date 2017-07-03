@@ -51,7 +51,6 @@ class MachineRoomView(CoreView):
 
     def post_change(self):
         machineroom_id = self.parameters("id")
-        print(machineroom_id)
         datacenter_id = self.parameters("datacenter_id")
         name = self.parameters("name")
         admin_id = self.parameters("admin_id")

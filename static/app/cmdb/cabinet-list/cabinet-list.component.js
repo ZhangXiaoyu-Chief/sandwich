@@ -79,6 +79,25 @@ angular.module('cabinetList').component('cabinetList', {
             form.number.$dirty = false;
             form.number.$pristine = true;
         };
+        this.init_change_form_data = function (form, cabinet) {
+            // self.loading = true;
+            $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+            self.change_form_data = {
+                id:cabinet.id,
+                number: cabinet.number,
+                machineroom_id:cabinet.room_id,
+                slotcount: cabinet.slotcount,
+                memo: cabinet.memo,
+            };
+            $("#new_machineroom").val(cabinet.machineroom_id)
+            $("#new_machineroom").select2({
+                language: "zh-CN", //设置 提示语言
+                width: "100%", //设置下拉框的宽度
+            });
+
+            form.new_number.$dirty = false;
+            form.new_number.$pristine = true;
+        };
         this.create_cabinet = function (form) {
             if (!form.$invalid) {
                 self.loading = true
@@ -134,6 +153,30 @@ angular.module('cabinetList').component('cabinetList', {
                     });
 				}
 			});
+        };
+        this.change_cabinet = function (form) {
+            if (!form.$invalid) {
+                var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = self.change_form_data;
+                self.loading = true;
+                $http.post("/api/cabinet/change/", request_data, postCfg)
+                .then(function (response) {
+                    self.loading = false;
+                    Toastr.messager["success"]("修改成功", "成功");
+                    self.get_data();
+                    $('#change-model').modal('hide');
+                }, function (response) {
+                    // 获取数据失败执行
+                    Toastr.handle(response, "编辑机柜");
+                    self.loading = false;
+                });
+            }
+
         };
     }]
 });
