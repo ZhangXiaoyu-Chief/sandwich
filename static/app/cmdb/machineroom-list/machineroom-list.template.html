@@ -105,7 +105,7 @@
                                     机房名称
                                 </label>
                                 <div class="col-sm-10" >
-                                    <input type="text" name="name" placeholder="项目名称" id="name" class="form-control" required ng-model="$ctrl.create_form_data.name" minlength=2 maxlength=100>
+                                    <input type="text" name="name" placeholder="机房名称" id="name" class="form-control" required ng-model="$ctrl.create_form_data.name" minlength=2 maxlength=100>
                                     <span ng-show="createForm.name.$dirty &&  createForm.name.$invalid">
                                         <span ng-show="createForm.name.$error.required" class="help-block">项目名称不能为空</span>
                                         <span ng-show="createForm.name.$error.maxlength||createForm.name.$error.minlength" class="help-block">项目名称必须为2-100个字符</span>
@@ -190,10 +190,10 @@
                                     机房名称
                                 </label>
                                 <div class="col-sm-10" >
-                                    <input type="text" name="new_name" placeholder="项目名称" id="new_name" class="form-control" required ng-model="$ctrl.change_form_data.name" minlength=2 maxlength=100>
+                                    <input type="text" name="new_name" placeholder="机房名称" id="new_name" class="form-control" required ng-model="$ctrl.change_form_data.name" minlength=2 maxlength=100>
                                     <span ng-show="editForm.new_name.$dirty &&  editForm.name.$invalid">
-                                        <span ng-show="editForm.new_name.$error.required" class="help-block">项目名称不能为空</span>
-                                        <span ng-show="editForm.new_name.$error.maxlength||editForm.new_name.$error.minlength" class="help-block">项目名称必须为2-100个字符</span>
+                                        <span ng-show="editForm.new_name.$error.required" class="help-block">名称不能为空</span>
+                                        <span ng-show="editForm.new_name.$error.maxlength||editForm.new_name.$error.minlength" class="help-block">名称必须为2-100个字符</span>
                                     </span>
                                 </div>
                             </div>
