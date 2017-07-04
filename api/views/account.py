@@ -43,9 +43,7 @@ class Account(CoreView):
         except IntegrityError:
             self.response_data['status'] = False
             self.status_code = 416
-        except Exception:
-            self.response_data['status'] = False
-            self.status_code = 500
+
 
     # def post_disable(self):
     #     user_id = self.parameters("user_id")

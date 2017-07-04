@@ -57,7 +57,7 @@ angular.module('userList').component('userList', {
                 $http.post("/api/account/create/", request_data, postCfg)
                     .then(function (response) {
                         self.loading = false
-                        Toastr["success"]("创建用户成功", "成功");
+                        Toastr.messager["success"]("创建用户成功", "成功");
                         self.get_data();
                         $('.bs-example-modal-lg').modal('hide');
                     }, function (response) {
