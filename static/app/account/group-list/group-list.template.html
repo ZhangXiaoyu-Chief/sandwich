@@ -47,7 +47,7 @@
                                         <i class="fa fa-edit" data-toggle="modal" data-target="#edit-modal"  title="编辑此用户组" ng-click="$ctrl.init_change_form_data(editForm, group)"></i>
                                     </span>
                                     <span class="todo-bar">
-                                        <i class="fa fa-refresh" data-toggle="modal" data-target=".change-password-model" ng-click="$ctrl.init_pass_form_data(passForm, user.id)"  title="重置密码"></i>
+                                        <i class="fa fa-close" title="删除用户组" ng-click="$ctrl.delete_group(group.id)"></i>
                                     </span>
                                 </td>
                             </tr>

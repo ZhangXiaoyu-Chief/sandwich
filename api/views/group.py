@@ -48,3 +48,13 @@ class GroupView(CoreView):
         except IntegrityError:
             self.response_data['status'] = False
             self.status_code = 416
+
+    def post_delete(self):
+        group_id = self.parameters("id")
+        group_obj = Group.objects.filter(id=group_id).first()
+        if group_obj:
+            group_obj.delete()
+        else:
+            self.response_data['status'] = False
+            self.status_code = 404
+

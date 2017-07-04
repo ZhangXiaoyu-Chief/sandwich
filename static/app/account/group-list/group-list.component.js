@@ -57,7 +57,6 @@ angular.module('groupList').component('groupList',{
             form.new_name.$pristine = true;
         };
         this.edit_group = function (form) {
-            console.log(!form.$invalid)
             if (!form.$invalid) {
                 var postCfg = {
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -79,6 +78,39 @@ angular.module('groupList').component('groupList',{
                 });
             }
 
+        };
+        this.delete_group = function (group_id) {
+            swal({
+				title: "确认删除",
+				text: "确认要删除该用户组吗？",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确认删除",
+				cancelButtonText: "取消",
+				closeOnConfirm: true,
+				closeOnCancel: true
+			}, function(isConfirm) {
+				if(isConfirm) {
+				    var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = {'id':group_id};
+                self.loading = true;
+                $http.post("/api/group/delete/", request_data, postCfg)
+                    .then(function (response) {
+                        self.get_data();
+                        self.loading = false;
+                        Toastr.messager["success"]("删除用户组成功", "成功");
+                    }, function (response) {
+                        self.loading= false;
+                        Toastr.handle(response,"删除用户组");
+                    });
+				}
+			});
         };
     }]
 });
