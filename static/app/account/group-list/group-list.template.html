@@ -44,7 +44,7 @@
                                 <td> <a href="">{{ group.name }}</a> </td>
                                 <td>
                                     <span class="todo-bar">
-                                        <i class="fa fa-edit" data-toggle="modal" data-target=".edit-model"  title="编辑此用户"></i>
+                                        <i class="fa fa-edit" data-toggle="modal" data-target="#edit-modal"  title="编辑此用户组" ng-click="$ctrl.init_change_form_data(editForm, group)"></i>
                                     </span>
                                     <span class="todo-bar">
                                         <i class="fa fa-refresh" data-toggle="modal" data-target=".change-password-model" ng-click="$ctrl.init_pass_form_data(passForm, user.id)"  title="重置密码"></i>
@@ -78,7 +78,7 @@
                                     用户组名
                                 </label>
                                 <div class="col-sm-10" >
-                                    <input type="text" name="name" placeholder="用户组名（2-16个字符）" id="username" class="form-control" required ng-model="$ctrl.create_form_data.name" minlength=2 maxlength="16">
+                                    <input type="text" name="name" placeholder="用户组名（2-16个字符）" id="name" class="form-control" required ng-model="$ctrl.create_form_data.name" minlength=2 maxlength="16">
                                     <span ng-show="createForm.name.$dirty &&  createForm.name.$invalid">
                                         <span ng-show="createForm.name.$error.required" class="help-block">用户名不能为空</span>
                                         <span ng-show="createForm.name.$error.minlength||createForm.name.$error.maxlength" class="help-block">用户组名长度必须在2-16之间</span>
@@ -101,4 +101,44 @@
             </div>
 
         </div>
+        <div class="modal fade bs-example-modal-lg" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i></span>
+                        </button>
+                        <h4 class="modal-title">添加用户组</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" class="form-horizontal" name="editForm" novalidate>
+                            <div class="form-group" ng-class="{true: 'has-error', false: ''}[editForm.new_name.$dirty &&  editForm.new_name.$invalid]">
+                                <label class="col-sm-2 control-label" for="new_name">
+                                    用户组名
+                                </label>
+                                <div class="col-sm-10" >
+                                    <input type="text" name="new_name" placeholder="用户组名（2-16个字符）" id="new_name" class="form-control" required ng-model="$ctrl.change_form_data.name" minlength=2 maxlength="16">
+                                    <span ng-show="editForm.new_name.$dirty &&  editForm.new_name.$invalid">
+                                        <span ng-show="editForm.new_name.$error.required" class="help-block">用户名不能为空</span>
+                                        <span ng-show="editForm.new_name.$error.minlength||editForm.new_name.$error.maxlength" class="help-block">用户组名长度必须在2-16之间</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-disabled="editForm.$invalid" ng-click="$ctrl.edit_group(editForm)" data-dismiss="modal">
+                            确定
+                        </button>
+                        <button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
 

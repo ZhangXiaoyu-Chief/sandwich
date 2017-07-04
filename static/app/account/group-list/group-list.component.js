@@ -36,7 +36,6 @@ angular.module('groupList').component('groupList',{
                 };
                 var request_data = self.create_form_data;
                 self.loading = true;
-                request_data.avatar = self.avatar;
                 $http.post("/api/group/create/", request_data, postCfg)
                     .then(function (response) {
                         self.loading = false
@@ -46,7 +45,38 @@ angular.module('groupList').component('groupList',{
                     }, function (response) {
                         self.loading= false;
                         Toastr.handle(response, "创建用户组");
-                    });
+                });
+            }
+        };
+        this.init_change_form_data = function (form, group) {
+            self.change_form_data = {
+                "id": group.id,
+                "name": group.name
+            };
+            form.new_name.$dirty = false;
+            form.new_name.$pristine = true;
+        };
+        this.edit_group = function (form) {
+            console.log(!form.$invalid)
+            if (!form.$invalid) {
+                var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = self.change_form_data;
+                self.loading = true;
+                $http.post("/api/group/change/", request_data, postCfg)
+                    .then(function (response) {
+                        self.loading = false
+                        Toastr.messager["success"]("编辑用户组成功", "成功");
+                        self.get_data();
+                        $('#change-modal').modal('hide');
+                    }, function (response) {
+                        self.loading= false;
+                        Toastr.handle(response, "编辑用户组");
+                });
             }
 
         };
