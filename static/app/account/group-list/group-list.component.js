@@ -19,5 +19,36 @@ angular.module('groupList').component('groupList',{
             });
         };
         this.get_data();
+        this.init_create_form_data = function (form) {
+            self.create_form_data = {
+                "name": ""
+            };
+            form.name.$dirty = false;
+            form.name.$pristine = true;
+        };
+        this.create_group = function (form) {
+            if (!form.$invalid) {
+                var postCfg = {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function (data) {
+                        return $.param(data);
+                    }
+                };
+                var request_data = self.create_form_data;
+                self.loading = true;
+                request_data.avatar = self.avatar;
+                $http.post("/api/group/create/", request_data, postCfg)
+                    .then(function (response) {
+                        self.loading = false
+                        Toastr.messager["success"]("创建用户组成功", "成功");
+                        self.get_data();
+                        $('#create-modal').modal('hide');
+                    }, function (response) {
+                        self.loading= false;
+                        Toastr.handle(response, "创建用户组");
+                    });
+            }
+
+        };
     }]
 });

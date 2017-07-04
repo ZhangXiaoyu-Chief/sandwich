@@ -1,5 +1,6 @@
 from api.libs.base import CoreView
 from django.contrib.auth.models import Group
+from django.db.utils import IntegrityError
 
 class GroupView(CoreView):
     """
@@ -18,3 +19,12 @@ class GroupView(CoreView):
                 "name": group_obj.name
             })
         self.response_data['data'] = group_list
+
+    def post_create(self):
+        try:
+            name = self.parameters("name")
+            group_obj = Group(name=name)
+            group_obj.save()
+        except IntegrityError:
+            self.response_data['status'] = False
+            self.status_code = 416
