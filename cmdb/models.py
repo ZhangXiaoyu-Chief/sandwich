@@ -399,6 +399,12 @@ class BusinessUnit(models.Model):
     class Meta:
         verbose_name = '业务线'
         verbose_name_plural = "业务线"
+        permissions = (
+            ('view_project_asset', '查看该项目资产'),
+            ('add_project_asset', '添加该项目资产'),
+            ('change_project_asset', '编辑该项目资产'),
+            ('del_project_asset', '删除该项目资产'),
+        )
 
     def get_info(self):
         return {

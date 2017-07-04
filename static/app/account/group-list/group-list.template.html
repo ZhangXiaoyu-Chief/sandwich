@@ -1,0 +1,66 @@
+        <section id="page-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h1 class="mainTitle">用户管理</h1>
+                </div>
+                <ol class="breadcrumb">
+                    <li>
+                        <span>HOME</span>
+                    </li>
+                    <li>
+                        <span>系统设置</span>
+                    </li>
+                    <li class="active">
+                        <span>用户组管理</span>
+                    </li>
+                </ol>
+            </div>
+        </section>
+        <div class="container-fluid container-fullw bg-white">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12 page-tool-bar">
+                            <a class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg">
+                                <i class="ti-plus"></i>
+                                新增用户组</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> 组名 </th>
+                                <th> 操作 </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="group in $ctrl.groups">
+                                <td> {{ group.id }} </td>
+                                <td> <a href="">{{ group.name }}</a> </td>
+                                <td>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-edit" data-toggle="modal" data-target=".edit-model"  title="编辑此用户"></i>
+                                    </span>
+                                    <span class="todo-bar">
+                                        <i class="fa fa-refresh" data-toggle="modal" data-target=".change-password-model" ng-click="$ctrl.init_pass_form_data(passForm, user.id)"  title="重置密码"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flyover" ng-show="$ctrl.loading">
+                    <div class="mask"></div>
+                    <div class="alert">
+                        <strong><img src="/static/images/loading.gif" width="64"></strong>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>

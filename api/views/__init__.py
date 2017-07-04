@@ -5,5 +5,6 @@ from api.views.project import Project
 from api.views.datacenter import DataCenterView as DataCenter
 from api.views.machineroom import MachineRoomView as MachineRoom
 from api.views.cabinet import CabinetView as Cabinet
+from api.views.group import GroupView as Group
 
-__all__ = ["Server", "Account", "Upload", "Project", "DataCenter", "MachineRoom", "Cabinet"]
+__all__ = ["Server", "Account", "Upload", "Project", "DataCenter", "MachineRoom", "Cabinet", "Group"]

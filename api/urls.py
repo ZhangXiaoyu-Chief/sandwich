@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^datacenter/(?P<action>\w+)/$', csrf_exempt(views.DataCenter.as_view())),
     url(r'^machineroom/(?P<action>\w+)/$', csrf_exempt(views.MachineRoom.as_view())),
     url(r'^cabinet/(?P<action>\w+)/$', csrf_exempt(views.Cabinet.as_view())),
+    url(r'^group/(?P<action>\w+)/$', csrf_exempt(views.Group.as_view())),
 ]

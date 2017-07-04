@@ -15,6 +15,8 @@ angular.module('sandwichApp').config(['$locationProvider', '$routeProvider',
             template: '<server-detail></server-detail>'
         }).when('/users', {
             template: '<user-list></user-list>'
+        }).when('/groups', {
+            template: '<group-list></group-list>'
         }).when('/projects', {
             template: '<project-list></project-list>'
         }).when('/datacenters', {
