@@ -67,7 +67,7 @@ class Asset(models.Model):
                 "trade_date": self.trade_date.strftime("%Y-%m-%d") if self.trade_date else "",
                 "expire_date": self.expire_date.strftime("%Y-%m-%d") if self.expire_date else "",
                 "price": self.price if self.price else 0,
-                "business_unit": self.business_unit if self.business_unit else "",
+                "business_unit": self.business_unit.name if self.business_unit else "",
                 "tags": [tag.name for tag in self.tags.all()] if self.tags.all() else [],
                 "admin": self.admin.username if self.admin else "",
                 "operation": self.operation.username if self.operation else "",

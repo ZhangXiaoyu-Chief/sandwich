@@ -31,6 +31,8 @@ class Server(CoreView):
         response_data = []
         username = self.parameters('username')
         password = self.parameters('password')
+        project_id = self.parameters('project')
+        print(self.request.POST )
         ipaddresses = self.parameters('ipaddresses').split(';')
         port = self.parameters('port')
         for ipaddress in ipaddresses:
@@ -43,7 +45,7 @@ class Server(CoreView):
                     response_data.append({"ipaddress": ipaddress, "status": False, "msg": "认证失败，请检查用户名密码是否正确"})
             else:
                 if not Asset.objects.filter(sn = cmdb_collector.asset_info.get('essential_information').get("SN")).first():
-                    handler = AssetHandler(self.request, cmdb_collector.asset_info)
+                    handler = AssetHandler(self.request, cmdb_collector.asset_info, project_id=project_id)
                     handler.create_asset('server')
                     response_data.append({"ipaddress": ipaddress, "status": True, "msg": "添加成功"})
                 else:

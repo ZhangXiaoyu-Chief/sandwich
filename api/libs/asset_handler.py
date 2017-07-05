@@ -2,10 +2,11 @@ from cmdb import models
 
 
 class AssetHandler(object):
-    def __init__( self, request, asset_data, created_by='auto'):
+    def __init__( self, request, asset_data,project_id=0, created_by='auto'):
         self.asset_data = asset_data
         self.created_by = created_by
         self.request = request
+        self.project_id = project_id
 
     def log_handler(self,event_type, component=None, detail=""):
         user = self.request.user.username if self.request.user else None
@@ -23,11 +24,14 @@ class AssetHandler(object):
         :return:
         """
         manufactory_obj = self._create_or_update_manufactory()
+        print(self.project_id)
+        project_obj = models.BusinessUnit.objects.filter(id = self.project_id).first()
         self.asset_obj = models.Asset(asset_type="server",
                                       name=self.asset_data.get("essential_information").get("hostname"),
                                       sn=self.asset_data.get("essential_information").get("SN"),
                                       manufactory=manufactory_obj,
-                                      status=0
+                                      status=0,
+                                      business_unit=project_obj
                                       )
         self.asset_obj.save()
         func = getattr(self, '_create_%s' % asset_type)

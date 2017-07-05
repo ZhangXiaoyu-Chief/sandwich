@@ -49,6 +49,14 @@ angular.module('serverList').component('serverList', {
                 Toastr.handle(response,"查看服务器列表");
                 self.loading = false;
             });
+            $http.get('/api/project/list/').then(function (response) {
+                self.projects = response.data.data;
+                self.loading = false;
+            }, function (response) {
+                // 获取数据失败执行
+                Toastr.handle(response,"获取项目列表");
+                self.loading = false;
+            });
         };
         this.get_data();
         this.change_page = function (page) {
@@ -77,8 +85,17 @@ angular.module('serverList').component('serverList', {
                 ipaddresses: "",
                 port: 22,
                 username: "root",
-                password: ""
+                password: "",
+                project:0
             };
+            $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+            console.log(self.projects[0].id)
+            $("#project").val(self.projects[0].id)
+            $("#project").select2({
+                width: "100%", //设置下拉框的宽度
+            });
+
+            // $("#project").trigger('change')
             form.ipaddresses.$dirty = false;
             form.ipaddresses.$pristine = true;
             form.password.$dirty = false;
@@ -92,16 +109,8 @@ angular.module('serverList').component('serverList', {
                         return $.param(data);
                     }
                 };
-                var ipaddresses = $('#ipaddresses').val();
-                var port = $('#port').val();
-                var username = $('#username').val();
-                var password = $('#password').val();
-                var request_data = {
-                    "ipaddresses": ipaddresses,
-                    "port": port,
-                    "username": username,
-                    "password": password
-                };
+
+                var request_data = self.create_form_data
                 $('#create-model').modal('hide');
 
                 $http.post("/api/server/create/", request_data, postCfg)
