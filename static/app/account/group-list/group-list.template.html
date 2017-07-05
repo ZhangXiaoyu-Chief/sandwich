@@ -1,7 +1,7 @@
         <section id="page-title">
             <div class="row">
                 <div class="col-sm-8">
-                    <h1 class="mainTitle">用户管理</h1>
+                    <h1 class="mainTitle">用户组管理</h1>
                 </div>
                 <ol class="breadcrumb">
                     <li>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <div class="">
+                <div class="col-md-4">
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -41,7 +41,7 @@
                         <tbody>
                             <tr ng-repeat="group in $ctrl.groups">
                                 <td> {{ group.id }} </td>
-                                <td> <a href="">{{ group.name }}</a> </td>
+                                <td> <a href="" ng-click="$ctrl.show_permissions(group)">{{ group.name }}</a> </td>
                                 <td>
                                     <span class="todo-bar">
                                         <i class="fa fa-edit" data-toggle="modal" data-target="#edit-modal"  title="编辑此用户组" ng-click="$ctrl.init_change_form_data(editForm, group)"></i>
@@ -53,6 +53,64 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel panel-white">
+                        <div class="panel-heading border-light">
+                            <h4 class="panel-title">资产权限</h4>
+                            <div class="panel-tools" >
+                                <button type="button" class="btn btn-wide btn-primary" style="margin-top: -7px;" ng-click="$ctrl.change_permissions()">
+										<i class="ti-reload"></i> 更新用户组权限
+                                </button>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover" id="sample-table-1">
+                                <thead>
+                                    <tr>
+                                        <th>项目</th>
+                                        <th>查看</th>
+                                        <th>添加</th>
+                                        <th>编辑</th>
+                                        <th>删除</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="permission in $ctrl.permissions">
+                                        <td>{{ permission.project_name }}</td>
+                                        <td>
+                                            <div class="checkbox clip-check check-primary">
+                                                <input type="checkbox" id="{{ permission.project_name + 'view_project_asset' }}" ng-model="permission.view_project_asset">
+                                                <label for="{{ permission.project_name + 'view_project_asset' }}">
+                                                </label>
+                                            </div>
+                                        <td>
+                                            <div class="checkbox clip-check check-primary">
+                                                <input type="checkbox" id="{{ permission.project_name + 'add_project_asset' }}" ng-model="permission.add_project_asset">
+                                                <label for="{{ permission.project_name + 'add_project_asset' }}">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="checkbox clip-check check-primary">
+                                                <input type="checkbox" id="{{ permission.project_name + 'change_project_asset' }}" ng-model="permission.change_project_asset">
+                                                <label for="{{ permission.project_name + 'change_project_asset' }}">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="checkbox clip-check check-primary">
+                                                <input type="checkbox" id="{{ permission.project_name + 'del_project_asset' }}" ng-model="permission.del_project_asset">
+                                                <label for="{{ permission.project_name + 'del_project_asset' }}">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="flyover" ng-show="$ctrl.loading">
                     <div class="mask"></div>
@@ -138,7 +196,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
+
 
 

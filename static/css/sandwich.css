@@ -107,3 +107,14 @@ ul.sub-menu li a {
     /*padding: 5px 4px;*/
     height: 34px;
 }
+.clip-check{
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+.bootstrap-select > .btn{
+    border-radius: 0px;
+    padding-left: 4px;
+}
+.bootstrap-select > .dropdown-menu{
+    border-radius: 0px;
+}

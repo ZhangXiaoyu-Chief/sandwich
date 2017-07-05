@@ -25,7 +25,7 @@ class UserProfile(models.Model):
             "status": self.user.is_active,
             "create_date": self.user.date_joined.strftime("%Y-%m-%d %H:%M"),
             # "last_date": self.user.get_latest_by()
-            "group": [group.name for group in self.user.groups.all()]
+            "group": [{"id": group.id, "name": group.name} for group in self.user.groups.all()]
         }
 
     class Meta:

@@ -41,6 +41,14 @@ angular.module('userList').component('userList', {
                 Toastr.handle(response,"获取用户列表");
                 self.loading = false;
             });
+            $http.get('/api/group/list/').then(function (response) {
+                self.groups = response.data.data;
+                self.loading = false;
+            }, function (response) {
+                // 获取数据失败执行
+                Toastr.handle(response,"获取用户组列表");
+                self.loading = false;
+            });
         };
         this.get_data();
         this.create_user = function (form) {
@@ -54,6 +62,7 @@ angular.module('userList').component('userList', {
                 var request_data = self.create_form_data;
                 self.loading = true;
                 request_data.avatar = self.avatar;
+                request_data.group = $('#group').val().toString();
                 $http.post("/api/account/create/", request_data, postCfg)
                     .then(function (response) {
                         self.loading = false
@@ -76,6 +85,7 @@ angular.module('userList').component('userList', {
                     }
                 };
                 var request_data = self.edit_form_data;
+                request_data.group = $('#new_group').val().toString();
                 request_data.avatar = self.avatar;
                 self.loading = true;
                 $http.post("/api/account/change/", request_data, postCfg)
@@ -129,6 +139,11 @@ angular.module('userList').component('userList', {
             form.username.$pristine = true;
             form.password.$dirty = false;
             form.password.$pristine = true;
+            $('#group').selectpicker({
+                // 'selectedText': 'cat',
+                'noneSelectedText': '请选择用户组'
+            });
+            $('#group').selectpicker('val',[]);
         };
         // this.disable = function (user_id) {
         //     var postCfg = {
@@ -218,10 +233,22 @@ angular.module('userList').component('userList', {
                 self.edit_form_data = response.data.data;
                 self.avatar = response.data.data.avatar;
                 self.loading = false;
+                var group_list =[]
+                for(i=0;i<response.data.data.group.length;i++){
+                    group_list.push(response.data.data.group[i].id)
+                }
+                $('#new_group').selectpicker({
+                    // 'selectedText': 'cat',
+                    'noneSelectedText': '请选择用户组'
+                });
+                $('#new_group').selectpicker('val',group_list);
             }, function (response) {
                 self.loading = false;
                 Toastr.handle(response, "编辑用户");
             });
+            form.edit_username.$dirty = false;
+            form.edit_username.$pristine = true;
+
         };
         this.init_pass_form_data = function (form, user_id) {
             self.pass_form_data = {
@@ -252,6 +279,13 @@ angular.module('userList').component('userList', {
                         Toastr.handle(response, "修改");
                     });
             }
+        };
+        this.get_group_display = function (user) {
+            var group_list =[]
+            for(i=0;i<user.group.length;i++){
+                group_list.push(user.group[i].name)
+            }
+            return group_list.toString()
         };
         // this.init_create_form_data();
     }]

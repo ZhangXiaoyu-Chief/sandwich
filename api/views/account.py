@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from api.libs.base import CoreView
 from account.models import UserProfile
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from django.db.utils import IntegrityError
 # Create your views here.
 
@@ -31,12 +32,17 @@ class Account(CoreView):
             username = self.parameters('username')
             password = self.parameters('password')
             email = self.parameters('email')
+            group_ids = self.parameters("group").split(",")
+            group_objs = Group.objects.filter(id__in=group_ids).all()
             is_active = True if self.parameters('status') == 'true' else False
             is_superuser = True if self.parameters('is_superuser') == 'true' else False
             nickname = self.parameters('nickname')
             avatar = self.parameters('avatar')
             user_obj = User.objects.create(username=username, password=password, email=email,
                                            is_superuser=is_superuser, is_active=is_active)
+            for group_obj in group_objs:
+                user_obj.groups.add(group_obj)
+            user_obj.save()
             user_profile_obj = UserProfile.objects.create(user=user_obj, nickname=nickname, avatar=avatar)
 
             self.response_data['data'] = user_profile_obj.get_info()
@@ -102,13 +108,20 @@ class Account(CoreView):
         is_superuser = True if self.parameters('is_superuser') == 'true' else False
         nickname = self.parameters('nickname')
         avatar = self.parameters('avatar')
+        group_ids = self.parameters("group").split(",")
         user_profile_obj = UserProfile.objects.filter(id=user_id).first()
+
+        group_objs = Group.objects.filter(id__in=group_ids).all()
+
         if user_profile_obj:
             try:
                 user_profile_obj.user.username = username
                 user_profile_obj.user.email = email
                 user_profile_obj.user.is_active = is_active
                 user_profile_obj.user.is_superuser = is_superuser
+                user_profile_obj.user.groups = []
+                for group_obj in group_objs:
+                    user_profile_obj.user.groups.add(group_obj)
                 user_profile_obj.user.save()
                 user_profile_obj.avatar = avatar
                 user_profile_obj.nickname = nickname
@@ -116,9 +129,6 @@ class Account(CoreView):
             except IntegrityError:
                 self.response_data['status'] = False
                 self.status_code = 416
-            except Exception:
-                self.response_data['status'] = False
-                self.status_code = 500
         else:
             self.response_data['status'] = False
             self.status_code = 404
@@ -131,12 +141,8 @@ class Account(CoreView):
         user_id = self.parameters("user_id")
         user_profile_obj = UserProfile.objects.filter(id=user_id).first()
         if user_profile_obj:
-            try:
-                user_profile_obj.user.set_password(newpassword)
-                user_profile_obj.user.save()
-            except:
-                self.response_data['status'] = False
-                self.status_code = 500
+            user_profile_obj.user.set_password(newpassword)
+            user_profile_obj.user.save()
         else:
             self.response_data['status'] = False
             self.status_code = 404

@@ -145,7 +145,6 @@ class CoreView(View):
 
     def check_permission(self, view):
         permission = self.permission_view_map.get(view, "")
-        print(1, permission)
         if permission:
             if self.request.user.has_perm("%s.%s" % (self.app_name, permission)):
                 return True
