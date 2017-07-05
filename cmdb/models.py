@@ -49,8 +49,8 @@ class Asset(models.Model):
             "operation": self.operation.username if self.operation else "",
             "ram": self.ram.capacity if hasattr(self, 'ram') and self.ram.capacity else "",
             "cpu_model": self.cpu.model if hasattr(self, 'cpu') and self.cpu.model else "",
-            "os_distribution": self.server.os_distribution if hasattr(self,
-                                                                      'server') and self.server.os_distribution else "",
+            "os_release": self.server.os_release if hasattr(self, 'server') and self.server.os_release else "",
+            "os_type": self.server.os_type if hasattr(self, 'server') and self.server.os_type else "",
             "status": self.get_status_display()
         }
 

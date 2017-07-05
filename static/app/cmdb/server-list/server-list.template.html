@@ -45,7 +45,8 @@
                                 <th> 运维负责人 </th>
                                 <th> 内存大小(MB) </th>
                                 <th> CPU型号 </th>
-                                <th> 操作系统发行版本 </th>
+                                <th> 操作系统 </th>
+                                <th> 操作系统版本 </th>
                                 <th> 状态 </th>
                                 <th> 操作 </th>
                             </tr>
@@ -58,7 +59,8 @@
                                 <td> {{ server.operation }} </td>
                                 <td> {{ server.ram }} </td>
                                 <td> {{ server.cpu_model }} </td>
-                                <td> {{ server.os_distribution }} </td>
+                                <td> {{ server.os_type }} </td>
+                                <td> {{ server.os_release }} </td>
                                 <td> <span class="label {{ $ctrl.labels[ server.status ] }}"> {{ server.status }} </span>  </td>
                                 <td>
                                     <span class="todo-bar">
