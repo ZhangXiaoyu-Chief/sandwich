@@ -6,7 +6,7 @@ from django.conf import settings
 
 class Upload(CoreView):
     """
-
+    上传类
     """
 
     def __get_file_name(self):

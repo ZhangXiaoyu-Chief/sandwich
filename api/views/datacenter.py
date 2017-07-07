@@ -6,7 +6,11 @@ from django.db.utils import IntegrityError
 
 
 class DataCenterView(CoreView):
-    login_required_action = ["get_list"]
+    """
+    数据中心视图类
+    """
+    login_required_action = ["get_list", "post_create", "post_delete", "post_change"]
+    superuser_required_action = ["post_create", "post_delete", "post_change"]
 
     def get_list(self):
         per_page = self.parameters("per_page")

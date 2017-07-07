@@ -11,7 +11,9 @@ class Account(CoreView):
     """
     用户相关接口
     """
-    login_required_action = ["get_list", "post_create", "post_forbidden", "get_user"]
+    login_required_action = ["get_list", "post_create", "post_change_status", "get_user", "post_change", "post_changepwd"]
+    superuser_required_action = ["get_list", "post_create", "post_change_status", "get_user", "post_change", "post_changepwd"]
+
     def get_list(self):
         """
         获取用户列表接口

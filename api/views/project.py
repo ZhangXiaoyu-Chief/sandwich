@@ -8,6 +8,8 @@ class Project(CoreView):
     """
     项目接口类
     """
+    login_required_action = ["get_list", "post_create", "post_delete", "post_change"]
+    superuser_required_action = ["post_create", "post_delete", "post_change"]
 
     def get_list(self):
         per_page = self.parameters("per_page")

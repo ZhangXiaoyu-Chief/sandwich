@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from api.libs.base import CoreView
-from cmdb.models import Asset
+from cmdb.models import Asset,BusinessUnit
 from django.db.models import Q
 from api.libs.cmdb_agent import CmdbCollector
 from api.libs.asset_handler import AssetHandler
@@ -19,9 +19,13 @@ class Server(CoreView):
     def get_list(self):
         search = self.parameters('search')
         if not search:
-            server_objs = self.page_split(get_objects_for_user(self.request.user, 'cmdb.view_asset').filter(asset_type='server').all())
+            server_objs = self.page_split(Asset.objects.filter(
+                business_unit__in=get_objects_for_user(self.request.user, "cmdb.view_project_asset")).all())
         else:
-            server_objs = self.page_split(get_objects_for_user(self.request.user, 'cmdb.view_asset').filter(Q(name__contains=search) | Q(nics__ip_address__contains=search) | Q(asset_num__contains=search)).all().distinct())
+            server_objs = self.page_split(Asset.objects.filter(
+                business_unit__in=get_objects_for_user(self.request.user, "cmdb.view_project_asset"))
+                .filter(Q(name__contains=search) | Q(nics__ip_address__contains=search) |
+                        Q(asset_num__contains=search)).distinct())
         server_list = []
         for server_obj in server_objs:
             server_list.append(server_obj.get_base_info())
@@ -32,7 +36,6 @@ class Server(CoreView):
         username = self.parameters('username')
         password = self.parameters('password')
         project_id = self.parameters('project')
-        print(self.request.POST )
         ipaddresses = self.parameters('ipaddresses').split(';')
         port = self.parameters('port')
         for ipaddress in ipaddresses:
@@ -44,8 +47,8 @@ class Server(CoreView):
                 elif "Authentication failure" in cmdb_collector.msg:
                     response_data.append({"ipaddress": ipaddress, "status": False, "msg": "认证失败，请检查用户名密码是否正确"})
             else:
-                if not Asset.objects.filter(sn = cmdb_collector.asset_info.get('essential_information').get("SN")).first():
-                    handler = AssetHandler(self.request, cmdb_collector.asset_info, project_id=project_id)
+                if not Asset.objects.filter(sn=cmdb_collector.asset_info.get('essential_information').get("SN")).first():
+                    handler = AssetHandler(self.request, cmdb_collector.asset_info, project_id=project_id, management_ip=ipaddress)
                     handler.create_asset('server')
                     response_data.append({"ipaddress": ipaddress, "status": True, "msg": "添加成功"})
                 else:
@@ -57,7 +60,7 @@ class Server(CoreView):
         if asset_id:
             asset_obj = Asset.objects.filter(id=asset_id).first()
             if asset_obj:
-                if self.request.user.has_perm('view_asset', asset_obj):
+                if self.request.user.has_perm('view_project_asset', asset_obj.business_unit):
                     self.response_data["data"] = asset_obj.get_info()
                 else:
                     self.get_not_permission()

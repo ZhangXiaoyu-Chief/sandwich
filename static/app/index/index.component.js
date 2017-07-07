@@ -7,6 +7,7 @@ angular.
   component('index', {
     templateUrl: '/static/app/index/index.template.html',
     controller: function ServerlistListController($http) {
+      'use strict';
       var self = this;
     }
   });

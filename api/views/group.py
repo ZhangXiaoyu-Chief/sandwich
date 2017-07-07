@@ -11,6 +11,10 @@ class GroupView(CoreView):
     """
     用户组相关接口
     """
+
+    login_required_action = ["get_list", "post_create", "post_change", "post_delete", "post_change_permissions"]
+    superuser_required_action = ["get_list", "post_create", "post_change", "post_delete", "post_change_permissions"]
+
     def get_list(self):
         """
         获取用户组列表接口
