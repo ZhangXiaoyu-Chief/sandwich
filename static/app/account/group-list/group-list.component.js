@@ -12,7 +12,7 @@ angular.module('groupList').component('groupList', {
             $http.get('/api/group/list/').then(function (response) {
                 self.groups = response.data.data;
                 self.loading = false;
-                self.show_permissions(self.groups[0]);
+                // self.show_permissions(self.groups[0]);
             }, function (response) {
                 // 获取数据失败执行
                 Toastr.handle(response, "获取用户组列表");
