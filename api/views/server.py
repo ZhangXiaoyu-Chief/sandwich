@@ -67,7 +67,6 @@ class Server(CoreView):
             if asset_obj:
                 if self.request.user.has_perm('view_project_asset', asset_obj.business_unit):
                     self.response_data["data"] = asset_obj.get_info()
-                    print(asset_obj.get_info().get("base").get("status"))
                 else:
                     self.get_not_permission()
             else:
@@ -94,6 +93,9 @@ class Server(CoreView):
             value = None
         asset_obj = Asset.objects.filter(id=asset_id).first()
         if asset_obj:
+            if not self.request.user.has_perm("change_project_asset", asset_obj.business_unit):
+                self.response_data["status"] = False
+                self.status_code = 403
             filed_name = filed_name.split(".")
             if filed_name[0] == 'base':
                 if filed_name[1] not in ["admin", "raid_type", "cabinet", "business_unit", "operation", "tags"]:

@@ -296,7 +296,6 @@
                                         <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.business_unit']">
                                             <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
                                             <select id="business_unit" name="business_unit" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.base.business_unit">
-                                                <option value="">------</option>
                                                 <option ng-selected="business_unit.id===$ctrl.form_data.base.business_unit" ng-repeat="business_unit in $ctrl.business_unit_select" value="{{ business_unit.id }}">{{ business_unit.name }}</option>
                                             </select>
                                             <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.business_unit')">确定</span>
