@@ -59,6 +59,10 @@ angular.module('serverDetail').component('serverDetail', {
                     return $.param(data);
                 }
             };
+            if(this.form_data[keys[0]][keys[1]]===this.server[keys[0]][keys[1]]){
+                this.edit_form_display[field_name] = false;
+                return;
+            }
             var request_data = {
                 "id": this.form_data.id,
                 "filed_name": field_name,
