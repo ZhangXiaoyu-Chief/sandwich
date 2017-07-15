@@ -52,7 +52,20 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>运营状态：</strong></div>
-                                    <div class="col-md-9"><span class="label {{ $ctrl.labels[ $ctrl.server.base.status ] }}"> {{ $ctrl.server.base.status }} </span></div>
+                                    <div class="col-md-9 editable-field">
+                                        <span class="label {{ $ctrl.labels[ $ctrl.server.base.status_display ] }}" ng-hide="$ctrl.edit_form_display['base.status']"> {{ $ctrl.server.base.status_display }} </span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.status']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <select id="status" name="status" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.base.status">
+                                                <option ng-selected="status[0]===$ctrl.form_data.base.status" ng-repeat="status in $ctrl.statuses" value="{{ status[0] }}">{{ status[1] }}</option>
+                                            </select>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.status')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.status')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.status']">
+                                            <i class="fa fa-edit"  title="编辑资产编号" ng-click="$ctrl.edit_field('base.status')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +73,17 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>资产编号：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.base.asset_num }}</div>
+                                    <div class="col-md-9 editable-field"><span ng-hide="$ctrl.edit_form_display['base.asset_num']">{{ $ctrl.server.base.asset_num }}</span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.asset_num']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <input id="asset_num" type="text" name="asset_num" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.base.asset_num">
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.asset_num')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.asset_num')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.asset_num']">
+                                            <i class="fa fa-edit"  title="编辑资产编号" ng-click="$ctrl.edit_field('base.asset_num')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -80,7 +103,17 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>管理IP：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.base.management_ip }}</div>
+                                    <div class="col-md-9 editable-field"><span ng-hide="$ctrl.edit_form_display['base.management_ip']">{{ $ctrl.server.base.management_ip }}</span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.management_ip']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <input id="management_ip" type="text" name="management_ip" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.base.management_ip">
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.management_ip')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.management_ip')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.management_ip']">
+                                            <i class="fa fa-edit"  title="编辑资产编号" ng-click="$ctrl.edit_field('base.management_ip')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +149,29 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>Raid类型：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.server.raid_type }}</div>
+                                    <div class="col-md-9 editable-field"><span ng-hide="$ctrl.edit_form_display['server.raid_type']">{{ $ctrl.server.server.raid_type }}</span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['server.raid_type']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <select id="status" name="raid_type" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.server.raid_type">
+                                                <option value="">------</option>
+                                                <option value="RAID 0">RAID 0</option>
+                                                <option value="RAID 1">RAID 1</option>
+                                                <option value="RAID 3">RAID 3</option>
+                                                <option value="RAID 5">RAID 5</option>
+                                                <option value="RAID 6">RAID 6</option>
+                                                <option value="RAID 01">RAID 01</option>
+                                                <option value="RAID 10">RAID 10</option>
+                                                <option value="RAID 50">RAID 50</option>
+                                                <option value="RAID 60">RAID 60</option>
+                                            </select>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('server.raid_type')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('server.raid_type')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['server.raid_type']">
+                                            <i class="fa fa-edit"  title="编辑Raid类型" ng-click="$ctrl.edit_field('server.raid_type')"></i>
+                                        </span>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -150,7 +205,17 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>价格：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.base.price | currency:"":2 }}</div>
+                                    <div class="col-md-9 editable-field"><span ng-hide="$ctrl.edit_form_display['base.price']">{{ $ctrl.server.base.price | currency:"":2 }}</span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.price']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <input id="price" type="number" name="price" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.base.price">
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.price')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.price')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.price']">
+                                            <i class="fa fa-edit"  title="编辑资产编号" ng-click="$ctrl.edit_field('base.price')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -158,13 +223,33 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>购买时间：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.base.trade_date }}</div>
+                                    <div class="col-md-9 editable-field"><span ng-hide="$ctrl.edit_form_display['base.trade_date']">{{ $ctrl.server.base.trade_date }}</span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.trade_date']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <input id="trade_date" type="text" name="trade_date" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control datepicker" style="display: block;" ng-model="$ctrl.form_data.base.trade_date">
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.trade_date')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.trade_date')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.trade_date']">
+                                            <i class="fa fa-edit"  title="编辑购买时间" ng-click="$ctrl.edit_field('base.trade_date')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>过保时间：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.base.expire_date }}</div>
+                                    <div class="col-md-9 editable-field"><span ng-hide="$ctrl.edit_form_display['base.expire_date']">{{ $ctrl.server.base.expire_date }}</span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.expire_date']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <input id="expire_date" type="text" name="expire_date" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control datepicker" style="display: block;" ng-model="$ctrl.form_data.base.expire_date">
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.expire_date')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.expire_date')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.expire_date']">
+                                            <i class="fa fa-edit"  title="编辑过保时间" ng-click="$ctrl.edit_field('base.expire_date')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -186,13 +271,41 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>所属机柜：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.base.cabinet }}</div>
+                                    <div class="col-md-9 editable-field">
+                                        <span ng-hide="$ctrl.edit_form_display['base.cabinet']"> {{ $ctrl.server.base.cabinet_display }} </span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.cabinet']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <select id="cabinet" name="cabinet" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.base.cabinet">
+                                                <option value="">------</option>
+                                                <option ng-selected="cabinet.id===$ctrl.form_data.base.cabinet" ng-repeat="cabinet in $ctrl.cabinet_select" value="{{ cabinet.id }}">{{ cabinet.number }}</option>
+                                            </select>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.cabinet')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.cabinet')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.cabinet']">
+                                            <i class="fa fa-edit"  title="编辑机柜" ng-click="$ctrl.edit_field('base.cabinet')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
-                                    <div class="col-md-3 detail-label"><strong>所属业务线：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.base.business_unit }}</div>
+                                    <div class="col-md-3 detail-label"><strong>所属项目：</strong></div>
+                                    <div class="col-md-9 editable-field">
+                                        <span ng-hide="$ctrl.edit_form_display['base.business_unit']"> {{ $ctrl.server.base.business_unit_display }} </span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.business_unit']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <select id="business_unit" name="business_unit" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.base.business_unit">
+                                                <option value="">------</option>
+                                                <option ng-selected="business_unit.id===$ctrl.form_data.base.business_unit" ng-repeat="business_unit in $ctrl.business_unit_select" value="{{ business_unit.id }}">{{ business_unit.name }}</option>
+                                            </select>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.business_unit')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.business_unit')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.business_unit']">
+                                            <i class="fa fa-edit"  title="编辑资产项目" ng-click="$ctrl.edit_field('base.business_unit')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -200,13 +313,41 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>负责人：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.base.admin }}</div>
+                                    <div class="col-md-9 editable-field">
+                                        <span ng-hide="$ctrl.edit_form_display['base.admin']"> {{ $ctrl.server.base.admin_display }} </span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.admin']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <select id="admin" name="admin" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.base.admin">
+                                                <option value="">------</option>
+                                                <option ng-selected="admin.id===$ctrl.form_data.base.admin" ng-repeat="admin in $ctrl.user_select" value="{{ admin.id }}">{{ admin.username }}</option>
+                                            </select>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.admin')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.admin')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.admin']">
+                                            <i class="fa fa-edit"  title="编辑资产负责人" ng-click="$ctrl.edit_field('base.admin')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>运维人员：</strong></div>
-                                    <div class="col-md-9">{{ $ctrl.server.base.operation }}</div>
+                                    <div class="col-md-9 editable-field">
+                                        <span ng-hide="$ctrl.edit_form_display['base.operation']"> {{ $ctrl.server.base.operation_display }} </span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.operation']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <select id="operation" name="operation" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" style="display: block;" ng-model="$ctrl.form_data.base.operation">
+                                                <option value="">------</option>
+                                                <option ng-selected="operation.id===$ctrl.form_data.base.operation" ng-repeat="operation in $ctrl.user_select" value="{{ operation.id }}">{{ operation.username }}</option>
+                                            </select>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.operation')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.operation')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.operation']">
+                                            <i class="fa fa-edit"  title="编辑运维人员" ng-click="$ctrl.edit_field('base.operation')"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -214,13 +355,18 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-3 detail-label"><strong>标签：</strong></div>
-                                    <div class="col-md-9">
-                                        <span class="label label-info" ng-repeat="tag in $ctrl.server.base.tags" style="margin-right: 5px"> {{ tag }}</span>
+                                    <div class="col-md-9 editable-field">
+                                        <span ng-hide="$ctrl.edit_form_display['base.tags']"> <span class="label label-info" style="margin-right: 2px" ng-repeat="tag in $ctrl.server.base.tags.split(',')">{{ tag }}</span> </span>
+                                        <div class="input-group bootstrap-touchspin" ng-show="$ctrl.edit_form_display['base.tags']">
+                                            <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                            <input id="tags" type="text" data-role="tagsinput" touchspin="" data-postfix="button" data-postfix_extraclass="btn btn-default" class="form-control" ng-model="$ctrl.form_data.base.tags"/>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-primary" ng-click="$ctrl.edit_field_submit('base.tags')">确定</span>
+                                            <span class="input-group-addon bootstrap-touchspin-postfix btn btn-default" ng-click="$ctrl.cancel_edit('base.tags')">取消</span>
+                                        </div>
+                                        <span class="todo-bar" style="padding-left: 10px" ng-hide="$ctrl.edit_form_display['base.tags']">
+                                            <i class="fa fa-edit"  title="编辑运维人员" ng-click="$ctrl.edit_field('base.tags')"></i>
+                                        </span>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
                                 </div>
                             </div>
                         </div>

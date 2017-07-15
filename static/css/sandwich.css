@@ -118,3 +118,6 @@ ul.sub-menu li a {
 .bootstrap-select > .dropdown-menu{
     border-radius: 0px;
 }
+.editable-field{
+    margin-top: -5px;
+}

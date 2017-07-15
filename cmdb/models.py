@@ -56,6 +56,7 @@ class Asset(models.Model):
 
     def get_info(self):
         return {
+            "id": self.id,
             "base": {
                 "asset_type": self.get_asset_type_display(),
                 "name": self.name if self.name else "",
@@ -67,14 +68,19 @@ class Asset(models.Model):
                 "trade_date": self.trade_date.strftime("%Y-%m-%d") if self.trade_date else "",
                 "expire_date": self.expire_date.strftime("%Y-%m-%d") if self.expire_date else "",
                 "price": self.price if self.price else 0,
-                "business_unit": self.business_unit.name if self.business_unit else "",
-                "tags": [tag.name for tag in self.tags.all()] if self.tags.all() else [],
-                "admin": self.admin.username if self.admin else "",
-                "operation": self.operation.username if self.operation else "",
-                "cabinet": self.cabinet if self.cabinet else "",
+                "business_unit": self.business_unit.id if self.business_unit else "",
+                "business_unit_display": self.business_unit.name if self.business_unit else "",
+                "tags": ','.join([tag.name for tag in self.tags.all()]) if self.tags.all() else [],
+                "admin": self.admin.userprofile.id if self.admin else "",
+                "admin_display": self.admin.username if self.admin else "",
+                "operation": self.operation.userprofile.id if self.operation else "",
+                "operation_display": self.operation.username if self.operation else "",
+                "cabinet_display": self.cabinet.number if self.cabinet else "",
+                "cabinet": self.cabinet.id if self.cabinet else "",
                 "create_date": self.create_date.strftime("%Y-%m-%d %H:%M:%S") if self.create_date else "",
                 "update_date": self.update_date.strftime("%Y-%m-%d %H:%M:%S") if self.update_date else "",
-                "status": self.get_status_display(),
+                "status_display": self.get_status_display(),
+                "status": self.status,
                 "memo": self.memo if self.memo else "",
 
             },
