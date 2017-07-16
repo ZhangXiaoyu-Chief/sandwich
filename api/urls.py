@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^machineroom/(?P<action>\w+)/$', csrf_exempt(views.MachineRoom.as_view())),
     url(r'^cabinet/(?P<action>\w+)/$', csrf_exempt(views.Cabinet.as_view())),
     url(r'^group/(?P<action>\w+)/$', csrf_exempt(views.Group.as_view())),
+    url(r'^dashboard/(?P<action>\w+)/$', csrf_exempt(views.Dashboard.as_view())),
 ]

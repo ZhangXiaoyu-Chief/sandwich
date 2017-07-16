@@ -4,6 +4,7 @@
 
 angular.module('sandwichApp',[
     'toastr',
+    'echarts',
     'index',
     'serverList',
     'ngRoute',

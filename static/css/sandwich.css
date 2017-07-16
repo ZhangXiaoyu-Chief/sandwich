@@ -121,3 +121,9 @@ ul.sub-menu li a {
 .editable-field{
     margin-top: -5px;
 }
+.carousel-control.left{
+    background-image: none;
+}
+.carousel-control.right{
+    background-image: none;
+}
