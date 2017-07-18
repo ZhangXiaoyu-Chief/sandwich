@@ -13,9 +13,9 @@
                                       style="display: inline-block; vertical-align: top; width: 41px; height: 24px;"></canvas></span>
                     </div>
                     <div class="values">
-                        <strong class="text-dark">18304</strong>
+                        <strong class="text-dark">{{ $ctrl.dashboard_info.user_count }}</strong>
                         <p class="text-small no-margin">
-                            Sales
+                            用户
                         </p>
                     </div>
                 </li>
@@ -25,9 +25,9 @@
                                       style="display: inline-block; vertical-align: top; width: 41px; height: 24px;"></canvas></span>
                     </div>
                     <div class="values">
-                        <strong class="text-dark">$3,833</strong>
+                        <strong class="text-dark">{{ $ctrl.dashboard_info.server_count }}</strong>
                         <p class="text-small no-margin">
-                            Earnings
+                            服务器
                         </p>
                     </div>
                 </li>
@@ -37,9 +37,9 @@
                                       style="display: inline-block; vertical-align: top; width: 41px; height: 24px;"></canvas></span>
                     </div>
                     <div class="values">
-                        <strong class="text-dark">$848</strong>
+                        <strong class="text-dark">{{ $ctrl.dashboard_info.project_count }}</strong>
                         <p class="text-small no-margin">
-                            Referrals
+                            项目
                         </p>
                     </div>
                 </li>
@@ -55,14 +55,14 @@
             <div class="panel panel-white no-radius text-center">
                 <div class="panel-body">
                     <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i
-                            class="fa fa-smile-o fa-stack-1x fa-inverse"></i> </span>
-                    <h2 class="StepTitle">Manage Users</h2>
+                            class="fa fa-users fa-stack-1x fa-inverse"></i> </span>
+                    <h2 class="StepTitle">用户管理</h2>
                     <p class="text-small">
-                        To add users, you need to be signed in as the super user.
+                        添加、修改、删除用户、用户组及对用户组权限进行管理
                     </p>
                     <p class="links cl-effect-1">
                         <a href="">
-                            view more
+                            查看用户列表
                         </a>
                     </p>
                 </div>
@@ -72,14 +72,14 @@
             <div class="panel panel-white no-radius text-center">
                 <div class="panel-body">
                     <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i
-                            class="fa fa-paperclip fa-stack-1x fa-inverse"></i> </span>
-                    <h2 class="StepTitle">Manage Orders</h2>
+                            class="fa fa-server fa-stack-1x fa-inverse"></i> </span>
+                    <h2 class="StepTitle">资产配置管理</h2>
                     <p class="text-small">
-                        The Manage Orders tool provides a view of all your orders.
+                        可以实现服务器资产配置信息的自动化数据采集和管理
                     </p>
                     <p class="cl-effect-1">
                         <a href="">
-                            view more
+                            查看服务器列表
                         </a>
                     </p>
                 </div>
@@ -89,14 +89,14 @@
             <div class="panel panel-white no-radius text-center">
                 <div class="panel-body">
                     <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i
-                            class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-                    <h2 class="StepTitle">Manage Database</h2>
+                            class="fa fa-area-chart fa-stack-1x fa-inverse"></i> </span>
+                    <h2 class="StepTitle">监控</h2>
                     <p class="text-small">
-                        Store, modify, and extract information from your database.
+                        查看资产运行状态和历史数据
                     </p>
                     <p class="links cl-effect-1">
                         <a href="">
-                            view more
+                            查看监控器
                         </a>
                     </p>
                 </div>
@@ -110,13 +110,13 @@
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-md-7 col-lg-8">
-                    <div class="panel panel-white no-radius" id="project-panel">
+                    <div class="panel panel-white no-radius" id="project-panel" ng-class="{'csspinner load1':$ctrl.project_count_loader||$ctrl.status_count_loader||$ctrl.release_count_loader}">
                         <div class="panel-heading border-light">
                             <h4 class="panel-title"> 资产统计 </h4>
                             <ul class="panel-heading-tabs border-light">
                                 <li class="panel-tools">
-                                    <a data-original-title="Refresh" data-toggle="tooltip" data-placement="top"
-                                       class="btn btn-transparent btn-sm panel-refresh" href="#"><i
+                                    <a
+                                       class="btn btn-transparent btn-sm"  ng-click="$ctrl.get_asset_count()"><i
                                             class="ti-reload"></i></a>
                                 </li>
                             </ul>
@@ -142,7 +142,7 @@
 
                                             </div>
                                             <div class="item" id="carousel-example-generic">
-                                                <div id="project-server-charts3" style="height: 350px; background-color: #00a8e2"></div>
+                                                <div id="status-charts" style="height: 350px;"></div>
                                             </div>
                                         </div>
 
@@ -161,22 +161,35 @@
                     </div>
                 </div>
                 <div class="col-md-5 col-lg-4">
-                    <div class="panel panel-white no-radius" id="visits">
+                    <div class="panel panel-white no-radius" id="visits" ng-class="{'csspinner load1':$ctrl.log_loader}">
                         <div class="panel-heading border-light">
-                            <h4 class="panel-title"> 资产配置变更日志 </h4>
+                            <h4 class="panel-title"> 资产配置变更日志（TOP50） </h4>
                             <ul class="panel-heading-tabs border-light">
                                 <li class="panel-tools">
-                                    <a data-original-title="Refresh" data-toggle="tooltip" data-placement="top"
-                                       class="btn btn-transparent btn-sm panel-refresh" href="#"><i
-                                            class="ti-reload"></i></a>
+                                    <a class="btn btn-transparent btn-sm" ng-click="$ctrl.get_asset_log()"><i
+                                            class="ti-reload" ></i></a>
                                 </li>
                             </ul>
                         </div>
                         <div collapse="visits" class="panel-wrapper">
-                            <div class="panel-body">
+                            <div class="panel-body" style="overflow-y: scroll;margin-bottom: 15px">
                                 <div class="height-350">
-                                    <div id="project-server-chart" style="height: 350px;">
-                                        ...
+                                    <div id="" style="height:335px;">
+                                        <ul class="timeline-xs" style="">
+                                            <li class="timeline-item info" ng-repeat="log in $ctrl.asset_logs">
+                                                <div class="margin-left-15">
+                                                    <div class="text-muted text-small">
+                                                        {{ log.date }} <span class="text-info">{{ log.operater }}</span>
+                                                    </div>
+                                                    <p>
+                                                        <a class="text-info" href>
+                                                            {{ log.event_type }}
+                                                        </a>
+                                                        {{ log.detail }}
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div class="margin-top-20">
                                         <div class="inline pull-left">

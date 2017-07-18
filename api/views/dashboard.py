@@ -1,6 +1,8 @@
 from api.libs.base import CoreView
-from cmdb.models import Asset, BusinessUnit
+from cmdb.models import Asset, BusinessUnit, Server, EventLog
 from django.db.models import Sum, Count
+from django.conf import settings
+from account.models import UserProfile
 
 
 class Dashboard(CoreView):
@@ -39,3 +41,41 @@ class Dashboard(CoreView):
             "legend": legend,
             "data": data
         }
+
+    def get_status_count(self):
+        status_count = Asset.objects.values('status').annotate(Count('id'))
+        legend = []
+        data = []
+        status_map = dict()
+        for status_item in settings.ASSET_STATUS_CHOICES:
+            status_map[status_item[0]] = status_item[1]
+        for status in status_count.all():
+            legend.append(status_map.get(int(status["status"])))
+            data.append({
+                "name": status_map.get(int(status["status"])),
+                "value": status["id__count"]
+            })
+
+        self.response_data['data'] = {
+            "legend": legend,
+            "data": data
+        }
+
+    def get_info(self):
+        user_count = UserProfile.objects.count()
+        server_count = Server.objects.count()
+        project_count = BusinessUnit.objects.count()
+
+        self.response_data['data'] = {
+            "user_count": user_count,
+            "server_count": server_count,
+            "project_count": project_count,
+        }
+
+    def get_asset_log(self):
+        log_objs = EventLog.objects.all().order_by("-date")
+        logs = []
+        for log_obj in log_objs[0:50]:
+            logs.append(log_obj.get_info())
+
+        self.response_data["data"] = logs

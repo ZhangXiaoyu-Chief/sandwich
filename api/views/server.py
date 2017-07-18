@@ -185,7 +185,7 @@ class Server(CoreView):
                 setattr(asset_obj.server, filed_name[1], value)
                 asset_obj.server.save()
 
-            if new_value or not old_value:
+            if (new_value or not old_value) and filed_name[1] != "tags":
                 msg = "变更%s：旧配置：%s 新配置：%s" % (filed_name_map[filed_name[1]], old_value, new_value)
                 log_obj = EventLog(asset=asset_obj,
                                    event_type=1,

@@ -86,7 +86,7 @@ angular.module('serverList').component('serverList', {
                 port: 22,
                 username: "root",
                 password: "",
-                project:0
+                project:self.projects[0].id
             };
             $.fn.modal.Constructor.prototype.enforceFocus = function () {};
             console.log(self.projects[0].id)
