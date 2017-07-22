@@ -197,3 +197,19 @@ class Server(CoreView):
         else:
             self.response_data['status'] = False
             self.status_code = 404
+
+    def get_host_tree(self):
+        server_objs = Asset.objects.all()\
+            # .filter(
+            # business_unit__in=get_objects_for_user(self.request.user, "cmdb.view_project_asset"))
+        server_list = {}
+        for server_obj in server_objs:
+            if not server_obj.business_unit.name in server_list:
+                server_list[server_obj.business_unit.name] = []
+
+            server_list[server_obj.business_unit.name].append({
+                "id":server_obj.id,
+                "name":server_obj.name,
+                "management_ip":server_obj.management_ip if server_obj.management_ip else ""
+            })
+        self.response_data["data"] = server_list

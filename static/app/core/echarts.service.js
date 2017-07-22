@@ -60,8 +60,46 @@ angular.module('echarts').factory('Echarts', function () {
             }
         ]
     };
+    var monitor_line_options = {
+        title: {
+            text: '',
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            y: 'bottom',
+            data:[]
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                dataView: {readOnly: false},
+                magicType: {type: ['line', 'bar']},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            data: []
+        },
+        yAxis: {
+            type: 'value',
+            unit: '',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        series: []
+    };
     return {
         pie_options: pie_options,
+        monitor_line_options:monitor_line_options
     };
 });
 

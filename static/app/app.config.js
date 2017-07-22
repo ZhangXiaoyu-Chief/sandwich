@@ -25,6 +25,8 @@ angular.module('sandwichApp').config(['$locationProvider', '$routeProvider',
             template: '<machineroom-list></machineroom-list>'
         }).when('/cabinets', {
             template: '<cabinet-list></cabinet-list>'
+        }).when('/monitor', {
+            template: '<monitor-index></monitor-index>'
         }).otherwise('/index');
     }
 ]);
