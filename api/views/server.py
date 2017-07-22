@@ -15,11 +15,6 @@ from django.conf import settings
 class Server(CoreView):
     login_required_action = ["get_list", "post_create", "get_detail", "post_delete", "post_change"]
 
-    # permission_view_map = {
-    #     "get_list": "can_view_asset"
-    # }
-    # app_name = "cmdb"
-
     def get_list(self):
         search = self.parameters('search')
         if not search:
