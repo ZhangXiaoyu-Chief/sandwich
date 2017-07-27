@@ -1,0 +1,95 @@
+        <section id="page-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h1 class="mainTitle">监视器</h1>
+                </div>
+                <ol class="breadcrumb">
+                    <li>
+                        <span>HOME</span>
+                    </li>
+                    <li>
+                        <span>监控</span>
+                    </li>
+                    <li class="active">
+                        <span>监视器</span>
+                    </li>
+                </ol>
+            </div>
+        </section>
+        <div class="container-fluid container-fullw bg-white" id="main-wraper" >
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="panel panel-white" id="host-tree" style="overflow: scroll">
+                        <div class="panel-heading border-light">
+                            <h4 class="panel-title">服务器列表</h4>
+                            <div class="panel-tools perfect-scrollbar ps-container">
+                                <a href=""><i class="ti-reload"></i></a>
+                            </div>
+                        </div>
+                        <div class="panel-body" >
+                            <div id="host-treeview">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="panel panel-white" id="charts-box" style="overflow-y: scroll;">
+                        <div class="panel-heading border-light">
+                            <h4 class="panel-title">图表列表</h4>
+                            <div class="panel-tools">
+                                <a href=""><i class="ti-reload"></i></a>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+
+                            <div ng-repeat="graph in $ctrl.graphs" style="height: 350px; width: 100%;margin-bottom: 15px;margin-top: 15px;" id ="{{ graph.graphid }}" repeat-finish >
+                                {{ graph.name }}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script>
+            var Messages = function() {"use strict";
+                console.log(1111)
+                var messageHeightHandler = function() {
+
+                    var $win = $(window);
+                    var page = $win;
+                    if(page.innerHeight() < $win.innerHeight()) {
+                        page = $(document);
+                    }
+                    var pageHeight = page.innerHeight() - $('header').outerHeight() - $('section').outerHeight() - $('footer').outerHeight();;
+                    $("#main-wraper").css({
+                        height: pageHeight
+                    });
+                    $("#host-tree").css({
+                        height:$("#main-wraper").innerHeight() - 60
+                    })
+                    $("#charts-box").css({
+                        height:$("#main-wraper").innerHeight() - 60
+                    })
+
+                };
+                // Window Resize Function
+                var resizeHandler = function(func, threshold, execAsap) {
+                    $(window).resize(function() {
+                        messageHeightHandler();
+                    });
+                };
+                messageHeightHandler();
+                resizeHandler()
+                return {
+                    //main function to initiate template pages
+                    init: function() {
+                        messageHeightHandler();
+                        resizeHandler();
+                    }
+                };
+
+            }();
+        </script>

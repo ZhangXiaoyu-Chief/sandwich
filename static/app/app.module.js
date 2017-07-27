@@ -15,4 +15,5 @@ angular.module('sandwichApp',[
     'datacenterList',
     'machineroomList',
     'cabinetList',
+    'monitorIndex'
 ]);
