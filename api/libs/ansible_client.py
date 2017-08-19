@@ -398,17 +398,4 @@ class ANSRunner(object):
 
 
 if __name__ == '__main__':
-    # resource = {
-    #     "dynamic_host": {  # 定义的动态主机名，需要跟playbook里面的hosts对应
-    #         "hosts": [
-    #             {"hostname": "59.110.216.100", "port": "22", "username": "root", "password": "!Jesus@smart8345"},
-    #         ],
-    #     }
-    # }
-    resource = [{"hostname": "60.34.40.1", "port": "22", "username": "admin", "password": "bsszyh@1qaz!"}]
-
-    rbt = ANSRunner(resource)  # resource可以是列表或者字典形式，如果做了ssh-key认证，就不会通过账户密码方式认证
-    rbt.run_model(host_list=["default_group"], module_name='shell', module_args="hostname")
-    data = rbt.get_model_result()
-    # print(data['unreachable']['60.34.40.1']['msg'])
-    print(json.dumps(data, indent=2))
+    pass

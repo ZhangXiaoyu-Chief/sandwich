@@ -62,7 +62,13 @@ angular.module('userList').component('userList', {
                 var request_data = self.create_form_data;
                 self.loading = true;
                 request_data.avatar = self.avatar;
-                request_data.group = $('#group').val().toString();
+                var group = $('#group').val()
+                if(group){
+                    request_data.group = $('#group').val().toString();
+                }else {
+                    request_data.group = [];
+                }
+
                 $http.post("/api/account/create/", request_data, postCfg)
                     .then(function (response) {
                         self.loading = false

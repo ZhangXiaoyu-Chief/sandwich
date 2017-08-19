@@ -1,10 +1,11 @@
 from django.shortcuts import render, HttpResponse
 from cmdb.models import Asset, Server, CPU, RAM, Disk, NIC ,Manufactory
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
-
+@login_required(login_url='/login/')
 def index(request):
     return render(request, 'index.html', {})
 

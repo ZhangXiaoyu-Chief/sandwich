@@ -34,7 +34,8 @@ class Account(CoreView):
             username = self.parameters('username')
             password = self.parameters('password')
             email = self.parameters('email')
-            group_ids = self.parameters("group").split(",")
+            print(self.parameters("group"))
+            group_ids = self.parameters("group").split(",") if self.parameters("group") else []
             group_objs = Group.objects.filter(id__in=group_ids).all()
             is_active = True if self.parameters('status') == 'true' else False
             is_superuser = True if self.parameters('is_superuser') == 'true' else False
@@ -42,6 +43,8 @@ class Account(CoreView):
             avatar = self.parameters('avatar')
             user_obj = User.objects.create(username=username, password=password, email=email,
                                            is_superuser=is_superuser, is_active=is_active)
+            user_obj.set_password(password)
+            user_obj.save()
             for group_obj in group_objs:
                 user_obj.groups.add(group_obj)
             user_obj.save()
