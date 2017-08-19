@@ -7,5 +7,6 @@ from api.views.machineroom import MachineRoomView as MachineRoom
 from api.views.cabinet import CabinetView as Cabinet
 from api.views.group import GroupView as Group
 from api.views.dashboard import Dashboard
+from api.views.monitor import Monitor
 
-__all__ = ["Server", "Account", "Upload", "Project", "DataCenter", "MachineRoom", "Cabinet", "Group", "Dashboard"]
+__all__ = ["Server", "Account", "Upload", "Project", "DataCenter", "MachineRoom", "Cabinet", "Group", "Dashboard", "Monitor"]
