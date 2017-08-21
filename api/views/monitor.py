@@ -42,9 +42,9 @@ class Monitor(CoreView):
                                 history = item_obj["value_type"]
                                 item_name = item_obj.get("name")
                                 keys = re.search(r"\[([^\]]*)\]", item_obj.get("key_"))
-                                keys = keys.groups()[0] if keys else ""
+                                keys = keys.groups()[0].split(",") if keys else ""
 
-                                for _key in keys.split(","):
+                                for _key in keys:
                                     item_name = item_name.replace("$%s" % (keys.index(_key) + 1), _key)
 
                                 item_name = "%s 单位（%s）" % (item_name, item_obj.get("unit")) if item_obj.get(
